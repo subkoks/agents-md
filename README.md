@@ -8,14 +8,14 @@ Single source of truth for all AI agent operating rules. Version controlled, reg
 
 ## Structure
 
-```
+```text
 agents-md/
 ├── src/gotcha.md        # Canonical rules (sync to ~/.windsurf/rules/)
 ├── drafts/              # WIP experiments
 ├── ideas/               # Future enhancements
 ├── templates/           # Reusable templates
 ├── scripts/             # Sync & validation scripts
-└── docs/                # Philosophy & guides
+└── docs/                # Philosophy, guides, and agent database artifacts
 ```
 
 ## Usage
@@ -58,27 +58,27 @@ The GOTCHA framework separates concerns into 6 layers:
 
 ## Sections
 
-| Section | Purpose |
-|---------|---------|
-| Operating Principles | Direct delivery, no preamble |
-| Execution Autonomy | What AI can do without asking |
-| Auto Mode | Overnight agent full autonomy |
-| Operating Rules | Workflows first, tools first |
-| Planning vs Implementation | Dual-mode behavior |
-| Code Style | TS/JS/Python/React conventions |
-| Error Handling | Boundary handling, logging |
-| Git | Branching, commits, staging |
-| Security | OWASP, secrets, validation |
-| Testing | When/how to write tests |
-| Performance | Optimization rules |
-| Debugging | Systematic methodology |
-| Tool Usage | Shell, edits, search |
-| Project Structure | Convention for new projects |
-| User Context | Machine, environment, editors |
+| Section                    | Purpose                        |
+| -------------------------- | ------------------------------ |
+| Operating Principles       | Direct delivery, no preamble   |
+| Execution Autonomy         | What AI can do without asking  |
+| Auto Mode                  | Overnight agent full autonomy  |
+| Operating Rules            | Workflows first, tools first   |
+| Planning vs Implementation | Dual-mode behavior             |
+| Code Style                 | TS/JS/Python/React conventions |
+| Error Handling             | Boundary handling, logging     |
+| Git                        | Branching, commits, staging    |
+| Security                   | OWASP, secrets, validation     |
+| Testing                    | When/how to write tests        |
+| Performance                | Optimization rules             |
+| Debugging                  | Systematic methodology         |
+| Tool Usage                 | Shell, edits, search           |
+| Project Structure          | Convention for new projects    |
+| User Context               | Machine, environment, editors  |
 
 ## Sync Target
 
-```
+```text
 src/gotcha.md → ~/.windsurf/rules/gotcha.md
 ```
 
@@ -87,3 +87,7 @@ src/gotcha.md → ~/.windsurf/rules/gotcha.md
 - `~/AGENTS.md` — For other editors (Claude Code, Codex CLI)
 - `~/.windsurf/workflows/` — ATLAS workflow and others
 - `~/.windsurf/tools/memory/` — Memory system
+- `docs/agent-database.md` — Curated inventory of the best reusable rules, hooks, skills, workflows, and prompts
+- `docs/agent-patterns.md` — Normalized patterns worth reusing across editors
+- `docs/hook-reference.md` — Claude hook patterns and portability notes
+- `docs/agent-upgrade-roadmap.md` — Concrete upgrade backlog for future tuning
