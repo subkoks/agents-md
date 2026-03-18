@@ -1,5 +1,5 @@
 #!/bin/bash
-# Validate gotcha.md for common issues
+# Validate canonical rules for structural quality and drift risks.
 
 set -e
 
@@ -10,7 +10,7 @@ SOURCE="$PROJECT_ROOT/src/gotcha.md"
 ERRORS=0
 WARNINGS=0
 
-echo "🔍 Validating: $SOURCE"
+echo "🔍 Validating canonical rules: $SOURCE"
 echo ""
 
 # Check file exists
@@ -19,12 +19,33 @@ if [[ ! -f "$SOURCE" ]]; then
     exit 1
 fi
 
-# Check frontmatter
-if ! head -n 3 "$SOURCE" | grep -q "trigger:"; then
-    echo "❌ Missing frontmatter trigger"
+# Ensure required sections exist
+REQUIRED_SECTIONS=(
+    "## Operating Principles"
+    "## Planning vs. Implementation"
+    "## Code Style"
+    "## Security"
+    "## Testing"
+    "## Tool Usage"
+)
+
+for section in "${REQUIRED_SECTIONS[@]}"; do
+    if ! grep -qF "$section" "$SOURCE"; then
+        echo "❌ Missing required section: $section"
+        ERRORS=$((ERRORS + 1))
+    fi
+done
+
+if [[ "$ERRORS" -eq 0 ]]; then
+    echo "✅ Required sections present"
+fi
+
+# Check top-level title
+if ! head -n 1 "$SOURCE" | grep -qE "^# "; then
+    echo "❌ Missing top-level title"
     ERRORS=$((ERRORS + 1))
 else
-    echo "✅ Frontmatter present"
+    echo "✅ Top-level title present"
 fi
 
 # Check for duplicate sections
@@ -46,13 +67,13 @@ else
     echo "✅ No TODO/FIXME items"
 fi
 
-# Check minimum sections (should have at least 10)
-SECTION_COUNT=$(grep -c "^## " "$SOURCE" || true)
-if [[ "$SECTION_COUNT" -lt 10 ]]; then
-    echo "❌ Only $SECTION_COUNT sections (expected 10+)"
-    ERRORS=$((ERRORS + 1))
+# Check heading density
+H2_COUNT=$(grep -c "^## " "$SOURCE" || true)
+if [[ "$H2_COUNT" -lt 10 ]]; then
+    echo "⚠️  Low number of H2 sections: $H2_COUNT"
+    WARNINGS=$((WARNINGS + 1))
 else
-    echo "✅ $SECTION_COUNT sections found"
+    echo "✅ H2 section count: $H2_COUNT"
 fi
 
 # Check file size (should be substantial)
@@ -62,6 +83,15 @@ if [[ "$SIZE" -lt 5000 ]]; then
     WARNINGS=$((WARNINGS + 1))
 else
     echo "✅ File size: $SIZE bytes"
+fi
+
+# Check unresolved placeholder tokens
+PLACEHOLDERS=$(grep -cE "\[(PROJECT_NAME|Rule Name|Section Name)\]" "$SOURCE" || true)
+if [[ "$PLACEHOLDERS" -gt 0 ]]; then
+    echo "⚠️  Found $PLACEHOLDERS unresolved placeholder token(s)"
+    WARNINGS=$((WARNINGS + 1))
+else
+    echo "✅ No unresolved placeholders"
 fi
 
 # Summary

@@ -1,5 +1,15 @@
 # Global Rules — ~/AGENTS.md
 
+## System Boundaries
+
+- Keep this file behavior-focused. Do not turn it into a long checklist database.
+- Rules define execution posture and quality bar.
+- Context files define static references and domain knowledge.
+- Workflows define phase sequencing.
+- Hard prompts define task-specific review/audit templates.
+- Hooks define enforcement and automation gates.
+- If a rule belongs better in another layer, move it there and reference it here.
+
 ## Operating Principles
 
 - Be direct. Deliver solutions immediately without preamble.
@@ -151,6 +161,16 @@
 - Use web search (`/search`) when docs or APIs may have changed.
 - Check project AGENTS.md or README in working directory for project-specific rules.
 - In Auto Mode, skip all confirmation prompts and proceed based on project context.
+
+## External Alignment
+
+- Canonical source in this repo: `src/gotcha.md`.
+- Keep aligned wrappers in:
+  - `~/.windsurf/rules/gotcha.md`
+  - `~/.claude/CLAUDE.md`
+  - `~/.codex/AGENTS.md`
+- Differences across editors should be wrapper-level only (hooks, workflow routing, tool metadata).
+- Avoid copy-paste drift: update canonical first, then sync outward.
 
 ## User Context
 

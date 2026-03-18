@@ -1,0 +1,13 @@
+# Default ownership
+* @subkoks
+
+# Canonical rules
+/src/gotcha.md @subkoks
+
+# Automation scripts
+/scripts/ @subkoks
+
+# Project documentation
+/docs/ @subkoks
+/README.md @subkoks
+/CHANGELOG.md @subkoks

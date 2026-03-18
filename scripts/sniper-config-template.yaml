@@ -1,0 +1,73 @@
+# Sniper bot runtime configuration template
+# Copy to sniper-config.yaml and adjust per strategy/profile.
+
+profile: conservative
+
+network:
+  chain: solana
+  rpcPrimary: https://your-primary-rpc
+  rpcFallback:
+    - https://your-fallback-rpc-1
+    - https://your-fallback-rpc-2
+  commitment: confirmed
+
+wallet:
+  tradingWalletPubkey: "REPLACE_ME"
+  useDedicatedTradingWallet: true
+
+targets:
+  source: pumpfun
+  watchlist:
+    - "optional-token-mint-1"
+    - "optional-token-mint-2"
+  denylist:
+    - "known-scam-mint-1"
+
+execution:
+  mode: live # live | paper
+  orderType: market
+  maxConcurrentOrders: 2
+  txRetryLimit: 2
+  txRetryBackoffMs: 500
+  simulationBeforeSend: true
+  cooldownAfterTokenDetectionMs: 15000
+
+risk:
+  maxSlippageBps: 300
+  maxNotionalPerTradeUsd: 100
+  maxNotionalPerTokenUsd: 250
+  maxNotionalPerDayUsd: 500
+  stopLossPct: 15
+  takeProfitPct: 30
+  maxDailyDrawdownPct: 8
+  killSwitchOnConsecutiveFailures: 5
+
+filters:
+  minLiquidityUsd: 25000
+  minUniqueHolders: 50
+  maxTopHolderPct: 20
+  requireRecentVolumeUsd: 10000
+
+fees:
+  priorityFeeMicrolamports: 100000
+  computeUnitLimit: 250000
+
+ops:
+  enableStructuredLogs: true
+  logPath: ./logs/sniper-trades.log
+  persistEventJournal: true
+  journalPath: ./logs/sniper-events.jsonl
+  metricsIntervalSeconds: 30
+
+alerts:
+  enabled: false
+  webhookUrl: ""
+  notifyOn:
+    - kill_switch
+    - max_drawdown
+    - rpc_failover
+
+compliance:
+  requireTokenAddressVerification: true
+  blockIfMintAuthorityUnknown: true
+  blockIfFreezeAuthorityActive: true

@@ -1,93 +1,130 @@
 # agents-md
 
-Canonical source for AI agent rules — the GOTCHA framework superfile.
+Canonical source for a cross-editor agent operating system built on the GOTCHA framework.
 
-## Purpose
+## What This Repository Is
 
-Single source of truth for all AI agent operating rules. Version controlled, regularly updated, synced to Windsurf.
+`agents-md` is the project-local control plane for high-quality agent behavior:
 
-## Structure
+- canonical rule body (`src/gotcha.md`)
+- pattern and ecosystem database (`docs/`)
+- operational scripts (`scripts/`)
+- reusable templates (`templates/`)
+- roadmap and experiments (`ROADMAP.md`, `ideas/`)
+
+This repo is intentionally editor-agnostic and aligns behavior across Windsurf, Claude, and Codex.
+
+## Architecture (GOTCHA)
+
+- **G**oals: explicit work routing and workflow selection
+- **O**rchestration: the agent decision layer
+- **T**ools: deterministic scripts and MCP operations
+- **C**ontext: static reference material
+- **H**ard prompts: focused task templates
+- **A**rgs: runtime behavior settings
+
+Core principle: push reliability into deterministic tooling, keep reasoning flexibility in orchestration.
+
+## Repository Layout
 
 ```text
 agents-md/
-├── src/gotcha.md        # Canonical rules (sync to ~/.windsurf/rules/)
-├── drafts/              # WIP experiments
-├── ideas/               # Future enhancements
-├── templates/           # Reusable templates
-├── scripts/             # Sync & validation scripts
-└── docs/                # Philosophy, guides, and agent database artifacts
+├── src/
+│   └── gotcha.md
+├── docs/
+│   ├── agent-database.md
+│   ├── agent-patterns.md
+│   ├── agent-upgrade-roadmap.md
+│   ├── hook-reference.md
+│   └── ...
+├── scripts/
+│   ├── sync-to-windsurf.sh
+│   ├── validate-rules.sh
+│   ├── check-links.sh
+│   ├── check-rule-drift.sh
+│   ├── sniper-config-template.yaml
+│   ├── pumpfun-bot-checklist.sh
+│   └── sniper-journal-summary.sh
+├── skills/
+│   ├── README.md
+│   ├── solana-anchor-program-dev.md
+│   ├── solana-client-kit-and-wallets.md
+│   ├── solana-security-and-audit.md
+│   ├── evm-smart-contract-dev.md
+│   ├── defi-protocol-engineering.md
+│   ├── token-launch-and-memecoin-ops.md
+│   ├── onchain-trading-and-flow-analysis.md
+│   ├── memecoin-trading-risk-playbook.md
+│   ├── pumpfun-launch-and-trading-automation.md
+│   ├── solana-terminal-workflows-axiom-padre-nova.md
+│   └── solana-sniper-bot-scripts-and-ops.md
+├── templates/
+├── ideas/
+├── ROADMAP.md
+└── CHANGELOG.md
 ```
 
-## Usage
-
-### Sync to Windsurf
-
-```bash
-./scripts/sync-to-windsurf.sh
-```
-
-### Validate Rules
+## Quick Start
 
 ```bash
 ./scripts/validate-rules.sh
+./scripts/check-links.sh
+./scripts/check-rule-drift.sh
+./scripts/sync-to-windsurf.sh
 ```
 
-### Add New Idea
+## Quality Gates
 
-1. Create file in `ideas/` with descriptive name
-2. Document the enhancement, rationale, examples
-3. Review in ROADMAP.md
-4. Implement → update src/gotcha.md → sync
+- Rule integrity and structure: `scripts/validate-rules.sh`
+- Internal doc link checks: `scripts/check-links.sh`
+- External-source drift checks: `scripts/check-rule-drift.sh`
 
-## Version History
+All scripts degrade safely when optional dependencies are missing.
 
-See [CHANGELOG.md](./CHANGELOG.md)
+## External Alignment Targets
 
-## Philosophy
+- `~/.windsurf/rules/gotcha.md`
+- `~/.claude/CLAUDE.md`
+- `~/.codex/AGENTS.md`
+- `~/.codex/skills/coding-rules/`
+- `~/.windsurf/context/*`, `~/.windsurf/workflows/*`, `~/.windsurf/hardprompts/*`
 
-The GOTCHA framework separates concerns into 6 layers:
+## GitHub-Ready Workflow
 
-- **G**oals — What needs to happen
-- **O**rchestration — AI coordinating execution
-- **T**ools — Deterministic scripts/MCP servers
-- **C**ontext — Domain knowledge, references
-- **H**ard prompts — Reusable instruction templates
-- **A**rgs — Behavior settings, config
+1. Run local gates:
 
-**Core principle:** Push reliability into code, flexibility into LLM.
-
-## Sections
-
-| Section                    | Purpose                        |
-| -------------------------- | ------------------------------ |
-| Operating Principles       | Direct delivery, no preamble   |
-| Execution Autonomy         | What AI can do without asking  |
-| Auto Mode                  | Overnight agent full autonomy  |
-| Operating Rules            | Workflows first, tools first   |
-| Planning vs Implementation | Dual-mode behavior             |
-| Code Style                 | TS/JS/Python/React conventions |
-| Error Handling             | Boundary handling, logging     |
-| Git                        | Branching, commits, staging    |
-| Security                   | OWASP, secrets, validation     |
-| Testing                    | When/how to write tests        |
-| Performance                | Optimization rules             |
-| Debugging                  | Systematic methodology         |
-| Tool Usage                 | Shell, edits, search           |
-| Project Structure          | Convention for new projects    |
-| User Context               | Machine, environment, editors  |
-
-## Sync Target
-
-```text
-src/gotcha.md → ~/.windsurf/rules/gotcha.md
+```bash
+./scripts/validate-rules.sh && ./scripts/check-links.sh && ./scripts/check-rule-drift.sh
 ```
 
-## Related
+1. Create branch and commit logically grouped changes.
+1. Open PR using `.github/pull_request_template.md`.
+1. Ensure CI checks pass.
+1. Merge and update `CHANGELOG.md`.
 
-- `~/AGENTS.md` — For other editors (Claude Code, Codex CLI)
-- `~/.windsurf/workflows/` — ATLAS workflow and others
-- `~/.windsurf/tools/memory/` — Memory system
-- `docs/agent-database.md` — Curated inventory of the best reusable rules, hooks, skills, workflows, and prompts
-- `docs/agent-patterns.md` — Normalized patterns worth reusing across editors
-- `docs/hook-reference.md` — Claude hook patterns and portability notes
-- `docs/agent-upgrade-roadmap.md` — Concrete upgrade backlog for future tuning
+## Sniper Bot Quick Start
+
+```bash
+chmod +x scripts/pumpfun-bot-checklist.sh scripts/sniper-journal-summary.sh
+cp scripts/sniper-config-template.yaml sniper-config.yaml
+./scripts/pumpfun-bot-checklist.sh ./sniper-config.yaml
+# After trading:
+./scripts/sniper-journal-summary.sh ./logs/sniper-events.jsonl
+```
+
+## Core Documents
+
+- `docs/agent-database.md`: curated inventory and source map
+- `docs/agent-patterns.md`: normalized reusable patterns
+- `docs/hook-reference.md`: hook behavior and portability notes
+- `docs/editor-alignment-strategy.md`: wrapper and sync strategy by editor
+- `docs/hook-portability-spec.md`: generic hook contract model
+- `docs/goals-manifest.md`: task-to-asset routing matrix
+- `docs/security-scan-spec.md`: config security scanner taxonomy and output schema
+- `docs/orchestration-dag-spec.md`: dependency-graph orchestration and quality-gate contract
+- `docs/sniper-runbook.md`: sniper bot preflight, runtime monitoring, and incident playbooks
+- `skills/README.md`: crypto/web3/Solana skill index and trigger map
+
+## Versioning
+
+See `CHANGELOG.md` for release history and unreleased changes.

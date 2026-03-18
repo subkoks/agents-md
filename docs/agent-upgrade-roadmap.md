@@ -108,6 +108,47 @@ Concrete upgrade backlog for turning the scanned Claude, Codex, and Windsurf ass
 - **Impact:** medium
 - **Risk:** medium
 
+## Introduce hook runtime control profiles
+
+- **Goal:** reduce hook overhead while preserving safety by profile-based execution.
+- **Actions:**
+  - define `minimal`, `standard`, and `strict` profile semantics
+  - route selected hooks by profile at runtime
+  - support env override for profile switching per task/session
+- **Impact:** high
+- **Risk:** low
+
+## Add controlled hook disable-list mechanism
+
+- **Goal:** allow temporary suppression of noisy hooks without deleting configuration.
+- **Actions:**
+  - define `DISABLED_HOOKS` convention
+  - require suppression reason in logs
+  - make disable-list visible in quality reports
+- **Impact:** medium
+- **Risk:** low
+
+## Add security scanner workflow for agent configs
+
+- **Goal:** audit rules/hooks/MCP/tool permissions for unsafe defaults.
+- **Actions:**
+  - define severity taxonomy (`critical/high/medium/low/info`)
+  - emit machine-readable report plus markdown summary
+  - wire optional CI fail thresholds
+- **Impact:** very high
+- **Risk:** medium
+
+## Add orchestration graph + quality gate patterns
+
+- **Goal:** make multi-agent execution deterministic and reviewable.
+- **Actions:**
+  - define DAG/wave-based task scheduling model
+  - add cost/runtime budget guardrails
+  - add final high-reasoning quality-gate pass over combined outputs
+  - add session event recording and replay support
+- **Impact:** very high
+- **Risk:** medium
+
 ## Add a maintenance loop
 
 - **Goal:** prevent drift between live agent configs and this project database

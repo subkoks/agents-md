@@ -25,6 +25,7 @@ It records what exists, why it matters, what should be promoted, and where the s
 - `~/.claude/skills/security-checklist/` — skill — high value — practical hardening checklist
 - `~/.claude/skills/senior-fullstack/` — skill — medium — broad but generic; useful more as category marker
 - `~/.claude/skills/code-reviewer/` — skill — medium — useful coverage, but less dense than hardprompt plus checklist combo
+- `skills/` — local skill pack — high value — curated crypto/web3/Solana development and trading-analysis playbooks
 
 ## Best Assets by Category
 
@@ -100,6 +101,13 @@ It records what exists, why it matters, what should be promoted, and where the s
 - **Source:** `~/.claude/skills/security-checklist/SKILL.md`
 - **Why it matters:** practical launch and review checklist with concrete headers and auth rules
 - **Promote:** yes
+
+#### Crypto/Web3/Solana Skill Pack
+
+- **Source:** `skills/README.md` and `skills/*.md`
+- **Why it matters:** adds domain-specific execution patterns missing from generic engineering skills
+- **Promote:** yes
+- **Coverage:** Solana Anchor program design, Solana wallet/client integration, web3 dApp architecture, EVM contract engineering, DeFi protocol engineering, memecoin launch ops, pump.fun launch automation, on-chain flow analysis, Axiom/Padre/Nova terminal workflows, sniper bot scripts/automation, memecoin trading risk controls, Solana security audit
 
 #### Broad Senior Skills
 
