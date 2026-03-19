@@ -1,0 +1,60 @@
+name: agents-md Code Review Rules
+description: Rules for reviewing agents-md repository changes
+
+# Rules for script files
+on:
+  - scripts/**/*.sh
+
+# Enforce rules
+rules:
+  - name: script-permissions
+    description: Shell scripts must be executable
+    action: request_changes
+    body: |
+      Please ensure all shell scripts in `scripts/` directory are executable:
+      ```bash
+      chmod +x scripts/*.sh
+      ```
+
+  - name: error-handling
+    description: Scripts must have proper error handling
+    action: request_changes
+    body: |
+      Shell scripts should include:
+      - `set -e` for strict error handling
+      - Proper exit codes for dry-run mode
+      - Clear error messages
+
+  - name: no-secrets
+    description: No hardcoded secrets or API keys
+    action: request_changes
+    body: |
+      Ensure no hardcoded secrets, API keys, or sensitive data in code.
+      Use environment variables or secure storage instead.
+
+# Rules for documentation
+on:
+  - README.md
+  - docs/**/*.md
+
+rules:
+  - name: documentation-accuracy
+    description: Documentation must match actual capabilities
+    action: request_changes
+    body: |
+      Please ensure documentation accurately reflects current script capabilities
+      and usage instructions.
+
+# Rules for workflow files
+on:
+  - .github/workflows/*.yml
+
+rules:
+  - name: ci-validation
+    description: Workflows should include proper validation
+    action: request_changes
+    body: |
+      GitHub Actions workflows should:
+      - Run validation scripts with verbose output
+      - Handle dry-run operations properly
+      - Include proper error handling
