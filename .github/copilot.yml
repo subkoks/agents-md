@@ -1,0 +1,25 @@
+# Copilot Configuration for agents-md
+
+version: 1
+enabled: true
+
+# Enable Copilot Code Actions
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+# Allow automated actions
+actions:
+  create-branch: true
+  create-pull-request: true
+  commit-changes: true
+
+# Repository-specific instructions
+instructions: |
+  This is the agents-md repository for GOTCHA framework rules.
+  When making changes:
+  - Always run validation scripts before committing
+  - Test sync operations in dry-run mode
+  - Update documentation when adding capabilities
+  - Follow conventional commit format
