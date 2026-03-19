@@ -90,7 +90,7 @@ backup_target() {
 
     if [[ "$DRY_RUN" == "1" ]]; then
         log_info "DRY_RUN: Would create backup: $backup"
-        return
+        return 0
     fi
 
     cp "$target" "$backup"
