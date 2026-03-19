@@ -12,6 +12,9 @@ on:
       - "src/gotcha.md"
       - "scripts/**"
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
 jobs:
   validate:
     runs-on: ubuntu-latest
