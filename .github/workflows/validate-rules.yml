@@ -2,80 +2,78 @@ name: Validate Rules
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
     paths:
-      - 'src/gotcha.md'
-      - 'scripts/**'
+      - "src/gotcha.md"
+      - "scripts/**"
   pull_request:
-    branches: [ main ]
+    branches: [main]
     paths:
-      - 'src/gotcha.md'
-      - 'scripts/**'
+      - "src/gotcha.md"
+      - "scripts/**"
 
 jobs:
   validate:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      
-    - name: Setup bash
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y bash
-        
-    - name: Make scripts executable
-      run: |
-        chmod +x scripts/*.sh
-        
-    - name: Validate rules structure
-      run: |
-        ./scripts/validate-rules.sh
-        
-    - name: Comprehensive validation
-      run: |
-        ./scripts/validate-comprehensive.sh --verbose
-        
-    - name: Check rule drift
-      run: |
-        ./scripts/check-rule-drift.sh
-        
-    - name: Check markdown links
-      run: |
-        ./scripts/check-links.sh
-        
-    - name: Test sync script (dry run)
-      run: |
-        ./scripts/sync-all.sh --dry-run --verbose
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Make scripts executable
+        run: |
+          chmod +x scripts/*.sh
+
+      - name: Validate rules structure
+        run: |
+          ./scripts/validate-rules.sh
+
+      - name: Comprehensive validation
+        run: |
+          ./scripts/validate-comprehensive.sh --verbose
+
+      - name: Check rule drift
+        run: |
+          ./scripts/check-rule-drift.sh
+
+      - name: Check markdown links
+        run: |
+          ./scripts/check-links.sh
+
+      - name: Test sync script (dry run)
+        run: |
+          ./scripts/sync-all.sh --dry-run --verbose
 
   security-scan:
     runs-on: ubuntu-latest
-    
+    if: github.event_name == 'pull_request'
+
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      
-    - name: Scan for secrets
-      uses: trufflesecurity/trufflehog@main
-      with:
-        path: ./
-        base: main
-        head: HEAD
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Scan for secrets
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: ${{ github.event.pull_request.base.sha }}
+          head: ${{ github.event.pull_request.head.sha }}
 
   compatibility-test:
     runs-on: ubuntu-latest
     needs: validate
-    
+
     strategy:
       matrix:
         target: [windsurf, claude, codex]
-    
+
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      
-    - name: Test target sync
-      run: |
-        echo "Testing sync to ${{ matrix.target }}"
-        ./scripts/sync-all.sh --dry-run ${{ matrix.target }}
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Test target sync
+        run: |
+          echo "Testing sync to ${{ matrix.target }}"
+          ./scripts/sync-all.sh --dry-run ${{ matrix.target }}
