@@ -26,7 +26,7 @@ jobs:
 
       - name: Validate rules structure
         run: |
-          ./scripts/validate-rules.sh
+          ./scripts/validate-rules.sh --verbose
 
       - name: Comprehensive validation
         run: |
@@ -34,11 +34,11 @@ jobs:
 
       - name: Check rule drift
         run: |
-          ./scripts/check-rule-drift.sh
+          ./scripts/check-rule-drift.sh --verbose
 
       - name: Check markdown links
         run: |
-          ./scripts/check-links.sh
+          ./scripts/check-links.sh --verbose
 
       - name: Test sync script (dry run)
         run: |

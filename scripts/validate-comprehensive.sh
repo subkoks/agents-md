@@ -167,6 +167,11 @@ validate_canonical() {
 validate_cross_editor_compatibility() {
     log_info "Checking cross-editor compatibility"
 
+    # Diagnostic: Show environment info
+    log_verbose "Environment: HOME=$HOME"
+    log_verbose "Source file: $SOURCE"
+    log_verbose "Source exists: $([[ -f "$SOURCE" ]] && echo "YES" || echo "NO")"
+
     local sync_count=0
     local compatible_count=0
 
@@ -174,8 +179,13 @@ validate_cross_editor_compatibility() {
         IFS=':' read -r name target <<< "$target_entry"
         ((sync_count++))
 
+        log_verbose "Processing target: $name -> $target"
+        log_verbose "Target directory: $(dirname "$target")"
+        log_verbose "Target exists: $([[ -f "$target" ]] && echo "YES" || echo "NO")"
+
         if [[ ! -f "$target" ]]; then
             log_warning "Target missing: $name ($target)"
+            log_verbose "Target directory exists: $([[ -d "$(dirname "$target")" ]] && echo "YES" || echo "NO")"
             continue
         fi
 
@@ -193,6 +203,8 @@ validate_cross_editor_compatibility() {
             fi
         fi
     done
+
+    log_verbose "Compatibility check completed: $compatible_count/$sync_count targets compatible"
 
     if [[ $compatible_count -eq $sync_count ]]; then
         log_success "All targets compatible ($compatible_count/$sync_count)"
@@ -351,16 +363,50 @@ main() {
 
     log_info "Starting comprehensive validation"
     log_verbose "Source: $SOURCE"
+    log_verbose "Verbose mode: $VERBOSE"
+    log_verbose "Strict mode: $STRICT"
 
-    validate_canonical
-    validate_cross_editor_compatibility
-    validate_target_accessibility
-    validate_content_integrity
-    detect_version_drift
-    validate_sync_scripts
+    # Add diagnostic info at start
+    log_verbose "Current working directory: $(pwd)"
+    log_verbose "Available targets: ${#TARGETS[@]}"
+
+    # Validate each function with error handling
+    if ! validate_canonical; then
+        log_error "Canonical validation failed"
+        ((ERRORS++))
+    fi
+
+    if ! validate_cross_editor_compatibility; then
+        log_error "Cross-editor compatibility check failed"
+        ((ERRORS++))
+    fi
+
+    if ! validate_target_accessibility; then
+        log_error "Target accessibility check failed"
+        ((ERRORS++))
+    fi
+
+    if ! validate_content_integrity; then
+        log_error "Content integrity check failed"
+        ((ERRORS++))
+    fi
+
+    if ! detect_version_drift; then
+        log_error "Version drift detection failed"
+        ((ERRORS++))
+    fi
+
+    if ! validate_sync_scripts; then
+        log_error "Sync scripts validation failed"
+        ((ERRORS++))
+    fi
 
     # Summary
     echo ""
+    log_info "Validation summary:"
+    log_verbose "  Errors: $ERRORS"
+    log_verbose "  Warnings: $WARNINGS"
+
     if [[ "$ERRORS" -gt 0 ]]; then
         log_error "Validation failed: $ERRORS error(s), $WARNINGS warning(s)"
         exit 1
