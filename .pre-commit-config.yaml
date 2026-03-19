@@ -1,0 +1,39 @@
+repos:
+  - repo: local
+    hooks:
+      - id: validate-rules
+        name: Validate Rules
+        entry: ./scripts/validate-rules.sh
+        language: script
+        pass_filenames: false
+        always_run: true
+        
+      - id: validate-comprehensive
+        name: Comprehensive Validation
+        entry: ./scripts/validate-comprehensive.sh
+        language: script
+        pass_filenames: false
+        always_run: true
+        
+      - id: check-rule-drift
+        name: Check Rule Drift
+        entry: ./scripts/check-rule-drift.sh
+        language: script
+        pass_filenames: false
+        always_run: true
+        
+      - id: check-links
+        name: Check Markdown Links
+        entry: ./scripts/check-links.sh
+        language: script
+        pass_filenames: false
+        always_run: true
+        
+      - id: sync-rules-on-change
+        name: Sync Rules on Change
+        entry: ./scripts/sync-all.sh
+        args: [--dry-run]
+        language: script
+        pass_filenames: false
+        always_run: true
+        files: src/gotcha\.md

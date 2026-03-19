@@ -67,17 +67,29 @@ agents-md/
 ## Quick Start
 
 ```bash
-./scripts/validate-rules.sh
-./scripts/check-links.sh
-./scripts/check-rule-drift.sh
-./scripts/sync-to-windsurf.sh
+# Validate rules and check compatibility
+./scripts/validate-comprehensive.sh
+
+# Sync to all editors
+./scripts/sync-all.sh
+
+# Or sync to specific targets
+./scripts/sync-all.sh windsurf claude
+
+# Check current status
+./scripts/sync-all.sh --list
 ```
 
 ## Quality Gates
 
-- Rule integrity and structure: `scripts/validate-rules.sh`
-- Internal doc link checks: `scripts/check-links.sh`
-- External-source drift checks: `scripts/check-rule-drift.sh`
+- Comprehensive validation: `scripts/validate-comprehensive.sh`
+  - Rule structure and integrity
+  - Cross-editor compatibility
+  - Version drift detection
+  - Target accessibility
+  - Content integrity
+- Individual checks: `scripts/validate-rules.sh`, `scripts/check-links.sh`, `scripts/check-rule-drift.sh`
+- Automated hooks: Pre-commit and CI/CD validation
 
 All scripts degrade safely when optional dependencies are missing.
 
@@ -91,16 +103,26 @@ All scripts degrade safely when optional dependencies are missing.
 
 ## GitHub-Ready Workflow
 
-1. Run local gates:
+1. Run local validation:
 
 ```bash
-./scripts/validate-rules.sh && ./scripts/check-links.sh && ./scripts/check-rule-drift.sh
+./scripts/validate-comprehensive.sh
 ```
 
-1. Create branch and commit logically grouped changes.
-1. Open PR using `.github/pull_request_template.md`.
-1. Ensure CI checks pass.
-1. Merge and update `CHANGELOG.md`.
+2. Create branch and commit logically grouped changes (pre-commit hooks run automatically).
+
+3. Open PR using `.github/pull_request_template.md`.
+
+4. CI automatically validates:
+   - Rule structure and integrity
+   - Cross-editor compatibility
+   - Version drift detection
+   - Security scanning
+   - Target sync testing
+
+5. Ensure all CI checks pass.
+
+6. Merge and update `CHANGELOG.md`.
 
 ## Sniper Bot Quick Start
 
