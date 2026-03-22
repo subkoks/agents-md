@@ -37,15 +37,23 @@ jobs:
 
       - name: Check rule drift
         run: |
-          ./scripts/check-rule-drift.sh --verbose
+          ./scripts/check-local-drift.sh --verbose
 
       - name: Check markdown links
         run: |
           ./scripts/check-links.sh --verbose
 
-      - name: Test sync script (dry run)
+      - name: Test artifact build script (dry run)
         run: |
-          ./scripts/sync-all.sh --dry-run --verbose
+          ./scripts/build-rule-artifacts.sh --dry-run --verbose
+
+      - name: Build artifacts
+        run: |
+          ./scripts/build-rule-artifacts.sh --verbose
+
+      - name: Verify strict local drift
+        run: |
+          ./scripts/check-local-drift.sh --strict
 
   security-scan:
     runs-on: ubuntu-latest
@@ -68,15 +76,16 @@ jobs:
     runs-on: ubuntu-latest
     needs: validate
 
-    strategy:
-      matrix:
-        target: [windsurf, claude, codex]
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Test target sync
+      - name: Build all artifacts
         run: |
-          echo "Testing sync to ${{ matrix.target }}"
-          ./scripts/sync-all.sh --dry-run ${{ matrix.target }}
+          ./scripts/build-rule-artifacts.sh all
+
+      - name: Validate artifact files exist
+        run: |
+          test -f dist/rules/windsurf.md
+          test -f dist/rules/claude.md
+          test -f dist/rules/codex.md

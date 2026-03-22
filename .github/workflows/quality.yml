@@ -21,4 +21,7 @@ jobs:
         run: ./scripts/check-links.sh
 
       - name: Run drift check
-        run: ./scripts/check-rule-drift.sh
+        run: ./scripts/check-local-drift.sh
+
+      - name: Build local artifacts (dry run)
+        run: ./scripts/build-rule-artifacts.sh --dry-run

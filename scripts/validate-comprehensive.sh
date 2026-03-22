@@ -1,5 +1,5 @@
 #!/bin/bash
-# Comprehensive validation including cross-editor compatibility and drift detection.
+# Comprehensive validation for canonical rules and repo-local artifacts.
 
 set -e
 
@@ -10,11 +10,11 @@ SOURCE="$PROJECT_ROOT/src/gotcha.md"
 VERBOSE="${VERBOSE:-0}"
 STRICT="${STRICT:-0}"
 
-# Target definitions
+# Local artifact targets
 TARGETS=(
-    "windsurf:$HOME/.windsurf/rules/gotcha.md"
-    "claude:$HOME/.claude/CLAUDE.md"
-    "codex:$HOME/.codex/AGENTS.md"
+    "windsurf:$PROJECT_ROOT/dist/rules/windsurf.md"
+    "claude:$PROJECT_ROOT/dist/rules/claude.md"
+    "codex:$PROJECT_ROOT/dist/rules/codex.md"
 )
 
 # Colors
@@ -55,7 +55,7 @@ show_help() {
     cat << EOF
 Usage: $0 [OPTIONS]
 
-Comprehensive validation of canonical rules and cross-editor compatibility.
+Comprehensive validation of canonical rules and repo-local artifacts.
 
 OPTIONS:
     -h, --help      Show this help message
@@ -64,9 +64,9 @@ OPTIONS:
 
 VALIDATION CHECKS:
     1. Canonical rule structure and quality
-    2. Cross-editor compatibility
+    2. Local artifact compatibility
     3. Version drift detection
-    4. Target accessibility
+    4. Artifact accessibility
     5. Content integrity
 
 EXAMPLES:
@@ -154,18 +154,18 @@ validate_canonical() {
         log_verbose "No unresolved placeholders"
     fi
 
-    # Check external alignment section accuracy
+    # Check governance section accuracy
     if grep -q "Canonical source in this repo: \`src/gotcha.md\`" "$SOURCE"; then
-        log_verbose "External alignment section accurate"
+        log_verbose "Canonical governance reference accurate"
     else
-        log_error "External alignment section missing or incorrect"
+        log_error "Canonical governance reference missing or incorrect"
     fi
 
     log_success "Canonical validation completed"
 }
 
 validate_cross_editor_compatibility() {
-    log_info "Checking cross-editor compatibility"
+    log_info "Checking local artifact compatibility"
 
     # Diagnostic: Show environment info
     log_verbose "Environment: HOME=$HOME"
@@ -184,7 +184,7 @@ validate_cross_editor_compatibility() {
         log_verbose "Target exists: $([[ -f "$target" ]] && echo "YES" || echo "NO")"
 
         if [[ ! -f "$target" ]]; then
-            log_warning "Target missing: $name ($target)"
+            log_verbose "Artifact not built yet: $name ($target)"
             log_verbose "Target directory exists: $([[ -d "$(dirname "$target")" ]] && echo "YES" || echo "NO")"
             continue
         fi
@@ -204,17 +204,17 @@ validate_cross_editor_compatibility() {
         fi
     done
 
-    log_verbose "Compatibility check completed: $compatible_count/$sync_count targets compatible"
+    log_verbose "Compatibility check completed: $compatible_count/$sync_count artifacts compatible"
 
     if [[ $compatible_count -eq $sync_count ]]; then
-        log_success "All targets compatible ($compatible_count/$sync_count)"
+        log_success "All artifacts compatible ($compatible_count/$sync_count)"
     else
-        log_warning "Partial compatibility ($compatible_count/$sync_count)"
+        log_info "Artifacts compatible ($compatible_count/$sync_count); remaining artifacts can be generated with build-rule-artifacts.sh"
     fi
 }
 
 validate_target_accessibility() {
-    log_info "Checking target accessibility"
+    log_info "Checking artifact accessibility"
 
     for target_entry in "${TARGETS[@]}"; do
         IFS=':' read -r name target <<< "$target_entry"
@@ -224,7 +224,7 @@ validate_target_accessibility() {
         if [[ -d "$target_dir" ]]; then
             log_verbose "Directory accessible: $name ($target_dir)"
         else
-            log_warning "Target directory missing: $name ($target_dir)"
+            log_verbose "Artifact directory not present yet: $name ($target_dir)"
         fi
 
         # Check file permissions if exists
@@ -236,6 +236,32 @@ validate_target_accessibility() {
             fi
         fi
     done
+}
+
+validate_home_path_coupling() {
+    log_info "Checking for home-directory coupling in active assets"
+
+    local files=(
+        "$PROJECT_ROOT/README.md"
+        "$PROJECT_ROOT/src/gotcha.md"
+        "$PROJECT_ROOT/.github/workflows/validate-rules.yml"
+        "$PROJECT_ROOT/.github/workflows/quality.yml"
+        "$PROJECT_ROOT/.pre-commit-config.yaml"
+    )
+    local coupled=0
+
+    for file in "${files[@]}"; do
+        [[ -f "$file" ]] || continue
+
+        if grep -qE '~\/(\.windsurf|\.claude|\.codex)|\$HOME\/(\.windsurf|\.claude|\.codex)' "$file"; then
+            log_error "Home-directory coupling found: $file"
+            coupled=$((coupled + 1))
+        fi
+    done
+
+    if [[ "$coupled" -eq 0 ]]; then
+        log_success "No home-directory coupling in active governance files"
+    fi
 }
 
 validate_content_integrity() {
@@ -306,14 +332,16 @@ detect_version_drift() {
 }
 
 validate_sync_scripts() {
-    log_info "Validating sync scripts"
+    log_info "Validating governance scripts"
 
     local scripts=(
+        "build-rule-artifacts.sh"
+        "check-local-drift.sh"
         "sync-all.sh"
-        "sync-to-windsurf.sh"
-        "validate-rules.sh"
         "check-rule-drift.sh"
+        "validate-rules.sh"
         "check-links.sh"
+        "run-governance.sh"
     )
 
     for script in "${scripts[@]}"; do
@@ -397,7 +425,12 @@ main() {
     fi
 
     if ! validate_sync_scripts; then
-        log_error "Sync scripts validation failed"
+        log_error "Governance scripts validation failed"
+        ((ERRORS++))
+    fi
+
+    if ! validate_home_path_coupling; then
+        log_error "Home-path coupling check failed"
         ((ERRORS++))
     fi
 

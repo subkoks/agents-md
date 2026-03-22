@@ -4,7 +4,11 @@ Copy this file to your project root as `AGENTS.md` for project-specific rules.
 
 ---
 
-# Project Rules — [PROJECT_NAME]
+## Project Rules — [PROJECT_NAME]
+
+> This file is an additive override layer.
+> Do not copy global `gotcha.md` body here.
+> Precedence: project overrides > canonical/artifact rules > tool defaults.
 
 ## Project Overview
 
@@ -71,9 +75,9 @@ Brief description of what this project does.
 
 ## Environment Variables
 
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `VAR_NAME` | What it does | Yes/No |
+| Variable   | Description  | Required |
+| ---------- | ------------ | -------- |
+| `VAR_NAME` | What it does | Yes/No   |
 
 ## Known Issues / Gotchas
 
@@ -94,4 +98,4 @@ Brief description of what this project does.
 
 ## Note
 
-This file supplements the global `gotcha.md` rules. Project-specific rules take precedence for this project only.
+This file supplements the global `gotcha.md` rules. Keep only project-specific constraints, commands, and conventions.

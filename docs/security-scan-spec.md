@@ -12,19 +12,19 @@ Implementation specification for scanning agent configuration surfaces (rules, h
 ## Scan Scope
 
 - Rule files: `src/gotcha.md`, project `AGENTS.md` variants.
-- Hook configuration and scripts: `hooks/*.json`, `hooks/**/*.sh`, runtime hook wrappers.
+- Hook configuration and scripts: `hooks/*.json`, `hooks/**/*.sh`, runtime hook adapters.
 - MCP definitions and tool allowlists.
 - Workflow and command files that can trigger shell/network actions.
 
 ## Severity Model
 
-| Severity | Meaning | Default CI behavior |
-| --- | --- | --- |
-| critical | Direct exploitation or secret exposure risk | fail |
-| high | Strong abuse path with limited preconditions | fail |
-| medium | Meaningful weakness; needs remediation soon | optional fail |
-| low | Hardening improvement | warn |
-| info | Non-blocking signal | report |
+| Severity | Meaning                                      | Default CI behavior |
+| -------- | -------------------------------------------- | ------------------- |
+| critical | Direct exploitation or secret exposure risk  | fail                |
+| high     | Strong abuse path with limited preconditions | fail                |
+| medium   | Meaningful weakness; needs remediation soon  | optional fail       |
+| low      | Hardening improvement                        | warn                |
+| info     | Non-blocking signal                          | report              |
 
 ## Finding Schema
 

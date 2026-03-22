@@ -7,31 +7,46 @@ repos:
         language: script
         pass_filenames: false
         always_run: true
-        
+
+      - id: enforce-canonical-rules
+        name: Enforce Canonical Rules
+        entry: ./scripts/enforce-canonical-rules.sh
+        language: script
+        pass_filenames: false
+        always_run: true
+
       - id: validate-comprehensive
         name: Comprehensive Validation
         entry: ./scripts/validate-comprehensive.sh
+        args: [--strict]
         language: script
         pass_filenames: false
         always_run: true
-        
+
       - id: check-rule-drift
-        name: Check Rule Drift
-        entry: ./scripts/check-rule-drift.sh
+        name: Check Local Drift
+        entry: ./scripts/check-local-drift.sh
         language: script
         pass_filenames: false
         always_run: true
-        
+
+      - id: check-skill-registry-drift
+        name: Check Skill Registry Drift
+        entry: ./scripts/check-skill-registry-drift.sh
+        language: script
+        pass_filenames: false
+        always_run: true
+
       - id: check-links
         name: Check Markdown Links
         entry: ./scripts/check-links.sh
         language: script
         pass_filenames: false
         always_run: true
-        
-      - id: sync-rules-on-change
-        name: Sync Rules on Change
-        entry: ./scripts/sync-all.sh
+
+      - id: build-rule-artifacts-on-change
+        name: Build Rule Artifacts on Change
+        entry: ./scripts/build-rule-artifacts.sh
         args: [--dry-run]
         language: script
         pass_filenames: false

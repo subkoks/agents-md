@@ -1,0 +1,13 @@
+# skill_id	status	owner_source	normalized_trigger	aliases
+local/defi-protocol-engineering	active	skills/	defi-protocol
+local/evm-smart-contract-dev	active	skills/	evm-contracts
+local/memecoin-trading-risk-playbook	active	skills/	memecoin-risk
+local/onchain-trading-and-flow-analysis	active	skills/	onchain-flow
+local/pumpfun-launch-and-trading-automation	active	skills/	pumpfun-automation
+local/solana-anchor-program-dev	active	skills/	solana-anchor
+local/solana-client-kit-and-wallets	active	skills/	solana-client
+local/solana-security-and-audit	active	skills/	solana-security
+local/solana-sniper-bot-scripts-and-ops	active	skills/	solana-sniper
+local/solana-terminal-workflows-axiom-padre-nova	active	skills/	solana-terminal
+local/token-launch-and-memecoin-ops	active	skills/	token-launch
+local/web3-dapp-architecture	active	skills/	web3-architecture

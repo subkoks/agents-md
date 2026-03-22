@@ -17,9 +17,9 @@
 
 - [ ] `./scripts/validate-rules.sh`
 - [ ] `./scripts/check-links.sh`
-- [ ] `./scripts/check-rule-drift.sh`
+- [ ] `./scripts/check-local-drift.sh`
 - [ ] `./scripts/validate-comprehensive.sh`
-- [ ] `./scripts/sync-all.sh --dry-run`
+- [ ] `./scripts/build-rule-artifacts.sh --dry-run`
 
 **Copilot Review Focus:**
 

@@ -9,7 +9,7 @@ Concrete upgrade backlog for turning the scanned Claude, Codex, and Windsurf ass
 - **Goal:** keep one real rule source and reduce drift across editors.
 - **Actions:**
   - keep `src/gotcha.md` as the canonical body
-  - create editor wrapper files that only contain editor-specific notes
+  - create editor packaging artifacts with only target-specific notes
   - remove duplicated rule text where possible
 - **Why:** the current Claude/Codex/Windsurf rule bodies are nearly identical
 - **Impact:** high
@@ -176,5 +176,5 @@ Concrete upgrade backlog for turning the scanned Claude, Codex, and Windsurf ass
 1. Update `README.md` to expose the new database docs
 2. Add a dedicated hook reference document
 3. Add a project goals manifest
-4. Add an editor-alignment wrapper strategy doc
+4. Add an editor-alignment artifact strategy doc
 5. Refine `src/gotcha.md` so it references layers instead of absorbing them
