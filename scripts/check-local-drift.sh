@@ -8,6 +8,7 @@ PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 CANONICAL="$PROJECT_ROOT/src/gotcha.md"
 
 STRICT=0
+VERBOSE=0
 
 TARGETS=(
   "$PROJECT_ROOT/dist/rules/windsurf.md"
@@ -17,12 +18,13 @@ TARGETS=(
 
 show_help() {
   cat <<'EOF'
-Usage: scripts/check-local-drift.sh [--strict]
+Usage: scripts/check-local-drift.sh [--strict] [--verbose]
 
 Checks whether local artifacts under dist/rules match src/gotcha.md.
 
 Options:
   --strict   Exit non-zero when drift or missing artifacts are found
+  --verbose  Enable verbose logging output
 EOF
 }
 
@@ -30,6 +32,10 @@ while [[ $# -gt 0 ]]; do
   case "$1" in
     --strict)
       STRICT=1
+      shift
+      ;;
+    --verbose)
+      VERBOSE=1
       shift
       ;;
     -h|--help)
@@ -52,7 +58,16 @@ fi
 warnings=0
 printf '%s\n' "[INFO] Canonical: $CANONICAL"
 
+if [[ "$VERBOSE" -eq 1 ]]; then
+  printf '%s\n' "[INFO] Strict mode: $STRICT"
+  printf '%s\n' "[INFO] Targets: ${#TARGETS[@]}"
+fi
+
 for target in "${TARGETS[@]}"; do
+  if [[ "$VERBOSE" -eq 1 ]]; then
+    printf '%s\n' "[INFO] Checking target: $target"
+  fi
+
   if [[ ! -f "$target" ]]; then
     printf '%s\n' "[WARN] Missing artifact: $target"
     warnings=$((warnings + 1))
