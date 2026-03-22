@@ -1,11 +1,21 @@
 name: quality
 
 on:
+  workflow_dispatch:
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches: [main]
   push:
     branches:
       - main
       - master
+
+permissions:
+  contents: read
+
+concurrency:
+  group: quality-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   validate:
@@ -21,4 +31,7 @@ jobs:
         run: ./scripts/check-links.sh
 
       - name: Run drift check
-        run: ./scripts/check-rule-drift.sh
+        run: ./scripts/check-local-drift.sh
+
+      - name: Build local artifacts (dry run)
+        run: ./scripts/build-rule-artifacts.sh --dry-run

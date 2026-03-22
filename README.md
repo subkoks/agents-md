@@ -38,10 +38,10 @@ agents-md/
 │   ├── hook-reference.md
 │   └── ...
 ├── scripts/
-│   ├── sync-to-windsurf.sh
+│   ├── build-rule-artifacts.sh
 │   ├── validate-rules.sh
 │   ├── check-links.sh
-│   ├── check-rule-drift.sh
+│   ├── check-local-drift.sh
 │   ├── sniper-config-template.yaml
 │   ├── pumpfun-bot-checklist.sh
 │   └── sniper-journal-summary.sh
@@ -70,59 +70,66 @@ agents-md/
 # Validate rules and check compatibility
 ./scripts/validate-comprehensive.sh
 
-# Sync to all editors
-./scripts/sync-all.sh
+# Run deterministic governance pipeline (strict -> drift -> build -> strict drift)
+./scripts/run-governance.sh
 
-# Or sync to specific targets
-./scripts/sync-all.sh windsurf claude
+# Build local artifacts
+./scripts/build-rule-artifacts.sh
 
-# Check current status
-./scripts/sync-all.sh --list
+# Build specific artifacts
+./scripts/build-rule-artifacts.sh windsurf claude
+
+# Check artifact status
+./scripts/build-rule-artifacts.sh --list
 ```
+
+## Canonical Governance Contract
+
+- Canonical rule body: `src/gotcha.md` only.
+- Local artifacts are generated at `dist/rules/*.md`.
+- Do not edit generated artifacts directly; rebuild via `scripts/build-rule-artifacts.sh` or `scripts/run-governance.sh`.
+- Pre-commit guard rejects artifact-only edits without canonical update.
+- This repository does not manage personal editor, AI agent, or global git-hook files under `~`.
 
 ## Quality Gates
 
 - Comprehensive validation: `scripts/validate-comprehensive.sh`
   - Rule structure and integrity
-  - Cross-editor compatibility
+  - Local artifact compatibility
   - Version drift detection
-  - Target accessibility
+  - Artifact accessibility
   - Content integrity
-- Individual checks: `scripts/validate-rules.sh`, `scripts/check-links.sh`, `scripts/check-rule-drift.sh`
+- Individual checks: `scripts/validate-rules.sh`, `scripts/check-links.sh`, `scripts/check-local-drift.sh`
 - Automated hooks: Pre-commit and CI/CD validation
+- Runtime/system health: `scripts/health-check.sh` (writes timestamped logs to `logs/health/`)
+- Skill drift monitoring: `scripts/check-skill-registry-drift.sh` against `skills/registry.tsv`
 
 All scripts degrade safely when optional dependencies are missing.
 
-## External Alignment Targets
+## Local Artifacts
 
-- `~/.windsurf/rules/gotcha.md`
-- `~/.claude/CLAUDE.md`
-- `~/.codex/AGENTS.md`
-- `~/.codex/skills/coding-rules/`
-- `~/.windsurf/context/*`, `~/.windsurf/workflows/*`, `~/.windsurf/hardprompts/*`
+- `dist/rules/windsurf.md`
+- `dist/rules/claude.md`
+- `dist/rules/codex.md`
 
 ## GitHub-Ready Workflow
 
-1. Run local validation:
+- Run local validation:
 
 ```bash
 ./scripts/validate-comprehensive.sh
 ```
 
-2. Create branch and commit logically grouped changes (pre-commit hooks run automatically).
-
-3. Open PR using `.github/pull_request_template.md`.
-
-4. CI automatically validates:
-   - Rule structure and integrity
-   - Cross-editor compatibility
-   - Version drift detection
-   - Security scanning
-   - Target sync testing
-
-5. Ensure all CI checks pass.
-
-6. Merge and update `CHANGELOG.md`.
+- Create branch and commit logically grouped changes (pre-commit hooks run automatically).
+- Open PR using `.github/pull_request_template.md`.
+- CI automatically validates:
+  - Rule structure and integrity
+  - Local artifact compatibility
+  - Version drift detection
+  - Security scanning
+  - Artifact generation testing
+- Ensure all CI checks pass.
+- Merge and update `CHANGELOG.md`.
 
 ## Sniper Bot Quick Start
 
@@ -139,7 +146,8 @@ cp scripts/sniper-config-template.yaml sniper-config.yaml
 - `docs/agent-database.md`: curated inventory and source map
 - `docs/agent-patterns.md`: normalized reusable patterns
 - `docs/hook-reference.md`: hook behavior and portability notes
-- `docs/editor-alignment-strategy.md`: wrapper and sync strategy by editor
+- `docs/hook-routing.md`: global/project/repo hook ownership and routing
+- `docs/editor-alignment-strategy.md`: artifact packaging strategy by editor
 - `docs/hook-portability-spec.md`: generic hook contract model
 - `docs/goals-manifest.md`: task-to-asset routing matrix
 - `docs/security-scan-spec.md`: config security scanner taxonomy and output schema

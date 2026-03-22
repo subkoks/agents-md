@@ -9,9 +9,9 @@ SOURCE="$PROJECT_ROOT/src/gotcha.md"
 
 # Target definitions
 TARGETS=(
-    "windsurf:$HOME/.windsurf/rules/gotcha.md"
-    "claude:$HOME/.claude/CLAUDE.md"
-    "codex:$HOME/.codex/AGENTS.md"
+    "windsurf:$PROJECT_ROOT/dist/rules/windsurf.md"
+    "claude:$PROJECT_ROOT/dist/rules/claude.md"
+    "codex:$PROJECT_ROOT/dist/rules/codex.md"
 )
 
 # Colors
@@ -71,10 +71,10 @@ EOF
 show_status() {
     log_info "Current sync status"
     echo ""
-    
+
     for target_entry in "${TARGETS[@]}"; do
         IFS=':' read -r name target <<< "$target_entry"
-        
+
         if [[ -f "$target" ]]; then
             if cmp -s "$SOURCE" "$target"; then
                 echo -e "  ${GREEN}✅${NC} $name: In sync"
@@ -90,23 +90,23 @@ show_status() {
 diagnose_issues() {
     log_info "Diagnosing sync issues"
     echo ""
-    
+
     # Check source file
     if [[ ! -f "$SOURCE" ]]; then
         log_error "Canonical source missing: $SOURCE"
         return 1
     fi
     log_success "Canonical source exists"
-    
+
     # Check each target
     local issues=0
-    
+
     for target_entry in "${TARGETS[@]}"; do
         IFS=':' read -r name target <<< "$target_entry"
-        
+
         echo ""
         log_info "Diagnosing $name..."
-        
+
         # Check directory
         local target_dir="$(dirname "$target")"
         if [[ ! -d "$target_dir" ]]; then
@@ -115,11 +115,11 @@ diagnose_issues() {
         else
             log_success "Directory exists: $target_dir"
         fi
-        
+
         # Check file
         if [[ -f "$target" ]]; then
             log_success "File exists: $target"
-            
+
             # Check permissions
             if [[ -r "$target" && -w "$target" ]]; then
                 log_success "File permissions OK"
@@ -127,7 +127,7 @@ diagnose_issues() {
                 log_error "File permission issues"
                 ((issues++))
             fi
-            
+
             # Check content
             if cmp -s "$SOURCE" "$target"; then
                 log_success "Content matches canonical"
@@ -140,7 +140,7 @@ diagnose_issues() {
             ((issues++))
         fi
     done
-    
+
     echo ""
     if [[ $issues -eq 0 ]]; then
         log_success "No issues detected"
@@ -151,10 +151,10 @@ diagnose_issues() {
 
 create_backups() {
     log_info "Creating backups"
-    
+
     for target_entry in "${TARGETS[@]}"; do
         IFS=':' read -r name target <<< "$target_entry"
-        
+
         if [[ -f "$target" ]]; then
             local backup="$target.backup.$(date +%Y%m%d_%H%M%S)"
             cp "$target" "$backup"
@@ -167,14 +167,14 @@ create_backups() {
 
 restore_from_backup() {
     local backup_file="$1"
-    
+
     if [[ ! -f "$backup_file" ]]; then
         log_error "Backup file not found: $backup_file"
         return 1
     fi
-    
+
     log_info "Restoring from backup: $backup_file"
-    
+
     # Determine target from backup filename
     local target_name=""
     for target_entry in "${TARGETS[@]}"; do
@@ -184,12 +184,12 @@ restore_from_backup() {
             break
         fi
     done
-    
+
     if [[ -z "$target_name" ]]; then
         log_error "Cannot determine target for backup file"
         return 1
     fi
-    
+
     # Find target path
     local target_path=""
     for target_entry in "${TARGETS[@]}"; do
@@ -199,15 +199,15 @@ restore_from_backup() {
             break
         fi
     done
-    
+
     if [[ -z "$target_path" ]]; then
         log_error "Cannot find target path for: $target_name"
         return 1
     fi
-    
+
     # Create directory if needed
     mkdir -p "$(dirname "$target_path")"
-    
+
     # Restore
     cp "$backup_file" "$target_path"
     log_success "Restored: $target_name"
@@ -215,7 +215,7 @@ restore_from_backup() {
 
 force_reset() {
     log_warning "Force resetting all targets to canonical"
-    
+
     if [[ "$FORCE" != "1" ]]; then
         read -p "This will overwrite all target files. Continue? (y/N): " -n 1 -r
         echo
@@ -224,33 +224,33 @@ force_reset() {
             return 0
         fi
     fi
-    
+
     for target_entry in "${TARGETS[@]}"; do
         IFS=':' read -r name target <<< "$target_entry"
-        
+
         log_info "Resetting $name..."
-        
+
         # Create directory
         mkdir -p "$(dirname "$target")"
-        
+
         # Copy canonical
         cp "$SOURCE" "$target"
         log_success "Reset complete: $name"
     done
-    
+
     echo ""
-    log_info "Restart affected editors to load updated rules"
+    log_info "Local artifact reset complete"
 }
 
 cleanup_backups() {
     log_info "Cleaning old backups"
-    
+
     local cleaned=0
     local cutoff_days=30
-    
+
     for target_entry in "${TARGETS[@]}"; do
         IFS=':' read -r name target <<< "$target_entry"
-        
+
         # Find old backup files
         find "$(dirname "$target")" -name "$(basename "$target").backup.*" -type f -mtime +$cutoff_days | while read backup; do
             rm "$backup"
@@ -258,7 +258,7 @@ cleanup_backups() {
             ((cleaned++))
         done
     done
-    
+
     if [[ $cleaned -eq 0 ]]; then
         log_info "No old backups to clean"
     else
@@ -270,7 +270,7 @@ main() {
     local action=""
     local target=""
     local backup_file=""
-    
+
     while [[ $# -gt 0 ]]; do
         case $1 in
             -h|--help)
@@ -300,7 +300,7 @@ main() {
                 ;;
         esac
     done
-    
+
     case "$action" in
         status)
             show_status
@@ -325,7 +325,7 @@ main() {
             cleanup_backups
             ;;
         "")
-            log_error "Action required"
+            echo "Action required"
             show_help
             exit 1
             ;;

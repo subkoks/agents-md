@@ -289,7 +289,7 @@ export default async function Page(): Promise<JSX.Element> {
 Use these extracted patterns to evolve `agents-md` toward:
 
 - one canonical rule base
-- editor-specific wrappers instead of duplicated bodies
+- editor-specific artifacts instead of duplicated bodies
 - hook-driven quality controls
 - stronger workflow routing
 - a maintainable reference library instead of scattered memory

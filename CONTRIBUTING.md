@@ -23,7 +23,7 @@ Run before opening PR:
 ```bash
 ./scripts/validate-rules.sh
 ./scripts/check-links.sh
-./scripts/check-rule-drift.sh
+./scripts/check-local-drift.sh
 ```
 
 ## Pull Requests

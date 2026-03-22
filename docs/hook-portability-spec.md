@@ -42,6 +42,6 @@ Editor-agnostic contract for routing, quality, recovery, and audit hooks.
 
 ## Reference Patterns
 
-- Dispatcher pattern (`~/.claude/hooks/dispatcher-hook.sh`)
-- Test-gate pattern (`~/.claude/hooks/test-gate-hook.sh`)
-- Checkpoint pattern (`~/.claude/hooks/cc-hook.sh`)
+- Dispatcher pattern (`docs/hook-reference.md`)
+- Test-gate pattern (`docs/hook-reference.md`)
+- Checkpoint pattern (`docs/hook-reference.md`)

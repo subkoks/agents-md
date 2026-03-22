@@ -1,6 +1,6 @@
 # Agent Database
 
-Curated reference database of the highest-value agent rules, hooks, skills, workflows, and prompt assets currently active across Claude, Codex, and Windsurf.
+Curated reference database of the highest-value rules, hooks, skills, workflows, and prompt assets tracked inside this repository.
 
 ## Purpose
 
@@ -9,23 +9,15 @@ It records what exists, why it matters, what should be promoted, and where the s
 
 ## Source Map
 
-- `~/.windsurf/rules/gotcha.md` — active rule — primary — core operating behavior for Windsurf sessions
-- `~/.claude/CLAUDE.md` — active rule — aligned — mirrors the core operating model with hook/context guidance
-- `~/.codex/AGENTS.md` — active rule — aligned — Codex-side version of the same conventions
-- `~/.codex/skills/coding-rules/` — skill pack — high value — most concise stack and style rules with example patterns
-- `~/.claude/hooks/dispatcher-hook.sh` — hook — high value — dynamic hook loading without restart
-- `~/.claude/hooks/test-gate-hook.sh` — hook — high value — commit gate plus async post-edit verification loop
-- `~/.claude/hooks/cc-hook.sh` — hook — high value — session checkpointing and resume workflow
-- `~/.windsurf/workflows/build-app.md` — workflow — high value — ATLAS build discipline
-- `~/.windsurf/context/tech-stack.md` — context — high value — canonical stack preferences
-- `~/.windsurf/goals/manifest.md` — goals index — high value — simple goal-routing registry
-- `~/.windsurf/hardprompts/*.md` — hard prompts — high value — small reusable review, audit, and refactor templates
-- `~/.claude/skills/systematic-debugging/` — skill — high value — best debugging methodology asset found
-- `~/.claude/skills/api-design-patterns/` — skill — high value — strong REST rules and examples
-- `~/.claude/skills/security-checklist/` — skill — high value — practical hardening checklist
-- `~/.claude/skills/senior-fullstack/` — skill — medium — broad but generic; useful more as category marker
-- `~/.claude/skills/code-reviewer/` — skill — medium — useful coverage, but less dense than hardprompt plus checklist combo
-- `skills/` — local skill pack — high value — curated crypto/web3/Solana development and trading-analysis playbooks
+- `src/gotcha.md` — active rule — primary — canonical operating behavior
+- `docs/agent-patterns.md` — pattern reference — high value — normalized execution and design patterns
+- `docs/hook-reference.md` — hook reference — high value — routing/quality/recovery hook patterns
+- `docs/hook-portability-spec.md` — portability contract — high value — editor-agnostic hook interface
+- `docs/editor-alignment-strategy.md` — packaging strategy — high value — canonical to artifact flow
+- `docs/goals-manifest.md` — routing matrix — high value — maps work classes to project assets
+- `templates/project-agents.md` — template — high value — project-level rule override template
+- `skills/` — skill pack — high value — curated crypto/web3/Solana development and trading-analysis playbooks
+- `skills/registry.tsv` — registry metadata — medium — lifecycle and trigger inventory
 
 ## Best Assets by Category
 
@@ -34,8 +26,8 @@ It records what exists, why it matters, what should be promoted, and where the s
 #### Primary Rule Set
 
 - **Promote:** `src/gotcha.md`
-- **External references:** `~/.windsurf/rules/gotcha.md`, `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`
-- **Reason:** These three files are largely the same operating model. The right move is to keep one canonical rule body and maintain thin editor-specific wrappers only where behavior differs.
+- **Generated artifacts:** `dist/rules/windsurf.md`, `dist/rules/claude.md`, `dist/rules/codex.md`
+- **Reason:** Keep one canonical rule body and generate thin packaging artifacts for portability.
 
 #### Core Behaviors Worth Preserving
 
@@ -51,14 +43,14 @@ It records what exists, why it matters, what should be promoted, and where the s
 
 #### Dynamic Hook Dispatcher
 
-- **Source:** `~/.claude/hooks/dispatcher-hook.sh`
+- **Source:** `docs/hook-reference.md`
 - **Pattern:** register one hook once, load actual hooks from an `enabled/` directory
 - **Why it matters:** removes restart friction and makes hook experimentation cheap
 - **Promote:** yes
 
 #### Test Gate Hook
 
-- **Source:** `~/.claude/hooks/test-gate-hook.sh`
+- **Source:** `docs/hook-reference.md`
 - **Pattern:**
   - block `git commit` when tests fail
   - run async checks after source edits
@@ -69,7 +61,7 @@ It records what exists, why it matters, what should be promoted, and where the s
 
 #### Checkpoint / Resume Hook
 
-- **Source:** `~/.claude/hooks/cc-hook.sh`
+- **Source:** `docs/hook-reference.md`
 - **Pattern:** session checkpoint save, list, and resume commands
 - **Why it matters:** strong long-context recovery mechanism
 - **Promote:** yes, but as workflow infrastructure rather than core coding rule
@@ -78,27 +70,27 @@ It records what exists, why it matters, what should be promoted, and where the s
 
 #### Coding Rules Skill
 
-- **Source:** `~/.codex/skills/coding-rules/SKILL.md`
+- **Source:** `skills/README.md`
 - **Why it matters:** the cleanest short-form stack and code-style pack found
 - **Promote:** yes
-- **Best companion file:** `~/.codex/skills/coding-rules/references/detailed-rules.md`
+- **Best companion file:** `skills/registry.tsv`
 
 #### Systematic Debugging Skill
 
-- **Source:** `~/.claude/skills/systematic-debugging/SKILL.md`
+- **Source:** `docs/agent-patterns.md`
 - **Why it matters:** dense, actionable, not bloated
 - **Promote:** yes
 - **Best concepts:** reproduce, isolate, test hypothesis, regression test, verify root cause
 
 #### API Design Patterns Skill
 
-- **Source:** `~/.claude/skills/api-design-patterns/SKILL.md`
+- **Source:** `docs/agent-patterns.md`
 - **Why it matters:** concrete resource naming, status codes, pagination, validation, rate limiting
 - **Promote:** yes
 
 #### Security Checklist Skill
 
-- **Source:** `~/.claude/skills/security-checklist/SKILL.md`
+- **Source:** `docs/agent-patterns.md`
 - **Why it matters:** practical launch and review checklist with concrete headers and auth rules
 - **Promote:** yes
 
@@ -119,14 +111,14 @@ It records what exists, why it matters, what should be promoted, and where the s
 
 #### ATLAS Workflow
 
-- **Source:** `~/.windsurf/workflows/build-app.md`
+- **Source:** `docs/agent-patterns.md`
 - **Why it matters:** strongest execution workflow found
 - **Promote:** yes
 - **Best parts:** Architect, Trace, Link, Assemble, Stress-test, plus Validate and Monitor for production
 
 #### Goals Manifest Pattern
 
-- **Source:** `~/.windsurf/goals/manifest.md`
+- **Source:** `docs/goals-manifest.md`
 - **Why it matters:** simple registry that maps goals to workflow or prompt assets
 - **Promote:** yes
 
@@ -134,13 +126,13 @@ It records what exists, why it matters, what should be promoted, and where the s
 
 #### Tech Stack Context
 
-- **Source:** `~/.windsurf/context/tech-stack.md`
+- **Source:** `docs/agent-patterns.md`
 - **Why it matters:** keeps stack preferences outside the main rule file and avoids bloating core instructions
 - **Promote:** yes
 
 #### Context README Pattern
 
-- **Source:** `~/.windsurf/context/README.md`
+- **Source:** `README.md`
 - **Why it matters:** clearly defines what belongs in context versus rules or workflows
 - **Promote:** yes
 
@@ -148,9 +140,9 @@ It records what exists, why it matters, what should be promoted, and where the s
 
 #### Highest-Value Prompt Assets
 
-- **Code Review:** `~/.windsurf/hardprompts/code-review.md`
-- **Security Audit:** `~/.windsurf/hardprompts/security-audit.md`
-- **Refactor Plan:** `~/.windsurf/hardprompts/refactor-plan.md`
+- **Code Review:** `docs/agent-patterns.md`
+- **Security Audit:** `docs/security-scan-spec.md`
+- **Refactor Plan:** `docs/agent-upgrade-roadmap.md`
 
 #### Why they matter
 
@@ -163,12 +155,12 @@ It records what exists, why it matters, what should be promoted, and where the s
 
 ### Editor Alignment Pattern
 
-Use one canonical rule source with editor-specific adapters:
+Use one canonical rule source with editor-specific packaging artifacts:
 
 - `agents-md/src/gotcha.md` as canonical body
-- Claude wrapper for Claude-specific hooks/context notes
-- Codex wrapper for Codex skill routing
-- Windsurf wrapper for workflows/goals/hardprompt integration
+- `dist/rules/claude.md` for Claude packaging
+- `dist/rules/codex.md` for Codex packaging
+- `dist/rules/windsurf.md` for Windsurf packaging
 
 ### Hook Pattern
 
@@ -223,21 +215,15 @@ Use layered safeguards:
 
 ## Source Paths
 
-- `~/.windsurf/rules/gotcha.md`
-- `~/.claude/CLAUDE.md`
-- `~/.codex/AGENTS.md`
-- `~/.codex/skills/coding-rules/SKILL.md`
-- `~/.codex/skills/coding-rules/references/detailed-rules.md`
-- `~/.claude/hooks/dispatcher-hook.sh`
-- `~/.claude/hooks/test-gate-hook.sh`
-- `~/.claude/hooks/cc-hook.sh`
-- `~/.claude/skills/systematic-debugging/SKILL.md`
-- `~/.claude/skills/api-design-patterns/SKILL.md`
-- `~/.claude/skills/security-checklist/SKILL.md`
-- `~/.windsurf/context/README.md`
-- `~/.windsurf/context/tech-stack.md`
-- `~/.windsurf/goals/manifest.md`
-- `~/.windsurf/workflows/build-app.md`
-- `~/.windsurf/hardprompts/code-review.md`
-- `~/.windsurf/hardprompts/security-audit.md`
-- `~/.windsurf/hardprompts/refactor-plan.md`
+- `src/gotcha.md`
+- `dist/rules/windsurf.md`
+- `dist/rules/claude.md`
+- `dist/rules/codex.md`
+- `docs/agent-patterns.md`
+- `docs/hook-reference.md`
+- `docs/hook-portability-spec.md`
+- `docs/goals-manifest.md`
+- `docs/editor-alignment-strategy.md`
+- `docs/security-scan-spec.md`
+- `skills/README.md`
+- `skills/registry.tsv`

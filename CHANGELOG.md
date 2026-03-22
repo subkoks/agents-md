@@ -6,29 +6,18 @@ All notable changes to the GOTCHA framework agent rules.
 
 ### Added
 
-- GitHub project scaffolding: issue templates, PR template, CI quality workflow, release-notes workflow, and `CODEOWNERS`
-- New validation scripts:
-  - `scripts/check-links.sh`
-  - `scripts/check-rule-drift.sh`
-- New architecture documents:
-  - `docs/goals-manifest.md`
-  - `docs/editor-alignment-strategy.md`
-  - `docs/hook-portability-spec.md`
-- Governance docs: `CONTRIBUTING.md`, `SECURITY.md`
-- Crypto/Web3/Solana skill pack:
-  - `skills/` with 12 domain skills (Solana Anchor, client kits, security, EVM contracts, DeFi, meme ops, flow analysis, trading risk, pump.fun automation, terminal workflows, sniper scripts)
-  - Runtime layer: `scripts/sniper-config-template.yaml`, `scripts/pumpfun-bot-checklist.sh`, `scripts/sniper-journal-summary.sh`
-  - Operations runbook: `docs/sniper-runbook.md`
-- Specification docs:
-  - `docs/security-scan-spec.md`
-  - `docs/orchestration-dag-spec.md`
+- `scripts/build-rule-artifacts.sh` for repository-local artifact packaging
+- `scripts/check-local-drift.sh` for canonical-to-artifact drift detection
+- Local skill registry model in `skills/registry.tsv`
 
 ### Changed (Unreleased)
 
-- Hardened `scripts/validate-rules.sh` to validate actual structure and required sections
-- Improved `scripts/sync-to-windsurf.sh` with safer output and `DRY_RUN` support
-- Upgraded `README.md` to document quality gates, alignment targets, and GitHub-ready workflows
-- Refined `src/gotcha.md` with explicit layer boundaries and external alignment guidance
+- Replaced home-directory sync workflow with repository-local governance flow
+- Refactored `scripts/run-governance.sh` to validate/build/check local artifacts
+- Refocused `scripts/validate-comprehensive.sh` on portable repo checks
+- Updated `README.md`, templates, and CI workflows to use local artifact commands
+- Updated `src/gotcha.md` to remove personal machine alignment references
+- Repurposed legacy scripts (`sync-all`, `check-rule-drift`, `sync-to-windsurf`) as compatibility wrappers
 
 ## [1.0.0] - 2026-03-17
 

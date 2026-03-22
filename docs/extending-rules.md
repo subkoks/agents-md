@@ -69,7 +69,7 @@ Keep it concise. One line if possible.
 ### 5. Sync
 
 ```bash
-./scripts/sync-to-windsurf.sh
+./scripts/run-governance.sh
 ```
 
 ## Rule Format

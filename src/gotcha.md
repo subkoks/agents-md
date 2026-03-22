@@ -1,4 +1,4 @@
-# Global Rules — ~/AGENTS.md
+# Global Rules — agents-md Canonical
 
 ## System Boundaries
 
@@ -143,15 +143,10 @@
 
 ## Project Environment
 
-- Shell: Zsh + Oh My Zsh + Powerlevel10k, iTerm2 (default terminal, integrated with Windsurf)
-- Runtime: Node.js v22 LTS via `nvm`
-- Python: 3.13+ via `pyenv global`
-- Package managers: `pnpm` v10 (Homebrew) for Node; `uv` or `pip` inside `.venv` for Python
-- Database: PostgreSQL 16, Redis 8.6 (Homebrew services)
-- BaaS: Supabase (auth, database, storage, edge functions)
-- Local AI: Ollama (deepseek-r1:14b, deepseek-coder:6.7b, llama3.1:8b)
-- Projects root: `~/Projects/{Current/Active,Current/Backlog,Experiments,Learning,Templates,Archives}`
-- Editors: Windsurf, Cursor AI, Claude Code (native CLI), Codex CLI
+- Prefer repository-local tooling and checks over user-machine assumptions.
+- Use shell scripts under `scripts/` as the source of operational truth.
+- Keep generated rule artifacts under `dist/rules/`.
+- Ensure automation stays CI-compatible and deterministic.
 
 ## Tool Usage
 
@@ -165,29 +160,20 @@
 ## External Alignment
 
 - Canonical source in this repo: `src/gotcha.md`.
-- Keep aligned wrappers in:
-  - `~/.windsurf/rules/gotcha.md`
-  - `~/.claude/CLAUDE.md`
-  - `~/.codex/AGENTS.md`
-- Differences across editors should be wrapper-level only (hooks, workflow routing, tool metadata).
-- Avoid copy-paste drift: update canonical first, then sync outward.
+- Generated artifacts in this repo:
+  - `dist/rules/windsurf.md`
+  - `dist/rules/claude.md`
+  - `dist/rules/codex.md`
+- Differences across packaging targets should remain minimal and documented.
+- Avoid copy-paste drift: update canonical first, then regenerate artifacts.
 
 ## User Context
 
-- Machine: MacBook Pro 16-inch 2019, Intel i9, 32GB RAM, macOS Tahoe 26.3
-- Git user: black.terminal / <subkoks@gmail.com>
-- GitHub: <https://github.com/subkoks>
-- Node.js v22.22.0 LTS via nvm; Python 3.13.12 via pyenv
-- PostgreSQL 16 + Redis 8.6 running via Homebrew services
-- Supabase for BaaS (auth, database, storage, edge functions)
-- Design preference: dark minimal professional aesthetic
-- Shell helpers: `newpy <name>` (Python project), `activate` (source .venv)
-- pnpm v10 via Homebrew — use `command pnpm` to avoid shell wrapper recursion
+- Keep repository behavior portable and contributor-safe by default.
+- Do not depend on user-specific home-directory configuration.
+- Prefer repo-local scripts and deterministic CI-compatible checks.
+- Keep secrets and machine-specific settings outside version control.
 
 ## Active Projects
 
-- `~/Projects/Current/Active/` — active work
-- `~/Projects/apple-all-schematic/` — Telegram scraper (Python 3.13, Telethon)
-- `~/Projects/subkoks/` — GitHub profile README
-- `~/Projects/Current/Active/codex-intel-patcher/` — Codex Desktop Intel patch (complete)
-- `~/Projects/Current/Active/stake-dice-graph/` — Stake.com dice graph
+- Keep this section project-focused and avoid personal machine inventory.

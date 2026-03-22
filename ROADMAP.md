@@ -10,7 +10,7 @@ Planned improvements and experiments for the GOTCHA framework.
 
 ### Ideas (v1.1)
 
-- [ ] **Progress logging** — Auto Mode writes progress to `~/.windsurf/data/logs/` every 5 minutes
+- [ ] **Progress logging** — Auto Mode writes progress to `logs/auto-mode/` every 5 minutes
 - [ ] **Checkpoint system** — Save state before risky operations, auto-rollback on failure
 - [ ] **Notification hooks** — Telegram/Discord webhook when Auto Mode completes or hits hard stop
 - [ ] **Time limits** — Auto Mode timeout with summary of what was done
@@ -148,8 +148,8 @@ overrides:
 
 Community-contributed rule modules:
 
-```
-~/.agents/skills/
+```text
+skills/marketplace/
 ├── solana-dev/
 ├── react-native/
 ├── security-audit/

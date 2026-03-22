@@ -1,12 +1,12 @@
 # Hook Reference
 
-Curated reference for the hook patterns found in `~/.claude/hooks`.
+Curated reference for portable hook patterns tracked in this repository.
 
 ## Active High-Value Hooks
 
 ### Dispatcher Hook
 
-- **Source:** `~/.claude/hooks/dispatcher-hook.sh`
+- **Source:** `docs/hook-portability-spec.md`
 - **Role:** single registered entrypoint that dynamically loads enabled hooks
 - **Pattern:** run every executable shell script in `hooks/enabled/` in alphabetical order and stop on first output
 
@@ -18,7 +18,7 @@ Curated reference for the hook patterns found in `~/.claude/hooks`.
 
 ### Test-Gate Hook
 
-- **Source:** `~/.claude/hooks/test-gate-hook.sh`
+- **Source:** `docs/hook-portability-spec.md`
 - **Role:** quality gate before commit and after edits
 
 #### Behavior
@@ -43,9 +43,9 @@ Curated reference for the hook patterns found in `~/.claude/hooks`.
 
 #### Useful Hook Inputs
 
-- `CLAUDE_PROJECT_DIR` — current project directory
-- `CLAUDE_FILE_PATHS` — files being modified
-- `CLAUDE_TOOL_INPUT` — tool parameters in JSON form
+- `project_dir` — current project directory
+- `file_paths` — files being modified
+- `tool_input` — tool parameters in JSON form
 
 #### Structured Response Pattern
 
@@ -55,7 +55,7 @@ Curated reference for the hook patterns found in `~/.claude/hooks`.
 
 ### Checkpoint Hook
 
-- **Source:** `~/.claude/hooks/cc-hook.sh`
+- **Source:** `docs/hook-portability-spec.md`
 - **Role:** save, list, and resume checkpoints
 
 #### Commands

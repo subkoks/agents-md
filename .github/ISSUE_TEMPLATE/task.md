@@ -18,7 +18,7 @@ Describe the task.
 
 - [ ] `./scripts/validate-rules.sh`
 - [ ] `./scripts/check-links.sh`
-- [ ] `./scripts/check-rule-drift.sh`
+- [ ] `./scripts/check-local-drift.sh`
 
 ## Notes
 

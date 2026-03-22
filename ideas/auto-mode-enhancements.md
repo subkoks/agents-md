@@ -12,10 +12,11 @@ Auto Mode triggers on "auto mode" or "I'm going to sleep" and grants full autono
 
 **Problem:** User wakes up and doesn't know what happened overnight.
 
-**Solution:** Write progress to `~/.windsurf/data/logs/YYYY-MM-DD-auto.md` every 5 minutes.
+**Solution:** Write progress to `logs/auto-mode/YYYY-MM-DD-auto.md` every 5 minutes.
 
 ```markdown
 ## [02:15] Task: Refactor API endpoints
+
 - Completed: /src/api/users.ts
 - In progress: /src/api/auth.ts
 - Files modified: 3
@@ -29,8 +30,8 @@ Auto Mode triggers on "auto mode" or "I'm going to sleep" and grants full autono
 
 **Solution:** Before destructive operations, save checkpoint:
 
-```bash
-~/.windsurf/data/checkpoints/
+```text
+logs/checkpoints/
 ├── 2026-03-17_02-15_pre-refactor/
 │   ├── git-status.txt
 │   ├── modified-files.tar.gz
@@ -43,7 +44,7 @@ Auto-rollback on failure, or user can restore manually.
 
 **Problem:** User doesn't know when Auto Mode finishes.
 
-**Solution:** Webhook config in `~/.windsurf/config.yaml`:
+**Solution:** Webhook config in `config/auto-mode.yaml`:
 
 ```yaml
 auto_mode:
@@ -62,15 +63,15 @@ Payload includes summary, files changed, time elapsed.
 
 ```yaml
 auto_mode:
-  max_duration: 8h  # 8 hours max
-  on_timeout: pause  # or stop, or notify
+  max_duration: 8h # 8 hours max
+  on_timeout: pause # or stop, or notify
 ```
 
 ### 5. Task Queue
 
 **Problem:** User has multiple tasks for overnight.
 
-**Solution:** Queue file `~/.windsurf/data/queue.yaml`:
+**Solution:** Queue file `config/queue.yaml`:
 
 ```yaml
 queue:
