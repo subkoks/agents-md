@@ -37,13 +37,21 @@ run_step "skills registry drift" "$SCRIPT_DIR/check-skill-registry-drift.sh"
 
 echo ""
 echo "-- local script syntax"
-find "$SCRIPT_DIR" -maxdepth 1 -name "*.sh" -type f | sort | while IFS= read -r script; do
+syntax_failures=0
+while IFS= read -r script; do
   if bash -n "$script"; then
     echo "OK: $script"
   else
     echo "FAIL: $script"
+    syntax_failures=$((syntax_failures + 1))
   fi
-done
+done < <(find "$SCRIPT_DIR" -maxdepth 1 -name "*.sh" -type f | sort)
+
+if [[ "$syntax_failures" -gt 0 ]]; then
+  echo ""
+  echo "FAIL: local script syntax checks failed ($syntax_failures)"
+  exit 1
+fi
 
 echo ""
 echo "== health-check finished: $(date -u +%FT%TZ)"

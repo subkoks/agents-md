@@ -83,6 +83,25 @@ agents-md/
 ./scripts/build-rule-artifacts.sh --list
 ```
 
+## Daily Operations
+
+```bash
+# Strict repo checks (recommended before commit)
+make check
+
+# Full deterministic governance pipeline
+make governance-run
+
+# Health report with timestamped logs
+make health
+```
+
+## Troubleshooting
+
+- If artifacts drift, run `make governance-run` and re-check with `make drift-check-strict`.
+- If shell scripts fail in CI, run `bash -n scripts/*.sh` locally before committing.
+- If optional tools are missing, run `./scripts/health-check.sh` to see degraded-safe diagnostics.
+
 ## Canonical Governance Contract
 
 - Canonical rule body: `src/gotcha.md` only.

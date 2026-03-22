@@ -11,7 +11,10 @@ if [[ -z "$repo_root" ]]; then
   exit 0
 fi
 
-mapfile -t staged < <(git diff --cached --name-only --diff-filter=ACMR)
+staged=()
+while IFS= read -r rel; do
+  staged+=("$rel")
+done < <(git diff --cached --name-only --diff-filter=ACMR)
 if [[ "${#staged[@]}" -eq 0 ]]; then
   exit 0
 fi

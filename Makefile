@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-.PHONY: governance-run governance-check drift-check build-artifacts artifacts-list sync wrappers-list health skills-drift
+.PHONY: governance-run governance-check check drift-check drift-check-strict build-artifacts artifacts-list sync wrappers-list health skills-drift
 
 governance-run:
 	./scripts/run-governance.sh
@@ -8,8 +8,15 @@ governance-run:
 governance-check:
 	./scripts/validate-comprehensive.sh --strict
 
+check:
+	./scripts/validate-comprehensive.sh --strict
+	./scripts/check-local-drift.sh --strict
+
 drift-check:
 	./scripts/check-local-drift.sh
+
+drift-check-strict:
+	./scripts/check-local-drift.sh --strict
 
 build-artifacts:
 	./scripts/build-rule-artifacts.sh

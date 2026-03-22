@@ -10,7 +10,10 @@ WARN_ONLY="${RULE_GUARD_WARN_ONLY:-0}"
 repo_root="$(git rev-parse --show-toplevel 2>/dev/null || true)"
 [[ -z "$repo_root" ]] && exit 0
 
-mapfile -t staged < <(git diff --cached --name-only --diff-filter=ACMR)
+staged=()
+while IFS= read -r rel; do
+  staged+=("$rel")
+done < <(git diff --cached --name-only --diff-filter=ACMR)
 [[ "${#staged[@]}" -eq 0 ]] && exit 0
 
 canonical_staged=0
