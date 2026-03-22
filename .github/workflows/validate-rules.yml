@@ -1,19 +1,22 @@
 name: Validate Rules
 
 on:
+  workflow_dispatch:
   push:
     branches: [main, develop]
-    paths:
-      - "src/gotcha.md"
-      - "scripts/**"
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
     branches: [main]
-    paths:
-      - "src/gotcha.md"
-      - "scripts/**"
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-rules-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   validate:
