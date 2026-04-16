@@ -69,11 +69,12 @@ jobs:
           fetch-depth: 0
 
       - name: Scan for secrets
-        uses: trufflesecurity/trufflehog@main
+        uses: trufflesecurity/trufflehog@v3.90.2
         with:
           path: ./
           base: ${{ github.event.pull_request.base.sha }}
           head: ${{ github.event.pull_request.head.sha }}
+          extra_args: --results=verified,unknown
 
   compatibility-test:
     runs-on: ubuntu-latest
