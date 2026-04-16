@@ -98,9 +98,11 @@ metrics=$(jq -s '
 if [[ "$OUTPUT_FORMAT" == "json" ]]; then
   echo "$metrics"
 else
-  # Table format
-  jq -r '
-    "=== Sniper Summary for '"$DATE"' ===",
+  # Table format. Pass $DATE via --arg so it cannot break out of the
+  # jq program and inject additional filters/strings when a caller
+  # supplies an unusual DATE argument.
+  printf '%s' "$metrics" | jq -r --arg date "$DATE" '
+    "=== Sniper Summary for \($date) ===",
     "",
     "Trades:",
     "  Total:           \(.totalTrades)",
@@ -128,5 +130,5 @@ else
         (.successfulTrades / .totalTrades * 100 | . * 100 | round / 100)
       else 0 end
     )%"
-  ' "$metrics"
+  '
 fi

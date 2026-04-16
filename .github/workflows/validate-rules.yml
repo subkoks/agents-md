@@ -61,6 +61,8 @@ jobs:
   security-scan:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout repository
@@ -68,8 +70,10 @@ jobs:
         with:
           fetch-depth: 0
 
+      # Pin third-party actions to an immutable version tag to avoid
+      # supply-chain risk from mutable branch references like @main.
       - name: Scan for secrets
-        uses: trufflesecurity/trufflehog@main
+        uses: trufflesecurity/trufflehog@v3.94.2
         with:
           path: ./
           base: ${{ github.event.pull_request.base.sha }}
