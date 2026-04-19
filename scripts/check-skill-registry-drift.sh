@@ -25,7 +25,7 @@ awk -F'\t' 'BEGIN{OFS="\t"} !/^#/ && $2=="active" && NF>=4 {print $4}' "$REGISTR
 while IFS= read -r file; do
   base_name="$(basename "$file" .md)"
   echo "local/$base_name"
-done < <(find "$PROJECT_ROOT/skills" -maxdepth 1 -name "*.md" ! -name "README.md" 2>/dev/null | sort) | sort -u > "$local_skill_ids"
+done < <(find "$PROJECT_ROOT/skills" -maxdepth 1 -name "*.md" ! -name "README.md" 2>/dev/null | LC_ALL=C sort) | LC_ALL=C sort -u > "$local_skill_ids"
 
 echo "🧭 Skill registry drift report"
 echo "Registry: $REGISTRY"

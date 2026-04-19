@@ -1,7 +1,7 @@
 #!/bin/bash
 # Recovery script for rule sync issues and rollback procedures.
 
-set -e
+set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
@@ -107,37 +107,34 @@ diagnose_issues() {
         echo ""
         log_info "Diagnosing $name..."
 
-        # Check directory
-        local target_dir="$(dirname "$target")"
+        local target_dir
+        target_dir="$(dirname "$target")"
         if [[ ! -d "$target_dir" ]]; then
             log_error "Directory missing: $target_dir"
-            ((issues++))
+            issues=$((issues + 1))
         else
             log_success "Directory exists: $target_dir"
         fi
 
-        # Check file
         if [[ -f "$target" ]]; then
             log_success "File exists: $target"
 
-            # Check permissions
             if [[ -r "$target" && -w "$target" ]]; then
                 log_success "File permissions OK"
             else
                 log_error "File permission issues"
-                ((issues++))
+                issues=$((issues + 1))
             fi
 
-            # Check content
             if cmp -s "$SOURCE" "$target"; then
                 log_success "Content matches canonical"
             else
                 log_warning "Content differs from canonical"
-                ((issues++))
+                issues=$((issues + 1))
             fi
         else
             log_error "File missing: $target"
-            ((issues++))
+            issues=$((issues + 1))
         fi
     done
 
@@ -216,7 +213,7 @@ restore_from_backup() {
 force_reset() {
     log_warning "Force resetting all targets to canonical"
 
-    if [[ "$FORCE" != "1" ]]; then
+    if [[ "${FORCE:-0}" != "1" ]]; then
         read -p "This will overwrite all target files. Continue? (y/N): " -n 1 -r
         echo
         if [[ ! $REPLY =~ ^[Yy]$ ]]; then
@@ -251,12 +248,12 @@ cleanup_backups() {
     for target_entry in "${TARGETS[@]}"; do
         IFS=':' read -r name target <<< "$target_entry"
 
-        # Find old backup files
-        find "$(dirname "$target")" -name "$(basename "$target").backup.*" -type f -mtime +$cutoff_days | while read backup; do
+        while IFS= read -r backup; do
+            [[ -z "$backup" ]] && continue
             rm "$backup"
             log_success "Removed old backup: $(basename "$backup")"
-            ((cleaned++))
-        done
+            cleaned=$((cleaned + 1))
+        done < <(find "$(dirname "$target")" -name "$(basename "$target").backup.*" -type f -mtime +"$cutoff_days" 2>/dev/null || true)
     done
 
     if [[ $cleaned -eq 0 ]]; then
