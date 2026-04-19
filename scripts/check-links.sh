@@ -1,7 +1,7 @@
 #!/bin/bash
 # Validate local markdown file links and references.
 
-set -e
+set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
@@ -25,11 +25,11 @@ while IFS= read -r file; do
 
         absolute_target="$PROJECT_ROOT/$clean_target"
         if [[ ! -e "$absolute_target" ]]; then
-            echo "❌ Broken link in ${file#$PROJECT_ROOT/}: $link"
+            echo "❌ Broken link in ${file#"$PROJECT_ROOT"/}: $link"
             ERRORS=$((ERRORS + 1))
         fi
     done < <(grep -oE "\]\(([^)]+)\)" "$file" | sed -E "s/^\]\((.*)\)$/\1/" || true)
-done < <(find "$PROJECT_ROOT" -type f -name "*.md")
+done < <(find "$PROJECT_ROOT" -type f -name "*.md" | LC_ALL=C sort)
 
 if [[ "$ERRORS" -gt 0 ]]; then
     echo "❌ Link check failed with $ERRORS error(s), $WARNINGS warning(s)"

@@ -28,7 +28,7 @@ Separate concerns into layers:
 
 ## The Insight
 
-```
+```text
 Push reliability into deterministic code (tools, scripts, MCP)
 Push flexibility/reasoning into the LLM (you)
 Push process clarity into goals (markdown workflows)
@@ -48,6 +48,7 @@ You make smart decisions. Tools execute perfectly.
 ## The Alternative
 
 Without this structure:
+
 - AI improvises every step → inconsistency
 - No reusable components → repetition
 - Process knowledge lost → relearning each session

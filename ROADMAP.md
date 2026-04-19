@@ -4,11 +4,11 @@ Planned improvements and experiments for the GOTCHA framework.
 
 ---
 
-## v1.1 — Auto Mode Enhancements
+## v2.2 — Auto Mode Enhancements
 
-**Target:** Q2 2026
+**Target:** Q3 2026
 
-### Ideas (v1.1)
+### Ideas (v2.2)
 
 - [ ] **Progress logging** — Auto Mode writes progress to `logs/auto-mode/` every 5 minutes
 - [ ] **Checkpoint system** — Save state before risky operations, auto-rollback on failure
@@ -16,36 +16,36 @@ Planned improvements and experiments for the GOTCHA framework.
 - [ ] **Time limits** — Auto Mode timeout with summary of what was done
 - [ ] **Task queue** — Queue multiple tasks for overnight execution
 
-### Questions (v1.1)
+### Questions (v2.2)
 
 - How to handle long-running tasks that span multiple sessions?
 - What's the right granularity for progress logging?
 
 ---
 
-## v1.2 — Tool Integration Patterns
+## v2.3 — Tool Integration Patterns
 
 **Target:** Q3 2026
 
-### Ideas (v1.2)
+### Ideas (v2.3)
 
 - [ ] **MCP server registry** — Standardized way to register and discover MCP capabilities
 - [ ] **Tool chaining rules** — Best practices for piping output between tools
 - [ ] **Fallback patterns** — What to do when primary tool fails
 - [ ] **Tool versioning** — Handle breaking changes in MCP servers gracefully
 
-### Questions (v1.2)
+### Questions (v2.3)
 
 - Should tools have explicit capability declarations?
 - How to handle tool conflicts (multiple servers offering same feature)?
 
 ---
 
-## v1.3 — Debugging Workflows
+## v2.4 — Debugging Workflows
 
-**Target:** Q3 2026
+**Target:** Q4 2026
 
-### Ideas (v1.3)
+### Ideas (v2.4)
 
 - [ ] **Hypothesis tracking** — Structured format for debugging hypotheses and results
 - [ ] **Auto-isolation** — Automatically create minimal reproduction when bug found
@@ -54,11 +54,11 @@ Planned improvements and experiments for the GOTCHA framework.
 
 ---
 
-## v1.4 — Harness Reliability Controls
+## v2.5 — Harness Reliability Controls
 
-**Target:** Q3 2026
+**Target:** Q4 2026
 
-### Ideas (v1.4)
+### Ideas (v2.5)
 
 - [ ] **Hook runtime profiles** — Add `minimal|standard|strict` profiles to enable/disable expensive hooks without editing files
 - [ ] **Hook disable list** — Add env-driven selective hook disable (`DISABLED_HOOKS=...`) for temporary suppression with traceability
@@ -66,18 +66,18 @@ Planned improvements and experiments for the GOTCHA framework.
 - [ ] **Stop-phase telemetry** — Persist session summary, extracted patterns, and cost metrics at end-of-turn/session
 - [ ] **Quality-gate command** — Add explicit command/workflow that runs all local checks in one deterministic sequence
 
-### Questions (v1.4)
+### Questions (v2.5)
 
 - Which hooks should be strict-only vs always-on?
 - What is acceptable overhead budget per hook phase?
 
 ---
 
-## v1.5 — Security and Risk Scanning
+## v2.6 — Security and Risk Scanning
 
-**Target:** Q4 2026
+**Target:** Q1 2027
 
-### Ideas (v1.5)
+### Ideas (v2.6)
 
 - [ ] **Agent config scanner** — Audit rules/hooks/MCP/tool permissions for dangerous defaults
 - [ ] **Severity model** — Grade findings with `critical/high/medium/low/info` and an overall score
@@ -85,18 +85,18 @@ Planned improvements and experiments for the GOTCHA framework.
 - [ ] **CI security gate** — Optional GitHub workflow that fails PRs above a configurable severity threshold
 - [ ] **Threat report export** — JSON + markdown output for CI and documentation pipelines
 
-### Questions (v1.5)
+### Questions (v2.6)
 
 - Which finding classes should be block-on-merge?
 - Should security scan run on each PR or only nightly?
 
 ---
 
-## v2.0 — Multi-Agent Orchestration
+## v3.0 — Multi-Agent Orchestration
 
-**Target:** Q4 2026
+**Target:** Q2 2027
 
-### Ideas (v2.0)
+### Ideas (v3.0)
 
 - [ ] **Agent roles** — Specialized agents (frontend, backend, security, testing)
 - [ ] **Handoff protocols** — How agents pass work to each other
@@ -107,7 +107,7 @@ Planned improvements and experiments for the GOTCHA framework.
 - [ ] **Final quality gate** — Senior-agent pass over combined outputs before completion
 - [ ] **Session replay** — Record orchestration timeline and replay for debugging/postmortems
 
-### Questions (v2.0)
+### Questions (v3.0)
 
 - How to maintain context across agent handoffs?
 - What's the right level of specialization?

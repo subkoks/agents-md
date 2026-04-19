@@ -141,12 +141,11 @@ All scripts degrade safely when optional dependencies are missing.
 
 - Create branch and commit logically grouped changes (pre-commit hooks run automatically).
 - Open PR using `.github/pull_request_template.md`.
-- CI automatically validates:
-  - Rule structure and integrity
-  - Local artifact compatibility
-  - Version drift detection
-  - Security scanning
-  - Artifact generation testing
+- CI (`.github/workflows/ci.yml`) runs four jobs in sequence:
+  - `lint` — `shellcheck`, `actionlint`, `markdownlint-cli2`
+  - `validate` — rule structure, comprehensive validation, link and drift checks
+  - `build` — rebuild local artifacts and verify strict drift
+  - `security-scan` — `trufflehog` on PR diffs for verified/unknown secrets
 - Ensure all CI checks pass.
 - Merge and update `CHANGELOG.md`.
 

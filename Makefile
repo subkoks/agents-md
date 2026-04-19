@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-.PHONY: governance-run governance-check check drift-check drift-check-strict build-artifacts artifacts-list sync wrappers-list health skills-drift
+.PHONY: governance-run governance-check check drift-check drift-check-strict build-artifacts artifacts-list sync health skills-drift
 
 governance-run:
 	./scripts/run-governance.sh
@@ -26,10 +26,6 @@ artifacts-list:
 
 sync:
 	./scripts/build-rule-artifacts.sh
-
-wrappers-list:
-	@echo "[WARN] wrappers-list is deprecated; use artifacts-list"
-	./scripts/build-rule-artifacts.sh --list
 
 health:
 	./scripts/health-check.sh

@@ -135,7 +135,7 @@ EOF
 chmod +x "$RESTORE_SCRIPT"
 
 while IFS=$'\t' read -r kind reason src; do
-  rel="${src#$PROJECT_ROOT/}"
+  rel="${src#"$PROJECT_ROOT"/}"
   dst="$QROOT/$rel"
   mkdir -p "$(dirname "$dst")"
   if [[ -e "$src" || -L "$src" ]]; then

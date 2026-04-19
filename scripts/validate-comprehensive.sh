@@ -37,12 +37,12 @@ log_success() {
 
 log_warning() {
     echo -e "${YELLOW}⚠️  $1${NC}"
-    ((WARNINGS++))
+    WARNINGS=$((WARNINGS + 1))
 }
 
 log_error() {
     echo -e "${RED}❌ $1${NC}"
-    ((ERRORS++))
+    ERRORS=$((ERRORS + 1))
 }
 
 log_verbose() {
@@ -177,7 +177,7 @@ validate_cross_editor_compatibility() {
 
     for target_entry in "${TARGETS[@]}"; do
         IFS=':' read -r name target <<< "$target_entry"
-        ((sync_count++))
+        sync_count=$((sync_count + 1))
 
         log_verbose "Processing target: $name -> $target"
         log_verbose "Target directory: $(dirname "$target")"
@@ -192,7 +192,7 @@ validate_cross_editor_compatibility() {
         # Check if files are identical
         if cmp -s "$SOURCE" "$target"; then
             log_success "In sync: $name"
-            ((compatible_count++))
+            compatible_count=$((compatible_count + 1))
         else
             log_warning "Out of sync: $name"
 
@@ -253,6 +253,7 @@ validate_home_path_coupling() {
     for file in "${files[@]}"; do
         [[ -f "$file" ]] || continue
 
+        # shellcheck disable=SC2016  # Intentional literal $HOME match in regex.
         if grep -qE '~\/(\.windsurf|\.claude|\.codex)|\$HOME\/(\.windsurf|\.claude|\.codex)' "$file"; then
             log_error "Home-directory coupling found: $file"
             coupled=$((coupled + 1))
@@ -267,20 +268,25 @@ validate_home_path_coupling() {
 validate_content_integrity() {
     log_info "Checking content integrity"
 
-    # Check for encoding issues
-    if file "$SOURCE" | grep -q "ASCII"; then
-        log_verbose "Source file encoding: ASCII"
-    elif file "$SOURCE" | grep -q "UTF-8"; then
-        log_verbose "Source file encoding: UTF-8"
-    else
-        log_warning "Unexpected file encoding"
-    fi
+    if command -v file >/dev/null 2>&1; then
+        local file_info
+        file_info="$(file "$SOURCE" 2>/dev/null || true)"
 
-    # Check for line ending consistency
-    if file "$SOURCE" | grep -q "CRLF"; then
-        log_warning "Windows line endings detected (should be LF)"
+        if printf '%s' "$file_info" | grep -q "ASCII"; then
+            log_verbose "Source file encoding: ASCII"
+        elif printf '%s' "$file_info" | grep -q "UTF-8"; then
+            log_verbose "Source file encoding: UTF-8"
+        else
+            log_warning "Unexpected file encoding"
+        fi
+
+        if printf '%s' "$file_info" | grep -q "CRLF"; then
+            log_warning "Windows line endings detected (should be LF)"
+        else
+            log_verbose "Line endings: Unix LF"
+        fi
     else
-        log_verbose "Line endings: Unix LF"
+        log_verbose "Skipping encoding/line-ending checks: 'file' command not available"
     fi
 
     # Check for trailing whitespace
@@ -317,7 +323,7 @@ detect_version_drift() {
             if [[ "$source_hash" != "$target_hash" ]]; then
                 log_warning "Version drift detected: $name"
                 log_verbose "  Target hash: $target_hash"
-                ((drift_count++))
+                drift_count=$((drift_count + 1))
             else
                 log_verbose "No drift: $name"
             fi
@@ -337,11 +343,11 @@ validate_sync_scripts() {
     local scripts=(
         "build-rule-artifacts.sh"
         "check-local-drift.sh"
-        "sync-all.sh"
-        "check-rule-drift.sh"
         "validate-rules.sh"
         "check-links.sh"
         "run-governance.sh"
+        "check-skill-registry-drift.sh"
+        "health-check.sh"
     )
 
     for script in "${scripts[@]}"; do
@@ -398,40 +404,32 @@ main() {
     log_verbose "Current working directory: $(pwd)"
     log_verbose "Available targets: ${#TARGETS[@]}"
 
-    # Validate each function with error handling
     if ! validate_canonical; then
         log_error "Canonical validation failed"
-        ((ERRORS++))
     fi
 
     if ! validate_cross_editor_compatibility; then
         log_error "Cross-editor compatibility check failed"
-        ((ERRORS++))
     fi
 
     if ! validate_target_accessibility; then
         log_error "Target accessibility check failed"
-        ((ERRORS++))
     fi
 
     if ! validate_content_integrity; then
         log_error "Content integrity check failed"
-        ((ERRORS++))
     fi
 
     if ! detect_version_drift; then
         log_error "Version drift detection failed"
-        ((ERRORS++))
     fi
 
     if ! validate_sync_scripts; then
         log_error "Governance scripts validation failed"
-        ((ERRORS++))
     fi
 
     if ! validate_home_path_coupling; then
         log_error "Home-path coupling check failed"
-        ((ERRORS++))
     fi
 
     # Summary

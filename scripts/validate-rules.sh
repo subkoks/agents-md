@@ -1,7 +1,7 @@
 #!/bin/bash
 # Validate canonical rules for structural quality and drift risks.
 
-set -e
+set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"

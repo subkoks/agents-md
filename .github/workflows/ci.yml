@@ -1,0 +1,114 @@
+name: ci
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: lint
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: ShellCheck
+        uses: ludeeus/action-shellcheck@00cae500b08a931fb5698e11e79bfbd38e612a38 # 2.0.0
+        env:
+          SHELLCHECK_OPTS: -e SC1091 -e SC2155
+
+      - name: actionlint
+        uses: rhysd/actionlint@914e7df21a07ef503a81201c76d2b11c789d3fca # v1.7.12
+
+      - name: markdownlint
+        uses: DavidAnson/markdownlint-cli2-action@ce4853d43830c74c1753b39f3cf40f71c2031eb9 # v23.0.0
+        with:
+          globs: "**/*.md"
+
+  validate:
+    name: validate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Make scripts executable
+        run: chmod +x scripts/*.sh
+
+      - name: Validate rules structure
+        run: ./scripts/validate-rules.sh
+
+      - name: Comprehensive validation
+        run: ./scripts/validate-comprehensive.sh --strict
+
+      - name: Check markdown links
+        run: ./scripts/check-links.sh
+
+      - name: Check rule drift (pre-build)
+        run: ./scripts/check-local-drift.sh
+
+      - name: Check skill registry drift
+        run: ./scripts/check-skill-registry-drift.sh
+
+  build:
+    name: build
+    needs: validate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Make scripts executable
+        run: chmod +x scripts/*.sh
+
+      - name: Build artifacts (dry run)
+        run: ./scripts/build-rule-artifacts.sh --dry-run --verbose
+
+      - name: Build artifacts
+        run: ./scripts/build-rule-artifacts.sh --force --verbose
+
+      - name: Strict drift check
+        run: ./scripts/check-local-drift.sh --strict
+
+      - name: Verify all artifacts exist
+        run: |
+          test -f dist/rules/windsurf.md
+          test -f dist/rules/claude.md
+          test -f dist/rules/codex.md
+
+  security-scan:
+    name: security-scan
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: Scan for secrets
+        uses: trufflesecurity/trufflehog@6bd2d14f7a4bc1e569fa3550efa7ec632a4fa67b # v3.94.2
+        with:
+          path: ./
+          base: ${{ github.event.pull_request.base.sha }}
+          head: ${{ github.event.pull_request.head.sha }}
+          extra_args: --results=verified,unknown

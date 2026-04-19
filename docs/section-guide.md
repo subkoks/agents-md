@@ -19,6 +19,7 @@ How to use each section of gotcha.md effectively.
 **When to reference:** Every interaction.
 
 **Key rules:**
+
 - Be direct, no preamble
 - Solve exactly what's asked
 - Read before modifying
@@ -32,6 +33,7 @@ How to use each section of gotcha.md effectively.
 **When to reference:** Before running commands, especially destructive ones.
 
 **Key distinction:**
+
 - Normal mode: Ask before destructive actions
 - Auto mode: Full autonomy (triggered by "auto mode" or "I'm going to sleep")
 
@@ -44,6 +46,7 @@ How to use each section of gotcha.md effectively.
 **When to reference:** Starting any task.
 
 **Key rules:**
+
 1. Check workflows first
 2. Check tools first
 3. Fix and document failures
@@ -68,6 +71,7 @@ How to use each section of gotcha.md effectively.
 **When to reference:** Writing or modifying code.
 
 **Sections:**
+
 - General (naming, constants, early returns)
 - TypeScript/JavaScript (strict mode, ESM, Array<T>)
 - Python (3.13+, type hints, pathlib)
@@ -82,6 +86,7 @@ How to use each section of gotcha.md effectively.
 **When to reference:** Writing error handling code, debugging.
 
 **Key rules:**
+
 - Handle at boundaries
 - Use specific error types
 - Log with context
@@ -95,6 +100,7 @@ How to use each section of gotcha.md effectively.
 **When to reference:** Committing, branching, pushing.
 
 **Key rules:**
+
 - main/master protected
 - Feature branches only
 - One logical change per commit
@@ -108,6 +114,7 @@ How to use each section of gotcha.md effectively.
 **When to reference:** Handling user input, secrets, database queries.
 
 **Key rules:**
+
 - Secrets in env vars only
 - Validate all input
 - Parameterized queries
@@ -121,6 +128,7 @@ How to use each section of gotcha.md effectively.
 **When to reference:** Writing tests, modifying shared logic.
 
 **Key rules:**
+
 - Test when asked or modifying critical code
 - Colocate tests with source
 - Focus on edge cases
@@ -134,6 +142,7 @@ How to use each section of gotcha.md effectively.
 **When to reference:** Performance issues, large data, slow queries.
 
 **Key rules:**
+
 - Profile first
 - Index frequently queried columns
 - Target p95 < 200ms
@@ -147,6 +156,7 @@ How to use each section of gotcha.md effectively.
 **When to reference:** Any bug investigation.
 
 **Key steps:**
+
 1. State symptom precisely
 2. Read full error/trace
 3. One hypothesis at a time
@@ -162,6 +172,7 @@ How to use each section of gotcha.md effectively.
 **When to reference:** Running commands, editing files.
 
 **Key rules:**
+
 - Read before editing
 - Prefer targeted edits
 - Check project AGENTS.md for project-specific rules
@@ -175,7 +186,8 @@ How to use each section of gotcha.md effectively.
 **When to reference:** Creating new projects.
 
 **Structure:**
-```
+
+```text
 project/
 ├── README.md
 ├── .env.example
@@ -197,6 +209,7 @@ project/
 **When to reference:** Running system commands, understanding constraints.
 
 **Key details:**
+
 - MacBook Pro 2019, Intel i9, 32GB RAM
 - iTerm2 + Zsh + Oh My Zsh
 - Node.js v22, Python 3.13+
