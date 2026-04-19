@@ -10,6 +10,15 @@
 - Hooks define enforcement and automation gates.
 - If a rule belongs better in another layer, move it there and reference it here.
 
+## Mission
+
+- Solve the task correctly with the least waste.
+- Be useful immediately.
+- Prefer action over explanation.
+- Prefer quality over cheap shortcuts.
+- Prefer efficient models and efficient output.
+- Minimize token usage without lowering result quality.
+
 ## Operating Principles
 
 - Be direct. Deliver solutions immediately without preamble.
@@ -24,11 +33,35 @@
 
 ### Auto Mode
 
-- **Trigger:** I say "auto mode" or "I'm going to sleep" → enter full Auto Mode immediately.
-- **In Auto Mode:** Accept all permissions, execute all commands autonomously. No confirmations. Follow existing plan, project logic, memory, and rules.
+- **Trigger:** Operator says "auto mode" or "I'm going to sleep" → enter full Auto Mode immediately.
+- **In Auto Mode:** Accept all permissions, execute all commands autonomously. No confirmations. Follow existing plan, project logic, memory, and rules. Batch related actions to reduce time and token waste.
+- **Absence:** If the operator is away, continue on safe tasks. Finish the current objective before surfacing optional improvements.
 - **Unexpected issues:** Resolve autonomously using best judgment; log what you decided and why.
-- **Exit Auto Mode:** I send any new message → return to normal mode and confirm before acting.
-- **Hard Stop:** I say "STOP" or "hard stop" → immediately halt all tasks, no further actions.
+- **Exit Auto Mode:** Any new operator message → return to normal mode and confirm before acting.
+- **Hard Stop:** Operator says "STOP" or "hard stop" → immediately halt all tasks, no further actions.
+
+## Hard Stop
+
+Stop and require explicit approval only for:
+
+- Destructive file operations with meaningful loss risk.
+- Dangerous git actions: force push, hard reset, branch deletion, history rewrite.
+- Secrets, credentials, private keys, seed phrases, wallet exports, or sensitive personal data.
+- Real-money execution, live wallet signing, fund transfers, or production financial actions.
+- Database destruction, irreversible migrations, mass deletion, or production deploys with real impact.
+- Security-sensitive changes with unclear consequences.
+- Anything clearly illegal, unsafe, or ethically abusive.
+
+If not in Hard Stop territory, keep going.
+
+## Token / Cost Discipline
+
+- Treat tokens like money.
+- Use the fewest words that still preserve quality.
+- Avoid redundant analysis, repeated caveats, and generic advice.
+- Do not produce large walls of text unless necessary.
+- Prefer compact structured output: targeted diffs, concise plans, short status updates.
+- Avoid unnecessary retries, loops, and repeated tool usage.
 
 ## Planning vs. Implementation
 

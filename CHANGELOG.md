@@ -4,20 +4,53 @@ All notable changes to the GOTCHA framework agent rules.
 
 ## [Unreleased]
 
+## [2.1.0] - 2026-04-19
+
 ### Added
+
+- Three behavior-focused sections in `src/gotcha.md`: `Mission`, `Hard Stop`, and `Token / Cost Discipline`
+- Consolidated `.github/workflows/ci.yml` with `lint`, `validate`, `build`, and `security-scan` jobs
+- Pinned lint gates in CI: `shellcheck`, `actionlint`, `markdownlint-cli2`
+- `.github/dependabot.yml` for weekly GitHub Actions updates
+- Repo-level `.markdownlint-cli2.jsonc` configuration
+- Pinned pre-commit hooks for trailing whitespace, YAML, merge conflicts, shellcheck, markdownlint, actionlint
+- MIT `LICENSE`
+
+### Changed
+
+- Pinned every third-party GitHub Action (`actions/checkout`, `trufflesecurity/trufflehog`, `ludeeus/action-shellcheck`, `rhysd/actionlint`, `DavidAnson/markdownlint-cli2-action`) to an immutable commit SHA
+- Added explicit per-job `permissions: contents: read` across all workflows (with `release-notes` keeping its own `contents: write` scope)
+- Replaced bare `set -e` with `set -euo pipefail` in `validate-rules.sh`, `check-links.sh`, `recover-sync.sh`
+- Hardened `scripts/sniper-journal-summary.sh` jq invocation with `--arg date`
+
+### Fixed
+
+- 17 `((VAR++))` Bash bugs that exited the script under `set -e` when the counter started at 0
+- Redundant `((ERRORS++))` double-counting in `validate-comprehensive.sh`
+- `file` command invocation when the binary is unavailable in minimal CI containers
+- Deterministic ordering in `check-links.sh` and `check-skill-registry-drift.sh` via `LC_ALL=C sort`
+
+### Removed
+
+- Deprecated stub scripts `sync-all.sh`, `sync-to-windsurf.sh`, `check-rule-drift.sh`, `install-global-rule-hook.sh`
+- Redundant `.github/workflows/quality.yml` and `.github/workflows/validate-rules.yml` (merged into `ci.yml`)
+- `wrappers-list` Makefile target
+
+## [2.0.0] - 2026-03-22
+
+### Added (2.0.0)
 
 - `scripts/build-rule-artifacts.sh` for repository-local artifact packaging
 - `scripts/check-local-drift.sh` for canonical-to-artifact drift detection
 - Local skill registry model in `skills/registry.tsv`
 
-### Changed (Unreleased)
+### Changed (2.0.0)
 
 - Replaced home-directory sync workflow with repository-local governance flow
 - Refactored `scripts/run-governance.sh` to validate/build/check local artifacts
 - Refocused `scripts/validate-comprehensive.sh` on portable repo checks
 - Updated `README.md`, templates, and CI workflows to use local artifact commands
 - Updated `src/gotcha.md` to remove personal machine alignment references
-- Repurposed legacy scripts (`sync-all`, `check-rule-drift`, `sync-to-windsurf`) as compatibility wrappers
 
 ## [1.0.0] - 2026-03-17
 
