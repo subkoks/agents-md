@@ -47,7 +47,8 @@ Brief description of what this skill provides.
 ```
 
 Expected output:
-```
+
+```text
 # Expected output
 ```
 
@@ -59,9 +60,9 @@ Expected output:
 
 ## Configuration
 
-| Setting | Default | Description |
-|---------|---------|-------------|
-| `setting_name` | `default_value` | What it does |
+| Setting        | Default         | Description   |
+| -------------- | --------------- | ------------- |
+| `setting_name` | `default_value` | What it does  |
 
 ## Troubleshooting
 

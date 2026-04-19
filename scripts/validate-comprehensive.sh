@@ -253,6 +253,7 @@ validate_home_path_coupling() {
     for file in "${files[@]}"; do
         [[ -f "$file" ]] || continue
 
+        # shellcheck disable=SC2016  # Intentional literal $HOME match in regex.
         if grep -qE '~\/(\.windsurf|\.claude|\.codex)|\$HOME\/(\.windsurf|\.claude|\.codex)' "$file"; then
             log_error "Home-directory coupling found: $file"
             coupled=$((coupled + 1))

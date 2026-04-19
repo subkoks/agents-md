@@ -18,11 +18,12 @@ Best practices for chaining MCP servers and deterministic tools.
 
 Output of tool A becomes input of tool B.
 
-```
+```text
 GitHub MCP (get PR files) → Supabase MCP (check schema impact) → GitKraken MCP (commit)
 ```
 
 **Rules:**
+
 - Verify output format before chaining
 - Handle empty/null outputs gracefully
 - Log intermediate results for debugging
@@ -31,11 +32,12 @@ GitHub MCP (get PR files) → Supabase MCP (check schema impact) → GitKraken M
 
 Independent tools run concurrently.
 
-```
+```text
 Playwright MCP (run E2E tests) || Supabase MCP (run migrations)
 ```
 
 **Rules:**
+
 - Only for truly independent operations
 - Aggregate results before proceeding
 - Set timeout per tool
@@ -44,11 +46,12 @@ Playwright MCP (run E2E tests) || Supabase MCP (run migrations)
 
 Try primary tool, fall back to secondary.
 
-```
+```text
 Nansen MCP (wallet analysis) → [fallback] → Solana MCP (basic lookup)
 ```
 
 **Rules:**
+
 - Define fallback explicitly
 - Fallback should be simpler/faster
 - Log which tool was used
@@ -57,7 +60,7 @@ Nansen MCP (wallet analysis) → [fallback] → Solana MCP (basic lookup)
 
 Different tools based on condition.
 
-```
+```text
 if file_count > 10:
   GitHub MCP (batch commit)
 else:
@@ -65,6 +68,7 @@ else:
 ```
 
 **Rules:**
+
 - Condition must be deterministic
 - Both branches should achieve same goal
 - Log branch decision
