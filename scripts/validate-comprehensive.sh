@@ -342,11 +342,11 @@ validate_sync_scripts() {
     local scripts=(
         "build-rule-artifacts.sh"
         "check-local-drift.sh"
-        "sync-all.sh"
-        "check-rule-drift.sh"
         "validate-rules.sh"
         "check-links.sh"
         "run-governance.sh"
+        "check-skill-registry-drift.sh"
+        "health-check.sh"
     )
 
     for script in "${scripts[@]}"; do
