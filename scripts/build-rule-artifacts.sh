@@ -6,16 +6,21 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 SOURCE="$PROJECT_ROOT/src/gotcha.md"
+LEAN_SOURCE="$PROJECT_ROOT/src/gotcha-lean.md"
 DIST_DIR="$PROJECT_ROOT/dist/rules"
 
 DRY_RUN=0
 VERBOSE=0
 FORCE=0
 
+CURSOR_FRONTMATTER=$'---\ndescription: Canonical personal rules (full). Apply manually with @gotcha-full.\nalwaysApply: false\n---\n\n'
+
 TARGETS=(
-  "windsurf:$DIST_DIR/windsurf.md"
-  "claude:$DIST_DIR/claude.md"
-  "codex:$DIST_DIR/codex.md"
+  "windsurf:$DIST_DIR/windsurf.md:raw"
+  "claude:$DIST_DIR/claude.md:raw"
+  "codex:$DIST_DIR/codex.md:raw"
+  "cursor:$DIST_DIR/cursor.md:cursor-full"
+  "cursor-lean:$DIST_DIR/cursor.lean.md:cursor-lean"
 )
 
 log_info() {
@@ -53,6 +58,8 @@ Targets:
   windsurf        Build dist/rules/windsurf.md
   claude          Build dist/rules/claude.md
   codex           Build dist/rules/codex.md
+  cursor          Build dist/rules/cursor.md (full with Cursor frontmatter)
+  cursor-lean     Build dist/rules/cursor.lean.md (lean always-apply)
   all             Build all targets (default)
 EOF
 }
@@ -64,41 +71,79 @@ validate_source() {
   fi
 }
 
+render_target() {
+  local mode="$1"
+  local out="$2"
+
+  case "$mode" in
+    raw)
+      cat "$SOURCE" > "$out"
+      ;;
+    cursor-full)
+      { printf '%s' "$CURSOR_FRONTMATTER"; cat "$SOURCE"; } > "$out"
+      ;;
+    cursor-lean)
+      if [[ ! -f "$LEAN_SOURCE" ]]; then
+        printf '%s\n' "[ERR ] Missing lean source: $LEAN_SOURCE" >&2
+        return 1
+      fi
+      cat "$LEAN_SOURCE" > "$out"
+      ;;
+    *)
+      printf '%s\n' "[ERR ] Unknown mode: $mode" >&2
+      return 1
+      ;;
+  esac
+}
+
 list_targets() {
   validate_source
 
   for target_entry in "${TARGETS[@]}"; do
-    IFS=':' read -r name target <<< "$target_entry"
+    IFS=':' read -r name target mode <<< "$target_entry"
 
     if [[ ! -f "$target" ]]; then
       printf '%s\n' "- $name: missing ($target)"
       continue
     fi
 
-    if cmp -s "$SOURCE" "$target"; then
+    local tmp
+    tmp="$(mktemp)"
+    if render_target "$mode" "$tmp" && cmp -s "$tmp" "$target"; then
       printf '%s\n' "- $name: in-sync ($target)"
     else
       printf '%s\n' "- $name: drift ($target)"
     fi
+    rm -f "$tmp"
   done
 }
 
 build_target() {
   local name="$1"
   local target="$2"
+  local mode="$3"
 
-  if [[ "$FORCE" -ne 1 && -f "$target" ]] && cmp -s "$SOURCE" "$target"; then
+  local tmp
+  tmp="$(mktemp)"
+  if ! render_target "$mode" "$tmp"; then
+    rm -f "$tmp"
+    return 1
+  fi
+
+  if [[ "$FORCE" -ne 1 && -f "$target" ]] && cmp -s "$tmp" "$target"; then
+    rm -f "$tmp"
     log_ok "Already in sync: $name"
     return 0
   fi
 
   if [[ "$DRY_RUN" -eq 1 ]]; then
+    rm -f "$tmp"
     log_info "DRY RUN: would write $target"
     return 0
   fi
 
   mkdir -p "$(dirname "$target")"
-  cp "$SOURCE" "$target"
+  mv "$tmp" "$target"
   log_ok "Built artifact: $name -> $target"
 }
 
@@ -127,7 +172,7 @@ main() {
         list_targets
         exit 0
         ;;
-      windsurf|claude|codex|all)
+      windsurf|claude|codex|cursor|cursor-lean|all)
         requested_targets+=("$1")
         shift
         ;;
@@ -152,17 +197,17 @@ main() {
   for requested in "${requested_targets[@]}"; do
     if [[ "$requested" == "all" ]]; then
       for target_entry in "${TARGETS[@]}"; do
-        IFS=':' read -r name target <<< "$target_entry"
-        build_target "$name" "$target"
+        IFS=':' read -r name target mode <<< "$target_entry"
+        build_target "$name" "$target" "$mode"
         built_count=$((built_count + 1))
       done
       continue
     fi
 
     for target_entry in "${TARGETS[@]}"; do
-      IFS=':' read -r name target <<< "$target_entry"
+      IFS=':' read -r name target mode <<< "$target_entry"
       if [[ "$requested" == "$name" ]]; then
-        build_target "$name" "$target"
+        build_target "$name" "$target" "$mode"
         built_count=$((built_count + 1))
       fi
     done

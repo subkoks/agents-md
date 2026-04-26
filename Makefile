@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-.PHONY: governance-run governance-check check drift-check drift-check-strict build-artifacts artifacts-list sync health skills-drift
+.PHONY: governance-run governance-check check drift-check drift-check-strict build-artifacts artifacts-list sync sync-cursor health skills-drift
 
 governance-run:
 	./scripts/run-governance.sh
@@ -26,6 +26,13 @@ artifacts-list:
 
 sync:
 	./scripts/build-rule-artifacts.sh
+
+sync-cursor:
+	./scripts/build-rule-artifacts.sh cursor cursor-lean
+	@mkdir -p $(HOME)/.cursor/rules
+	@cp dist/rules/cursor.md $(HOME)/.cursor/rules/gotcha-full.mdc
+	@cp dist/rules/cursor.lean.md $(HOME)/.cursor/rules/gotcha.mdc
+	@echo "[ OK ] Deployed: ~/.cursor/rules/gotcha.mdc + gotcha-full.mdc"
 
 health:
 	./scripts/health-check.sh

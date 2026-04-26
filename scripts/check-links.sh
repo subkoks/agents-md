@@ -12,6 +12,7 @@ WARNINGS=0
 echo "🔗 Checking markdown links in $PROJECT_ROOT"
 
 while IFS= read -r file; do
+    file_dir="$(dirname "$file")"
     while IFS= read -r link; do
         target="${link#./}"
         if [[ "$target" == /* || "$target" == http* || "$target" == mailto:* || "$target" == \#* ]]; then
@@ -23,7 +24,7 @@ while IFS= read -r file; do
             continue
         fi
 
-        absolute_target="$PROJECT_ROOT/$clean_target"
+        absolute_target="$file_dir/$clean_target"
         if [[ ! -e "$absolute_target" ]]; then
             echo "❌ Broken link in ${file#"$PROJECT_ROOT"/}: $link"
             ERRORS=$((ERRORS + 1))
