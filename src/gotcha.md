@@ -190,6 +190,61 @@ If not in Hard Stop territory, keep going.
 - Check project AGENTS.md or README in working directory for project-specific rules.
 - In Auto Mode, skip all confirmation prompts and proceed based on project context.
 
+## Crypto / Solana / Web3
+
+- Solana is the default chain for crypto-related work unless another chain is explicitly requested.
+- Treat Solana development and Solana trading as equal priorities.
+- Prefer Solana-native tools, patterns, and implementation details over generic blockchain advice.
+- Use `@solana/kit` for new client/RPC/tx code. Isolate legacy `@solana/web3.js` behind `@solana/web3-compat` when required.
+- Wallet-standard-first connection flows.
+- Codama for IDL-driven client generation; don't hand-write account decoders.
+- Anchor v0.30+ workspaces. Pinocchio for perf-critical programs.
+- Test rigs: LiteSVM (in-process), Mollusk (Rust), Surfpool (mainnet fork).
+- Priority fees via `getRecentPrioritizationFees`; never hardcode.
+- Simulate before send for user-facing transactions.
+
+## Wallet / Transaction Safety
+
+- Use `LAMPORTS_PER_SOL` constant; never hardcode `1000000000`.
+- Priority fees via `ComputeBudgetProgram.setComputeUnitPrice()`.
+- Verify tx via `getSignatureStatus` / `confirmTransaction`. Signature ≠ success.
+- Never test against mainnet with real funds.
+- Never expose, print, or commit private keys, seed phrases, or wallet exports.
+- Never prompt users for seed phrase or private key.
+
+## pump.fun
+
+- SDKs: `@pump-fun/pump-sdk`, `@pump-fun/pump-swap-sdk`.
+- Data: PumpDev.io WS, PumpPortal, pump-segments-sdk.
+- Atomic launch+buy via Jito bundle. Tip 0.001–0.003 SOL.
+- Slippage 10–20% new, 1–5% established.
+- Graduation to Raydium at ~69 SOL. Watch `bondingCurveProgress`.
+- WS reconnect: exponential backoff (1s → 30s).
+- Never live trade without explicit user gate. Position caps enforced.
+
+## Phantom SDK
+
+- Always `signAndSendTransaction`. Never `signTransaction` (not supported on embedded wallets).
+- React: wrap in `PhantomProvider` with valid `{ appId, providers, addressTypes }`.
+- Vanilla: single `BrowserSDK` singleton.
+- Wrap `connect/signAndSendTransaction/signMessage` in try/catch.
+- Check `isConnected` before signing.
+- Import `AddressType` from `@phantom/browser-sdk` only.
+- Register real `appId` at Phantom Portal for social login + embedded wallets.
+- Embedded wallets: $1k/day limit, 7-day session.
+- React Native: `react-native-get-random-values` must be the first import.
+
+## Electron
+
+- Default: Electron Forge + React + TS + Tailwind. Packaging via `electron-builder`.
+- Main process (Node) = file I/O / native / IPC. Renderer = UI only.
+- `BrowserWindow` always: `contextIsolation: true`, `nodeIntegration: false`.
+- Expose APIs via `contextBridge.exposeInMainWorld()` in preload.
+- `ipcMain.handle` + `ipcRenderer.invoke`. Never `sendSync`.
+- Never `webSecurity: false`. Validate all IPC input in main.
+- `app.requestSingleInstanceLock()`. Save/restore window bounds.
+- Sign + notarize for macOS. Auto-update via `electron-updater`.
+
 ## External Alignment
 
 - Canonical source in this repo: `src/gotcha.md`.
