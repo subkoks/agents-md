@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security disclosure
+    url: https://github.com/subkoks/agents-md/security/advisories/new
+    about: Privately report a security issue (do not open a public issue).
+  - name: Discussion / question
+    url: https://github.com/subkoks/agents-md/issues
+    about: For now, open a normal issue with the question label.

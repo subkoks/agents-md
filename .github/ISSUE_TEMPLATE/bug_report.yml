@@ -1,0 +1,42 @@
+name: Bug report
+description: Report something that isn't behaving as expected
+title: "bug: <short summary>"
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a bug. Please fill in what you can.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Describe the bug. Include exact commands, output, or screenshots.
+      placeholder: "When I run X, I expected Y, but Z happened."
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: Minimal steps to reproduce.
+      placeholder: |
+        1. Run `...`
+        2. Observe `...`
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version / commit
+      placeholder: "e.g. v0.3.1 or commit abcd123"
+  - type: input
+    id: env
+    attributes:
+      label: Environment
+      placeholder: "OS, editor (Windsurf/Cursor/Claude Code/Codex), runtime versions"
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs / context
+      render: shell
