@@ -9,6 +9,7 @@ Security fixes are applied to the `main` branch.
 Please do not open public issues for security reports.
 
 Report privately via GitHub Security Advisories:
+
 1. Open the repository.
 2. Go to **Security**.
 3. Click **Report a vulnerability**.
