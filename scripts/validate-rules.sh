@@ -19,14 +19,12 @@ if [[ ! -f "$SOURCE" ]]; then
     exit 1
 fi
 
-# Ensure required sections exist
+# Ensure required sections exist (v2 renames: Code Quality, Tool and Command Policy)
 REQUIRED_SECTIONS=(
     "## Operating Principles"
     "## Planning vs. Implementation"
-    "## Code Style"
     "## Security"
     "## Testing"
-    "## Tool Usage"
 )
 
 for section in "${REQUIRED_SECTIONS[@]}"; do
@@ -35,6 +33,16 @@ for section in "${REQUIRED_SECTIONS[@]}"; do
         ERRORS=$((ERRORS + 1))
     fi
 done
+
+if ! grep -qF "## Code Style" "$SOURCE" && ! grep -qF "## Code Quality" "$SOURCE"; then
+    echo "❌ Missing required section: ## Code Style (or ## Code Quality)"
+    ERRORS=$((ERRORS + 1))
+fi
+
+if ! grep -qF "## Tool Usage" "$SOURCE" && ! grep -qF "## Tool and Command Policy" "$SOURCE"; then
+    echo "❌ Missing required section: ## Tool Usage (or ## Tool and Command Policy)"
+    ERRORS=$((ERRORS + 1))
+fi
 
 if [[ "$ERRORS" -eq 0 ]]; then
     echo "✅ Required sections present"
@@ -58,8 +66,8 @@ else
     echo "✅ No duplicate sections"
 fi
 
-# Check for TODO/FIXME
-TODOS=$(grep -c "TODO\|FIXME" "$SOURCE" || true)
+# Check for TODO/FIXME (ignore prose like "no TODOs")
+TODOS=$(grep -E "TODO|FIXME" "$SOURCE" | grep -viF "no TODOs" | grep -c . || true)
 if [[ "$TODOS" -gt 0 ]]; then
     echo "⚠️  Found $TODOS TODO/FIXME items"
     WARNINGS=$((WARNINGS + 1))

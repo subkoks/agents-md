@@ -87,15 +87,13 @@ validate_canonical() {
 
     log_verbose "Source file exists"
 
-    # Check required sections
+    # Check required sections (v2: ## Code Quality, ## Tool and Command Policy)
     REQUIRED_SECTIONS=(
         "## System Boundaries"
         "## Operating Principles"
         "## Planning vs. Implementation"
-        "## Code Style"
         "## Security"
         "## Testing"
-        "## Tool Usage"
         "## External Alignment"
     )
 
@@ -106,6 +104,18 @@ validate_canonical() {
             log_verbose "Found section: $section"
         fi
     done
+
+    if ! grep -qF "## Code Style" "$SOURCE" && ! grep -qF "## Code Quality" "$SOURCE"; then
+        log_error "Missing required section: ## Code Style (or ## Code Quality)"
+    else
+        log_verbose "Found section: ## Code Style or ## Code Quality"
+    fi
+
+    if ! grep -qF "## Tool Usage" "$SOURCE" && ! grep -qF "## Tool and Command Policy" "$SOURCE"; then
+        log_error "Missing required section: ## Tool Usage (or ## Tool and Command Policy)"
+    else
+        log_verbose "Found section: ## Tool Usage or ## Tool and Command Policy"
+    fi
 
     # Check top-level title
     if ! head -n 1 "$SOURCE" | grep -qE "^# "; then
@@ -122,8 +132,8 @@ validate_canonical() {
         log_verbose "No duplicate sections"
     fi
 
-    # Check for TODO/FIXME
-    TODOS=$(grep -c "TODO\|FIXME" "$SOURCE" || true)
+    # Check for TODO/FIXME (ignore prose like "no TODOs")
+    TODOS=$(grep -E "TODO|FIXME" "$SOURCE" | grep -viF "no TODOs" | grep -c . || true)
     if [[ "$TODOS" -gt 0 ]]; then
         log_warning "Found $TODOS TODO/FIXME items"
     else
