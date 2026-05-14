@@ -7,7 +7,7 @@ This is a documentation/rules governance repo (no runtime services). The "applic
 ### Key commands
 
 | Action | Command |
-|--------|---------|
+| --- | --- |
 | Full governance pipeline | `make governance-run` |
 | Strict validation + drift | `make check` |
 | Build artifacts | `./scripts/build-rule-artifacts.sh` |
