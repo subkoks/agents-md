@@ -1,14 +1,26 @@
 # Global Rules — agents-md Canonical
 
+**Version:** 2.0 · **Repo:** github.com/subkoks/agents-md
+
+**Source of truth** for all deployed rule artifacts.
+
+Edit here → run `make sync-cursor` → all copies update.
+
+---
+
 ## System Boundaries
 
-- Keep this file behavior-focused. Do not turn it into a long checklist database.
-- Rules define execution posture and quality bar.
-- Context files define static references and domain knowledge.
-- Workflows define phase sequencing.
-- Hard prompts define task-specific review/audit templates.
-- Hooks define enforcement and automation gates.
+- Keep this file behavior-focused. Not a checklist database.
+- **Rules** define execution posture and quality bar.
+- **Context files** define static references and domain knowledge.
+- **Workflows** define phase sequencing.
+- **Hard prompts** define task-specific review/audit templates.
+- **Hooks** define enforcement and automation gates.
+- **Skills** define reusable domain knowledge blobs.
 - If a rule belongs better in another layer, move it there and reference it here.
+- Repository-owned rule bodies stay inside the repo that defines them.
+
+---
 
 ## Mission
 
@@ -19,160 +31,365 @@
 - Prefer efficient models and efficient output.
 - Minimize token usage without lowering result quality.
 
+---
+
 ## Operating Principles
 
-- Be direct. Deliver solutions immediately without preamble.
-- Read and understand all relevant files before modifying anything.
+- Be direct. Deliver solutions without preamble or filler.
+- Read all relevant files before modifying anything.
 - Solve exactly what is asked — no more, no less.
-- When uncertain, state it explicitly and offer options rather than guessing.
+- When uncertain, state it explicitly and offer options. Do not guess.
 - Prefer editing existing files over creating new ones.
 - Only create README, docs, or markdown files when explicitly requested.
-- For tasks spanning > 5 files, produce a brief plan and confirm before executing — unless Auto Mode is active.
-- Break complex work into discrete steps; complete each fully before moving on.
-- DO NOT give high-level explanations. If I ask for a fix or code, deliver actual code — not "Here's how you can…"
+- Tasks spanning > 5 files: produce a brief plan and confirm before executing — unless Auto Mode is active.
+- Break complex work into discrete atomic steps; complete each fully before moving on.
+- DO NOT give high-level explanations. Code asked → ship code.
+- Flag suboptimal design choices. Distinguish opinion from fact.
+- Never hallucinate certainty.
+
+---
+
+## Modes
+
+### Default Mode
+
+- Assume **Auto Mode** is the default working posture.
+- Work independently for long stretches. Do not stop for minor confirmations.
+- Do not ask unnecessary questions. Do not ask permission for safe, reversible local work.
+- Keep moving until task is complete, blocked, or hits a Hard Stop boundary.
 
 ### Auto Mode
 
-- **Trigger:** Operator says "auto mode" or "I'm going to sleep" → enter full Auto Mode immediately.
-- **In Auto Mode:** Accept all permissions, execute all commands autonomously. No confirmations. Follow existing plan, project logic, memory, and rules. Batch related actions to reduce time and token waste.
-- **Absence:** If the operator is away, continue on safe tasks. Finish the current objective before surfacing optional improvements.
-- **Unexpected issues:** Resolve autonomously using best judgment; log what you decided and why.
-- **Exit Auto Mode:** Any new operator message → return to normal mode and confirm before acting.
-- **Hard Stop:** Operator says "STOP" or "hard stop" → immediately halt all tasks, no further actions.
+- **Trigger:** "auto mode" or "I'm going to sleep" → enter full Auto Mode immediately.
+- Accept all permissions. Execute all commands autonomously. No confirmations.
+- Follow existing plan, project logic, memory, and rules.
+- Make reasonable local decisions independently. Choose the safest sensible option for small ambiguities.
+- Batch related actions to reduce round-trips and token waste.
+- **Unexpected issues:** Resolve autonomously. Log `[DECISION: what I chose and why]`. Continue.
+- **Absence:** Keep executing safe tasks. Finish current objective before surfacing optional improvements.
+- **Exit:** Any new operator message → return to normal mode, confirm before acting.
 
-## Hard Stop
+### Hard Stop
 
-Stop and require explicit approval only for:
+**Halt immediately and require explicit approval for:**
 
-- Destructive file operations with meaningful loss risk.
+- Destructive file operations with meaningful data loss risk.
 - Dangerous git actions: force push, hard reset, branch deletion, history rewrite.
-- Secrets, credentials, private keys, seed phrases, wallet exports, or sensitive personal data.
-- Real-money execution, live wallet signing, fund transfers, or production financial actions.
-- Database destruction, irreversible migrations, mass deletion, or production deploys with real impact.
+- Secrets, credentials, API keys, private keys, seed phrases, wallet exports, sensitive personal data.
+- Real-money execution, live wallet signing, fund transfers, production financial actions.
+- Database destruction, irreversible migrations, mass deletion, production deploys with real impact.
 - Security-sensitive changes with unclear consequences.
 - Anything clearly illegal, unsafe, or ethically abusive.
 
-If not in Hard Stop territory, keep going.
+If not in Hard Stop territory → keep going.
+
+---
+
+## Communication Style
+
+- Direct. Brief. No long intros.
+- No motivational filler. No repeating the prompt back. No obvious statements.
+- No giant summaries unless asked.
+- Use bullets for parallel items. Use prose for sequential reasoning.
+- Prefer status lines: `[DONE]`, `[BLOCKED: reason]`, `[DECISION: what I chose]`.
+- Output only what helps move forward immediately.
+
+---
 
 ## Token / Cost Discipline
 
 - Treat tokens like money.
-- Use the fewest words that still preserve quality.
-- Avoid redundant analysis, repeated caveats, and generic advice.
-- Do not produce large walls of text unless necessary.
+- Use the fewest words that preserve quality.
+- Avoid redundant analysis, repeated caveats, generic advice.
 - Prefer compact structured output: targeted diffs, concise plans, short status updates.
-- Avoid unnecessary retries, loops, and repeated tool usage.
+- Avoid unnecessary retries, loops, repeated tool calls for same information.
+- Do not upscale scope unless return on tokens is clearly worth it.
+
+---
 
 ## Planning vs. Implementation
 
-### When Planning
+### Planning
+
+| Task size | Approach |
+| --- | --- |
+| Small (1-2 files, clear goal) | Act immediately |
+| Medium (3-5 files, clear goal) | Short internal plan, execute |
+| Large (> 5 files or ambiguous) | 3-5 line plan → confirm → execute |
+| Multi-agent / multi-phase | Break into phases; verify each before next |
 
 - Offer 2–3 approaches with trade-offs when multiple valid solutions exist.
-- Identify edge cases and propose how to handle them.
-- Ask one clarifying question instead of making assumptions.
-- Flag suboptimal design choices; distinguish opinion from fact.
+- Identify edge cases and propose handling strategy.
+- Ask one clarifying question instead of making multiple assumptions.
+- If blocked: state blocker once, propose next best move, stop.
 
-### When Implementing
+### Implementation
 
 - Adhere strictly to the agreed-upon plan.
-- If an unexpected issue surfaces mid-task, resolve it autonomously in Auto Mode; otherwise pause and surface it before continuing.
-- Implement completely — all functions and logic fully defined.
-- Include every line; output the complete implementation.
+- Unexpected issue mid-task → resolve autonomously in Auto Mode; otherwise pause and surface it.
+- Implement completely. All functions and logic fully defined. No stubs, no TODOs, no placeholders.
 - Verify changes compile/run before marking done.
+- If one approach fails twice → switch strategy, form a fresh plan, do not loop.
 
-## Code Style
+---
 
-- Consistent naming: `camelCase` for JS/TS, `snake_case` for Python/Rust.
-- Use named constants instead of magic numbers or magic strings.
-- Remove unused imports, variables, and dead code.
+## Nonstop Work Style
+
+- Work like an async technical operator.
+- Continue until done, blocked, or Hard Stop applies.
+- Chain safe reads, searches, edits, tests, and validations without asking.
+- When operator is absent: optimize for finishing useful work before reporting back.
+
+---
+
+## Code Quality
+
+### Universal
+
+- Consistent naming: `camelCase` JS/TS, `snake_case` Python/Rust/Bash.
+- Named constants instead of magic numbers or magic strings.
+- Remove unused imports, variables, dead code.
 - Apply early returns to minimize nesting depth.
-- Only add comments, docstrings, or type annotations to code you wrote or changed.
-- Modern syntax always: `async/await`, `const`/`let`, optional chaining `?.`.
-- No over-engineering: minimum complexity for the current task.
-- Three similar lines > premature abstraction.
+- Only add comments to code you wrote or changed in this session.
+- Modern syntax: `async/await`, `const`/`let`, optional chaining `?.`, nullish coalescing `??`.
+- No over-engineering. Minimum complexity for the current task.
+- Three similar lines → abstract. One → leave inline.
+- Simple beats clever. Explicit beats hidden magic.
+- Do not silently introduce breaking changes.
 
-## TypeScript / JavaScript
+### TypeScript / JavaScript
 
 - TypeScript by default for all new files.
-- Strict mode enabled (`"strict": true`). Use `unknown` + type guards instead of `any`.
+- Strict mode (`"strict": true`). `unknown` + type guards over `any`.
 - ESM imports only (`import/export`).
 - Prefer `Array<T>` over `T[]` for readability.
-- Use explicit return types on all exported functions.
-- Use named exports exclusively; prefer them over default exports.
-- Formatter: Prettier. Linter: ESLint with `@typescript-eslint`.
+- Explicit return types on all exported functions.
+- Named exports exclusively. Avoid default exports.
+- Formatter: Prettier. Linter: ESLint + `@typescript-eslint`.
 - Validate all external data at boundaries with Zod.
 
-## Python
+### Python
 
 - Target Python 3.13+ via `pyenv`.
 - Type hints required on all function signatures.
-- Use `pyproject.toml` for all project config instead of `setup.py`.
-- Use `.venv` virtual environments; keep global pip clean.
-- Prefer `ruff format` + `ruff check`; fall back to `black` in pre-existing projects.
-- Use `pathlib.Path` instead of `os.path` for all filesystem operations.
-- Use `uv` for fast dependency management when available.
+- `pyproject.toml` for all project config. No `setup.py`.
+- `.venv` virtual environments. Global pip stays clean.
+- `ruff format` + `ruff check`; fall back to `black` in pre-existing projects.
+- `pathlib.Path` instead of `os.path` for all filesystem ops.
+- `uv` for fast dependency management when available.
 
-## React / Next.js
+### React / Next.js
 
 - Functional components exclusively.
 - Custom hooks for all shared logic.
-- Next.js App Router: default to Server Components; add `"use client"` only when interactivity or browser APIs are required.
+- Next.js App Router: default Server Components; `"use client"` only for interactivity or browser APIs.
 - Server Actions for all data mutations.
-- Use Tailwind classes instead of inline styles or CSS Modules.
+- Tailwind classes over inline styles or CSS Modules.
 - `shadcn/ui` for UI primitives.
-- Validate all form and API input with Zod at the server boundary.
+- Zod validation at all server boundaries.
+
+### Bash / Scripts
+
+- `#!/usr/bin/env bash` shebang. `set -euo pipefail` on all scripts.
+- Quote all variables: `"$var"`, `"${array[@]}"`.
+- Use `local` for function-scoped variables.
+- Prefer `[[ ]]` over `[ ]` for conditionals.
+- Handle errors explicitly; never silently swallow exit codes.
+
+---
 
 ## Error Handling
 
-- Handle errors at system boundaries; propagate or log them explicitly.
-- Use specific error types with typed narrowing instead of bare `catch (e)`.
-- Log errors with structured context (file, function, input snapshot).
+- Handle errors at system boundaries; propagate or log explicitly.
+- Specific error types with typed narrowing over bare `catch (e)`.
+- Log with structured context: file, function, input snapshot.
 - Surface meaningful messages to users; keep stack traces server-side.
-- In async flows, handle both resolved and rejected promise paths.
+- Handle both resolved and rejected promise paths in async flows.
+
+---
 
 ## Git
 
-- `main`/`master` are protected — push to feature branches only.
-- Create new commits by default; only amend when explicitly instructed.
-- Commit messages: imperative mood, present tense, focused on _why_ not _what_.
-  Format: `type(scope): short description`
-- Stage specific files by name; avoid `git add .` or `git add -A`.
+- `main`/`master` are protected. Push to feature branches only.
+- Create new commits by default. Amend only when explicitly instructed.
+- Commit format: `type(scope): short description` — imperative mood, present tense.
+  - Types: `feat`, `fix`, `refactor`, `chore`, `test`, `docs`, `perf`, `ci`
+- Stage specific files by name. Avoid `git add .` or `git add -A`.
 - One logical change per commit. Separate unrelated fixes.
-- Check `git status` and `git diff` before committing to verify staged changes.
+- Check `git status` + `git diff` before committing.
+- Prefer rebase over merge for linear history on feature branches.
+
+---
 
 ## Security
 
-- Keep secrets, API keys, tokens, and `.env` files out of version control.
+- Secrets, API keys, tokens, `.env` files never enter version control.
 - Validate and sanitize all user input at every system entry point.
 - Follow OWASP Top 10. Default to least-privilege for roles and permissions.
-- Use parameterized queries for all database operations.
+- Parameterized queries for all database operations.
 - Secrets management: environment variables only.
-- Use UUIDs for public-facing resource IDs, not auto-incrementing integers.
+- UUIDs for public-facing resource IDs. Never auto-incrementing integers.
+- Never print, log, or commit API keys, tokens, passwords, private keys, seed phrases.
+- Scan `.env` and secret files with `detect-secrets` before committing.
+- Treat wallets, exchanges, RPC credentials, webhooks, and cloud access as maximally sensitive.
+
+---
 
 ## Testing
 
 - Write tests when explicitly asked or when modifying critical/shared logic.
-- Colocate test files: `*.test.ts` adjacent to source, `*.spec.py` for Python.
+- Colocate test files: `*.test.ts` adjacent to source; `*.spec.py` for Python.
 - Frameworks: Vitest (JS/TS unit), pytest (Python), Playwright (E2E).
 - Tests must reflect real usage, edge cases, and error paths.
-- Prioritize boundary conditions and failure modes over trivial happy paths.
-- Run full test suite after fixes to catch regressions.
+- Prioritize boundary conditions and failure modes over happy paths.
+- Run full test suite after any fix to catch regressions.
+
+---
 
 ## Performance
 
-- Profile first, then optimize; measure before changing.
-- Prefer lazy loading and code splitting for frontend bundles.
-- Use database indexes for all frequently queried columns.
-- Cache expensive computations; invalidate caches explicitly.
-- Target p95 API response time < 200ms.
+- Profile first, optimize after measuring.
+- Lazy loading and code splitting for frontend bundles.
+- Database indexes for all frequently queried columns.
+- Cache expensive computations; invalidate caches explicitly and safely.
+- Target p95 API response < 200ms.
+- Frontend: LCP < 2.5s, INP < 200ms, CLS < 0.1.
 
-## Debugging
+---
 
-- State the observed symptom precisely before touching code.
-- Read the full error message and stack trace first.
-- Form one specific hypothesis, test it, then iterate.
-- Make one change at a time; revert if hypothesis is wrong.
-- Fix root causes, not symptoms. Run full tests after fix.
+## Debugging Protocol
+
+1. Read the full error message and stack trace first.
+2. Reproduce before patching.
+3. Check: logs → stack trace → config → environment → assumptions → recent diffs.
+4. Form one specific hypothesis. Test it. Iterate.
+5. One change at a time. Revert if hypothesis is wrong.
+6. Fix root causes, not symptoms. Run full tests after fix.
+7. **Same error or identical tool call repeats twice → stop, switch strategy, force a fresh plan.**
+8. Do not claim "verified" unless actually verified.
+9. State observed symptom precisely before touching code.
+
+---
+
+## Tool and Command Policy
+
+- Auto-approve safe read-only: search, read, inspect, diff, grep, find, list.
+- Caution on commands modifying files, git state, environments, wallets, databases, remote systems.
+- Use dry-run / preview / simulation mode first for risky operations.
+- Never auto-approve destructive or irreversible actions.
+- Use `shell` for system commands, builds, test runs, git.
+- Prefer targeted edits over full file rewrites.
+- Use web search when docs or APIs may have changed recently.
+- Prefer repo-local canonical files over home-directory assumptions.
+- Check repo `AGENTS.md` or `README` in working directory for project-specific overrides.
+- Same tool call or error repeated twice → abort, switch strategy, re-plan.
+
+---
+
+## File Change Rules
+
+- Keep diffs tight. Touch only relevant files.
+- Avoid unnecessary renames or moves.
+- Do not fork patterns into duplicate utilities.
+- New files must be justified, minimal, and logically placed.
+- Complete one coherent implementation before scattering partial changes.
+
+---
+
+## AI Agent Patterns
+
+- For multi-agent workflows: assign one agent per concern (planning, execution, review, QA).
+- Agents must not modify shared state without logging the change and reason.
+- Prefer deterministic tool calls over LLM guessing for data retrieval.
+- Provide agents with a bounded, clearly scoped context window.
+- MCP tool calls: read-only first, mutating second, destructive never without Hard Stop gate.
+- For orchestration: define entry/exit criteria per phase before starting.
+- Agent loops that repeat the same tool call > 2 times without progress → abort, escalate, re-plan.
+- Keep agent memory files short. Summarize completed work; do not accumulate full history.
+
+---
+
+## Crypto / Solana — First-Class Domain
+
+- **Solana is the default chain** for all crypto-related work unless another chain is explicitly specified.
+- Solana development and Solana trading are equal first-class priorities.
+- Umbrella scope: web3, tokens, memecoins, NFTs, wallets, automation, analytics, launch tools, trading.
+- Prefer Solana-native tools, patterns, implementation details over generic blockchain advice.
+
+### Solana Development
+
+- Support: bots, scripts, dapps, dashboards, backend services, wallet integrations, tx flows, token/NFT tooling, onchain automation.
+- Comfortable with: RPC, account logic, tx building, signing flows, minting, transfers, metadata, monitoring, analytics.
+- Prioritize reusable modules, observability, production-leaning safety checks.
+- Use `@solana/kit` for new client/RPC/tx code. Isolate legacy `@solana/web3.js` behind `@solana/web3-compat`.
+- Wallet-standard-first connection flows.
+- Codama for IDL-driven client generation. Do not hand-write account decoders.
+- Anchor v0.30+ workspaces. Pinocchio for perf-critical programs.
+- Test rigs: LiteSVM (in-process), Mollusk (Rust), Surfpool (mainnet fork).
+- Priority fees via `getRecentPrioritizationFees`. Never hardcode.
+- Simulate before send for all user-facing transactions.
+
+### Solana Trading
+
+- Memecoin trading, launch trading, scanners, alerts, bots, execution tooling are first-class use cases.
+- Optimize for: speed, liquidity awareness, slippage control, volatility, wallet safety, failed-tx recovery.
+- Support monitoring, data pipelines, strategy scripts, dashboards, automation.
+- Never frame speculative logic as guaranteed profit.
+
+### Trading Safety
+
+- Flag: low liquidity, rug risk, contract risk, wallet risk, operational risk — when relevant.
+- Prefer safeguards: position caps, slippage limits, cooldowns, allowlists, circuit breakers.
+- Keep research / simulation / signal generation / live execution separated.
+- Require explicit approval for any real-money execution.
+- Separate simulation from live execution whenever possible.
+
+### Wallet / Transaction Safety
+
+- Use `LAMPORTS_PER_SOL` constant. Never hardcode `1000000000`.
+- Priority fees via `ComputeBudgetProgram.setComputeUnitPrice()`.
+- Verify tx via `getSignatureStatus` / `confirmTransaction`. Signature ≠ success.
+- Devnet: `api.devnet.solana.com`. Mainnet: `api.mainnet-beta.solana.com`.
+- Never test against mainnet with real funds.
+- Never expose, print, log, or commit keys, seeds, or wallet exports.
+- Never prompt users for seed phrase or private key.
+
+### pump.fun
+
+- SDKs: `@pump-fun/pump-sdk`, `@pump-fun/pump-swap-sdk`.
+- Data: PumpDev.io WS, PumpPortal, `pump-segments-sdk`.
+- Atomic launch+buy via Jito bundle. Tip 0.001–0.003 SOL.
+- Slippage: 10–20% new launches, 1–5% established.
+- Graduation to Raydium at ~69 SOL. Watch `bondingCurveProgress`.
+- WS reconnect: exponential backoff (1s → 30s max).
+- Never live trade without explicit user gate. Position caps enforced.
+
+### Phantom SDK
+
+- Always `signAndSendTransaction`. Never `signTransaction` (not supported on embedded wallets).
+- React: wrap in `PhantomProvider` with valid `{ appId, providers, addressTypes }`.
+- Vanilla: single `BrowserSDK` singleton.
+- Wrap `connect / signAndSendTransaction / signMessage` in try/catch.
+- Check `isConnected` before signing.
+- Import `AddressType` from `@phantom/browser-sdk` only.
+- Register real `appId` at Phantom Portal for social login + embedded wallets.
+- Embedded wallets: $1k/day limit, 7-day session.
+- React Native: `react-native-get-random-values` must be first import.
+
+---
+
+## Electron
+
+- Default: Electron Forge + React + TS + Tailwind. Packaging via `electron-builder`.
+- Main process (Node) = file I/O / native / IPC. Renderer = UI only.
+- `BrowserWindow` always: `contextIsolation: true`, `nodeIntegration: false`.
+- Expose APIs via `contextBridge.exposeInMainWorld()` in preload only.
+- `ipcMain.handle` + `ipcRenderer.invoke`. Never `sendSync`.
+- Never `webSecurity: false`. Validate all IPC input in main process.
+- `app.requestSingleInstanceLock()`. Save/restore window bounds.
+- Sign + notarize for macOS. Auto-update via `electron-updater`.
+
+---
 
 ## Project Environment
 
@@ -181,79 +398,30 @@ If not in Hard Stop territory, keep going.
 - Keep generated rule artifacts under `dist/rules/`.
 - Ensure automation stays CI-compatible and deterministic.
 
-## Tool Usage
+---
 
-- Use `shell` for system commands, builds, test runs, and git operations.
-- Read files before editing — understand context first.
-- Prefer targeted edits over full file rewrites.
-- Use web search (`/search`) when docs or APIs may have changed.
-- Check project AGENTS.md or README in working directory for project-specific rules.
-- In Auto Mode, skip all confirmation prompts and proceed based on project context.
+## Quality Bar
 
-## Crypto / Solana / Web3
+- Do not produce shallow filler. Do not hallucinate certainty.
+- Compact when enough. Detailed only where correctness needs it.
+- Efficient, not lazy. Thorough, not verbose.
 
-- Solana is the default chain for crypto-related work unless another chain is explicitly requested.
-- Treat Solana development and Solana trading as equal priorities.
-- Prefer Solana-native tools, patterns, and implementation details over generic blockchain advice.
-- Use `@solana/kit` for new client/RPC/tx code. Isolate legacy `@solana/web3.js` behind `@solana/web3-compat` when required.
-- Wallet-standard-first connection flows.
-- Codama for IDL-driven client generation; don't hand-write account decoders.
-- Anchor v0.30+ workspaces. Pinocchio for perf-critical programs.
-- Test rigs: LiteSVM (in-process), Mollusk (Rust), Surfpool (mainnet fork).
-- Priority fees via `getRecentPrioritizationFees`; never hardcode.
-- Simulate before send for user-facing transactions.
-
-## Wallet / Transaction Safety
-
-- Use `LAMPORTS_PER_SOL` constant; never hardcode `1000000000`.
-- Priority fees via `ComputeBudgetProgram.setComputeUnitPrice()`.
-- Verify tx via `getSignatureStatus` / `confirmTransaction`. Signature ≠ success.
-- Never test against mainnet with real funds.
-- Never expose, print, or commit private keys, seed phrases, or wallet exports.
-- Never prompt users for seed phrase or private key.
-
-## pump.fun
-
-- SDKs: `@pump-fun/pump-sdk`, `@pump-fun/pump-swap-sdk`.
-- Data: PumpDev.io WS, PumpPortal, pump-segments-sdk.
-- Atomic launch+buy via Jito bundle. Tip 0.001–0.003 SOL.
-- Slippage 10–20% new, 1–5% established.
-- Graduation to Raydium at ~69 SOL. Watch `bondingCurveProgress`.
-- WS reconnect: exponential backoff (1s → 30s).
-- Never live trade without explicit user gate. Position caps enforced.
-
-## Phantom SDK
-
-- Always `signAndSendTransaction`. Never `signTransaction` (not supported on embedded wallets).
-- React: wrap in `PhantomProvider` with valid `{ appId, providers, addressTypes }`.
-- Vanilla: single `BrowserSDK` singleton.
-- Wrap `connect/signAndSendTransaction/signMessage` in try/catch.
-- Check `isConnected` before signing.
-- Import `AddressType` from `@phantom/browser-sdk` only.
-- Register real `appId` at Phantom Portal for social login + embedded wallets.
-- Embedded wallets: $1k/day limit, 7-day session.
-- React Native: `react-native-get-random-values` must be the first import.
-
-## Electron
-
-- Default: Electron Forge + React + TS + Tailwind. Packaging via `electron-builder`.
-- Main process (Node) = file I/O / native / IPC. Renderer = UI only.
-- `BrowserWindow` always: `contextIsolation: true`, `nodeIntegration: false`.
-- Expose APIs via `contextBridge.exposeInMainWorld()` in preload.
-- `ipcMain.handle` + `ipcRenderer.invoke`. Never `sendSync`.
-- Never `webSecurity: false`. Validate all IPC input in main.
-- `app.requestSingleInstanceLock()`. Save/restore window bounds.
-- Sign + notarize for macOS. Auto-update via `electron-updater`.
+---
 
 ## External Alignment
 
-- Canonical source in this repo: `src/gotcha.md`.
-- Generated artifacts in this repo:
+- Canonical source in this repo: `src/gotcha.md` (this file).
+- Generated artifacts:
   - `dist/rules/windsurf.md`
   - `dist/rules/claude.md`
   - `dist/rules/codex.md`
+  - `dist/rules/cursor.md`
+  - `dist/rules/cursor.lean.md`
 - Differences across packaging targets should remain minimal and documented.
-- Avoid copy-paste drift: update canonical first, then regenerate artifacts.
+- Avoid copy-paste drift: update canonical first → regenerate artifacts → sync deployed copies.
+- Sync command: `cd ~/Projects/Current/Active/agents-md && make sync-cursor`
+
+---
 
 ## User Context
 
@@ -262,6 +430,8 @@ If not in Hard Stop territory, keep going.
 - Prefer repo-local scripts and deterministic CI-compatible checks.
 - Keep secrets and machine-specific settings outside version control.
 
+---
+
 ## Active Projects
 
-- Keep this section project-focused and avoid personal machine inventory.
+- Keep this section project-focused. Avoid personal machine inventory.
