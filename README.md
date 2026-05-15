@@ -1,180 +1,137 @@
 # agents-md
 
-Canonical source for a cross-editor agent operating system built on the GOTCHA framework.
+**One canonical GOTCHA rule source → validated artifacts for Cursor, Claude Code, Codex, and Windsurf.**
 
-## What This Repository Is
+[![CI](https://github.com/subkoks/agents-md/actions/workflows/ci.yml/badge.svg)](https://github.com/subkoks/agents-md/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Release](https://img.shields.io/github/v/release/subkoks/agents-md)](https://github.com/subkoks/agents-md/releases)
 
-`agents-md` is the project-local control plane for high-quality agent behavior:
+Cross-editor **agent governance**: cursor rules, `AGENTS.md`-compatible project instructions, drift-checked builds, and a growing skill pack. Compatible with the community **AGENTS.md** convention — this repo is not the standard itself.
 
-- canonical rule body (`src/gotcha.md`)
-- pattern and ecosystem database (`docs/`)
-- operational scripts (`scripts/`)
-- reusable templates (`templates/`)
-- roadmap and experiments (`ROADMAP.md`, `ideas/`)
+## 60-second quickstart
 
-This repo is intentionally editor-agnostic and aligns behavior across Windsurf, Claude, and Codex.
+```bash
+git clone https://github.com/subkoks/agents-md.git
+cd agents-md
 
-For **cursor rules**, **AGENTS.md**-compatible outputs, **cross-editor agent instructions**, and **agent governance** with drift checks, see [`llms.txt`](llms.txt) and [`docs/llm-citation.md`](docs/llm-citation.md).
+# Strict validation + artifact drift check
+make check
 
-## Architecture (GOTCHA)
+# Build all editor artifacts from src/gotcha.md
+./scripts/build-rule-artifacts.sh windsurf claude codex cursor cursor-lean
 
-- **G**oals: explicit work routing and workflow selection
-- **O**rchestration: the agent decision layer
-- **T**ools: deterministic scripts and MCP operations
-- **C**ontext: static reference material
-- **H**ard prompts: focused task templates
-- **A**rgs: runtime behavior settings
+# Optional: deploy lean Cursor rules to your local Cursor config
+make sync-cursor
+```
 
-Core principle: push reliability into deterministic tooling, keep reasoning flexibility in orchestration.
+Canonical body lives in `src/gotcha.md` (full) and `src/gotcha-lean.md` (default lean install). **Never edit `dist/rules/*` by hand** — rebuild with `scripts/build-rule-artifacts.sh`.
 
-## Repository Layout
+## Who this is for
+
+| Good fit | Not a fit |
+| --- | --- |
+| Vibe coders and indie builders using multiple AI editors | Teams that want a hosted SaaS product |
+| Automation-heavy devs (scripts, bots, MCP, CI agents) | “Drop one file and never think about rules again” with zero maintenance |
+| Maintainers who want **one rule source, many outputs** | Replacing your entire security/compliance program |
+| Solana/crypto workflows (optional skill pack) | Non-technical users who will not run `make check` |
+
+## Editor / output matrix
+
+| Editor / runtime | Generated artifact | Typical deploy target |
+| --- | --- | --- |
+| **Cursor** (lean, always-on) | `dist/rules/cursor.lean.md` | `.cursor/rules/gotcha.mdc` |
+| **Cursor** (full, manual) | `dist/rules/cursor.md` | `.cursor/rules/gotcha-full.mdc` |
+| **Claude Code** | `dist/rules/claude.md` | Project `CLAUDE.md` or global overlay |
+| **Codex CLI** | `dist/rules/codex.md` | `AGENTS.md` in project or global overlay |
+| **Windsurf** | `dist/rules/windsurf.md` | Windsurf rules path per their docs |
+
+Repo root **`AGENTS.md`** documents Cursor Cloud / agent dev commands for *this* governance repo. For your app repos, copy or adapt generated artifacts — do not treat `AGENTS.md` here as your product’s agent file unless you fork the pattern.
+
+## GOTCHA (why this exists)
+
+- **G**oals — task routing and workflow selection  
+- **O**rchestration — agent decision layer  
+- **T**ools — deterministic scripts and MCP  
+- **C**ontext — static reference in `docs/`  
+- **H**ard prompts — focused templates  
+- **A**rgs — runtime behavior (Auto Mode, Hard Stop, token discipline)
+
+Push reliability into **scripts and CI**; keep flexibility in orchestration.
+
+## Trust strip
+
+| Control | What it does |
+| --- | --- |
+| **CI** | `lint` → `validate` → `build` → `security-scan` (TruffleHog on PRs) |
+| **Drift** | `check-local-drift.sh` — canonical `src/gotcha.md` must match `dist/rules/*` |
+| **License** | MIT — see [LICENSE](LICENSE) |
+| **Secrets** | No credentials in rules; pre-commit + TruffleHog |
+| **Governance** | `make governance-run` — validate → build → strict drift |
+
+## Daily commands
+
+```bash
+make check              # strict validation + drift
+make governance-run     # full pipeline
+make health             # timestamped report in logs/health/
+make skills-drift       # skills/registry.tsv vs skills/*.md
+```
+
+## Repository layout
 
 ```text
 agents-md/
-├── src/
-│   └── gotcha.md
-├── docs/
-│   ├── agent-database.md
-│   ├── agent-patterns.md
-│   ├── agent-upgrade-roadmap.md
-│   ├── hook-reference.md
-│   └── ...
-├── scripts/
-│   ├── build-rule-artifacts.sh
-│   ├── validate-rules.sh
-│   ├── check-links.sh
-│   ├── check-local-drift.sh
-│   ├── sniper-config-template.yaml
-│   ├── pumpfun-bot-checklist.sh
-│   └── sniper-journal-summary.sh
-├── skills/
-│   ├── README.md
-│   ├── solana-anchor-program-dev.md
-│   ├── solana-client-kit-and-wallets.md
-│   ├── solana-security-and-audit.md
-│   ├── evm-smart-contract-dev.md
-│   ├── defi-protocol-engineering.md
-│   ├── token-launch-and-memecoin-ops.md
-│   ├── onchain-trading-and-flow-analysis.md
-│   ├── memecoin-trading-risk-playbook.md
-│   ├── pumpfun-launch-and-trading-automation.md
-│   ├── solana-terminal-workflows-axiom-padre-nova.md
-│   └── solana-sniper-bot-scripts-and-ops.md
+├── src/gotcha.md              # canonical full rules
+├── src/gotcha-lean.md         # lean default
+├── dist/rules/                # generated (gitignored)
+├── scripts/                   # validate, build, drift, health
+├── skills/                    # optional domain skills + registry.tsv
+├── docs/                      # patterns, hooks, LLM citation, threat model
 ├── templates/
-├── ideas/
-├── ROADMAP.md
+├── AGENTS.md                  # agent dev notes for this repo
 └── CHANGELOG.md
 ```
 
-## Quick Start
+## Skills
+
+General-purpose and crypto/web3 skills live under [`skills/`](skills/README.md). Triggers are registered in `skills/registry.tsv`; run `make skills-drift` after adding skills.
+
+## FAQ
+
+### How is this different from copying rules into `~/.cursor/rules`?
+
+This repo is the **source of truth**. You edit `src/gotcha.md`, run validators, and rebuild artifacts. Copying ad hoc files drifts silently; `make check` fails when artifacts are stale.
+
+### Does this replace AGENTS.md?
+
+No. Many tools read project **`AGENTS.md`**. This project **generates** editor-specific files from one canonical body and stays compatible with that convention. Say “AGENTS.md-compatible,” not “we own AGENTS.md.”
+
+### Cursor rules vs gotcha.md?
+
+- **`gotcha-lean`** → small always-applied Cursor rule (`gotcha.mdc`).  
+- **Full `gotcha.md`** → larger reference (`gotcha-full.mdc` or manual @-mention).  
+Build with `./scripts/build-rule-artifacts.sh cursor cursor-lean`.
+
+### What must run before a PR?
 
 ```bash
-# Validate rules and check compatibility
-./scripts/validate-comprehensive.sh
-
-# Run deterministic governance pipeline (strict -> drift -> build -> strict drift)
-./scripts/run-governance.sh
-
-# Build local artifacts
-./scripts/build-rule-artifacts.sh
-
-# Build specific artifacts
-./scripts/build-rule-artifacts.sh windsurf claude
-
-# Check artifact status
-./scripts/build-rule-artifacts.sh --list
-```
-
-## Daily Operations
-
-```bash
-# Strict repo checks (recommended before commit)
 make check
-
-# Full deterministic governance pipeline
-make governance-run
-
-# Health report with timestamped logs
-make health
 ```
 
-## Troubleshooting
+CI runs the same gates plus artifact rebuild verification.
 
-- If artifacts drift, run `make governance-run` and re-check with `make drift-check-strict`.
-- If shell scripts fail in CI, run `bash -n scripts/*.sh` locally before committing.
-- If optional tools are missing, run `./scripts/health-check.sh` to see degraded-safe diagnostics.
+### Where is marketing copy allowed?
 
-## Canonical Governance Contract
+README, `docs/`, `AGENTS.md`, skills — **not** inside `src/gotcha.md` / `src/gotcha-lean.md`.
 
-- Canonical rule body: `src/gotcha.md` only.
-- Local artifacts are generated at `dist/rules/*.md`.
-- Do not edit generated artifacts directly; rebuild via `scripts/build-rule-artifacts.sh` or `scripts/run-governance.sh`.
-- Pre-commit guard rejects artifact-only edits without canonical update.
-- This repository does not manage personal editor, AI agent, or global git-hook files under `~`.
+## Contributing
 
-## Quality Gates
-
-- Comprehensive validation: `scripts/validate-comprehensive.sh`
-  - Rule structure and integrity
-  - Local artifact compatibility
-  - Version drift detection
-  - Artifact accessibility
-  - Content integrity
-- Individual checks: `scripts/validate-rules.sh`, `scripts/check-links.sh`, `scripts/check-local-drift.sh`
-- Automated hooks: Pre-commit and CI/CD validation
-- Runtime/system health: `scripts/health-check.sh` (writes timestamped logs to `logs/health/`)
-- Skill drift monitoring: `scripts/check-skill-registry-drift.sh` against `skills/registry.tsv`
-
-All scripts degrade safely when optional dependencies are missing.
-
-## Local Artifacts
-
-- `dist/rules/windsurf.md`
-- `dist/rules/claude.md`
-- `dist/rules/codex.md`
-
-## GitHub-Ready Workflow
-
-- Run local validation:
-
-```bash
-./scripts/validate-comprehensive.sh
-```
-
-- Create branch and commit logically grouped changes (pre-commit hooks run automatically).
-- Open PR using `.github/pull_request_template.md`.
-- CI (`.github/workflows/ci.yml`) runs four jobs in sequence:
-  - `lint` — `shellcheck`, `actionlint`, `markdownlint-cli2`
-  - `validate` — rule structure, comprehensive validation, link and drift checks
-  - `build` — rebuild local artifacts and verify strict drift
-  - `security-scan` — `trufflehog` on PR diffs for verified/unknown secrets
-- Ensure all CI checks pass.
-- Merge and update `CHANGELOG.md`.
-
-## Sniper Bot Quick Start
-
-```bash
-chmod +x scripts/pumpfun-bot-checklist.sh scripts/sniper-journal-summary.sh
-cp scripts/sniper-config-template.yaml sniper-config.yaml
-./scripts/pumpfun-bot-checklist.sh ./sniper-config.yaml
-# After trading:
-./scripts/sniper-journal-summary.sh ./logs/sniper-events.jsonl
-```
-
-## Core Documents
-
-- `docs/agent-database.md`: curated inventory and source map
-- `docs/agent-patterns.md`: normalized reusable patterns
-- `docs/hook-reference.md`: hook behavior and portability notes
-- `docs/hook-routing.md`: global/project/repo hook ownership and routing
-- `docs/editor-alignment-strategy.md`: artifact packaging strategy by editor
-- `docs/hook-portability-spec.md`: generic hook contract model
-- `docs/goals-manifest.md`: task-to-asset routing matrix
-- `docs/security-scan-spec.md`: config security scanner taxonomy and output schema
-- `docs/orchestration-dag-spec.md`: dependency-graph orchestration and quality-gate contract
-- `docs/sniper-runbook.md`: sniper bot preflight, runtime monitoring, and incident playbooks
-- `skills/README.md`: crypto/web3/Solana skill index and trigger map
+See [CONTRIBUTING.md](CONTRIBUTING.md). Use feature branches; one logical change per PR; update [CHANGELOG.md](CHANGELOG.md) for user-visible releases.
 
 ## Versioning
 
-See `CHANGELOG.md` for release history and unreleased changes.
+Release history: [CHANGELOG.md](CHANGELOG.md) · Latest: [Releases](https://github.com/subkoks/agents-md/releases)
+
+---
+
+If this saves you time, **[star the repo](https://github.com/subkoks/agents-md)** and watch for releases. Forks and PRs welcome.
