@@ -4,6 +4,24 @@ All notable changes to the GOTCHA framework agent rules.
 
 ## [Unreleased]
 
+## [2.2.0] - 2026-05-15
+
+### Added
+
+- Root `AGENTS.md` with Cursor Cloud dev-environment instructions (commands, gotchas)
+- Canonical `src/gotcha-lean.md` and generated `dist/rules/cursor.lean.md` artifact
+- GOTCHA v2.0 rule bodies: expanded code quality, tool policy, Solana/crypto defaults, and AI agent patterns in `src/gotcha.md`
+
+### Changed
+
+- Validators (`validate-rules.sh`, `validate-comprehensive.sh`) accept v2 section headings and ignore prose "no TODOs" mentions
+- Squash-merged governance and rules work from PRs #13–#15
+
+### Fixed
+
+- Removed duplicate `.github/PULL_REQUEST_TEMPLATE.md` index path that broke macOS case-sensitive checkouts (#13)
+- Markdownlint table alignment in `AGENTS.md` (#14)
+
 ## [2.1.0] - 2026-04-19
 
 ### Added
