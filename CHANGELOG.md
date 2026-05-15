@@ -4,6 +4,18 @@ All notable changes to the GOTCHA framework agent rules.
 
 ## [Unreleased]
 
+## [2.3.0] - 2026-05-15
+
+### Added
+
+- World-class upgrade pillars B–F: GitHub landing README, `llms.txt`, `docs/llm-citation.md`, nine general-purpose skills, `install.sh`, `docs/threat-model.md`
+- **Prompt interpretation** rules in canonical gotcha (infer messy prompts; ship code/steps; no rewrite gatekeeping)
+
+### Changed
+
+- `CONTRIBUTING.md`, CI verifies `cursor.md` + `cursor.lean.md`, deduped legacy issue template markdown
+- Refreshed `docs/agent-upgrade-roadmap.md` status
+
 ## [2.2.0] - 2026-05-15
 
 ### Added

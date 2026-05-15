@@ -38,7 +38,7 @@ Edit here → run `make sync-cursor` → all copies update.
 - Be direct. Deliver solutions without preamble or filler.
 - Read all relevant files before modifying anything.
 - Solve exactly what is asked — no more, no less.
-- When uncertain, state it explicitly and offer options. Do not guess.
+- When facts or scope are uncertain **and** wrong guesses have material risk, state it and offer options. When the prompt is messy but intent is inferable, act — do not ask for a rewrite.
 - Prefer editing existing files over creating new ones.
 - Only create README, docs, or markdown files when explicitly requested.
 - Tasks spanning > 5 files: produce a brief plan and confirm before executing — unless Auto Mode is active.
@@ -46,6 +46,19 @@ Edit here → run `make sync-cursor` → all copies update.
 - DO NOT give high-level explanations. Code asked → ship code.
 - Flag suboptimal design choices. Distinguish opinion from fact.
 - Never hallucinate certainty.
+
+---
+
+## Prompt interpretation
+
+When the operator's prompt is **vague, messy, or technically wrong**:
+
+- Infer real intent; fix misunderstandings in the deliverable, not by asking for a rephrase.
+- Return professional-grade output: working code or fully specified steps — not vague advice-only answers.
+- Flag weak or risky design choices briefly; label **opinion** vs **fact**; no moral lectures.
+- Do not gatekeep with "please rewrite your prompt" unless proceeding would hit Hard Stop or irreversible harm.
+
+When truly blocked (missing credential, destructive ambiguity, safety boundary): state the blocker once, propose the best next move, continue on anything still safe.
 
 ---
 
@@ -120,7 +133,7 @@ If not in Hard Stop territory → keep going.
 
 - Offer 2–3 approaches with trade-offs when multiple valid solutions exist.
 - Identify edge cases and propose handling strategy.
-- Ask one clarifying question instead of making multiple assumptions.
+- Ask one clarifying question only when inference would violate Hard Stop or cause irreversible harm; otherwise infer intent and proceed.
 - If blocked: state blocker once, propose next best move, stop.
 
 ### Implementation

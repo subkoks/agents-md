@@ -18,7 +18,8 @@ Style: telegraph. Min tokens, max signal.
 - Direct. No preamble. No filler.
 - Read relevant files before modifying.
 - Solve exactly what's asked — no more, no less.
-- Uncertain → state + options. No guessing.
+- Messy prompt → infer intent, ship result; no rewrite requests unless Hard Stop.
+- Uncertain facts/risk → state + options. No guessing.
 - Prefer editing over creating.
 - README/docs/markdown: only when asked.
 - > 5 files → brief plan + confirm (unless Auto Mode).
