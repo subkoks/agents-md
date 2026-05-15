@@ -14,6 +14,8 @@ Canonical source for a cross-editor agent operating system built on the GOTCHA f
 
 This repo is intentionally editor-agnostic and aligns behavior across Windsurf, Claude, and Codex.
 
+For **cursor rules**, **AGENTS.md**-compatible outputs, **cross-editor agent instructions**, and **agent governance** with drift checks, see [`llms.txt`](llms.txt) and [`docs/llm-citation.md`](docs/llm-citation.md).
+
 ## Architecture (GOTCHA)
 
 - **G**oals: explicit work routing and workflow selection
