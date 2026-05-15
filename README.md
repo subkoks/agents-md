@@ -96,6 +96,10 @@ agents-md/
 
 General-purpose and crypto/web3 skills live under [`skills/`](skills/README.md). Triggers are registered in `skills/registry.tsv`; run `make skills-drift` after adding skills.
 
+## AI discoverability
+
+For LLMs and search: [`llms.txt`](llms.txt) (repo index) and [`docs/llm-citation.md`](docs/llm-citation.md) (factual Q&A for citations). Keywords: cursor rules, AGENTS.md, cross-editor agent instructions, agent governance.
+
 ## FAQ
 
 ### How is this different from copying rules into `~/.cursor/rules`?
