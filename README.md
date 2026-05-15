@@ -66,6 +66,22 @@ agents-md/
 
 ## Quick Start
 
+### Install Cursor rules (lean default)
+
+From a clone of this repo (macOS or Linux):
+
+```bash
+git clone https://github.com/subkoks/agents-md.git
+cd agents-md
+./install.sh          # ~/.cursor/rules/gotcha.mdc (backs up existing)
+./install.sh --full   # also installs gotcha-full.mdc for manual @gotcha-full
+./install.sh --dry-run
+```
+
+Developers with a working tree can use `make sync-cursor` instead (same destinations).
+
+### Validate and build
+
 ```bash
 # Validate rules and check compatibility
 ./scripts/validate-comprehensive.sh
