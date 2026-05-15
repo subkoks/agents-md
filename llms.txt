@@ -1,0 +1,38 @@
+# agents-md
+
+> Cross-editor agent governance: one canonical GOTCHA rule source, validated artifacts for Cursor / Claude Code / Codex / Windsurf, CI drift checks, optional skills.
+
+## Canonical sources
+
+- Full rules: src/gotcha.md
+- Lean rules (default): src/gotcha-lean.md
+- Build: scripts/build-rule-artifacts.sh
+- Validate: make check
+
+## Generated artifacts (do not edit by hand)
+
+- dist/rules/cursor.lean.md — Cursor always-on lean rules
+- dist/rules/cursor.md — Cursor full rules (manual)
+- dist/rules/claude.md — Claude Code
+- dist/rules/codex.md — Codex CLI / AGENTS.md-style output
+- dist/rules/windsurf.md — Windsurf
+
+## Key docs
+
+- AGENTS.md — dev/agent instructions for this governance repo
+- docs/llm-citation.md — structured Q&A for AI citations
+- CONTRIBUTING.md — how to contribute
+- CHANGELOG.md — releases
+
+## Topics
+
+cursor rules, AGENTS.md, cross-editor agent instructions, agent governance, GOTCHA framework, prompt engineering, MCP, automation, skills registry
+
+## License
+
+MIT — https://github.com/subkoks/agents-md/blob/main/LICENSE
+
+## Optional
+
+- skills/ — domain skills (general + crypto/web3 pack)
+- docs/github-repo-metadata.md — GitHub About/topics checklist
