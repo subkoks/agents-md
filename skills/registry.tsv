@@ -1,4 +1,13 @@
 # skill_id	status	owner_source	normalized_trigger	aliases
+local/python-automation	active	skills/	python-automation	python-script,cli-tool
+local/cursor-agent-workflow	active	skills/	cursor-agent-workflow	cursor-rules,subagents
+local/mcp-tools-and-servers	active	skills/	mcp-tools	mcp-server
+local/telegram-bots-and-scrapers	active	skills/	telegram-bot	telethon,scraper
+local/electron-desktop-apps	active	skills/	electron-app	desktop-app
+local/github-automation	active	skills/	github-automation	gh-cli,actions
+local/typescript-node-backend	active	skills/	ts-node-backend	node-api
+local/local-llm-deployment	active	skills/	local-llm	ollama
+local/debugging-protocol	active	skills/	debugging-protocol	root-cause
 local/defi-protocol-engineering	active	skills/	defi-protocol
 local/evm-smart-contract-dev	active	skills/	evm-contracts
 local/memecoin-trading-risk-playbook	active	skills/	memecoin-risk
