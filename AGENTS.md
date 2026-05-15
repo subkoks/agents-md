@@ -23,4 +23,5 @@ This is a documentation/rules governance repo (no runtime services). The "applic
 - shellcheck exclusions used by the project: `-e SC1091 -e SC2155` (see `.pre-commit-config.yaml`).
 - Built artifacts go to `dist/rules/` (gitignored). Always regenerate via `scripts/build-rule-artifacts.sh` rather than editing directly.
 - No language runtime dependencies (no npm/pip/cargo install needed). Only system tools: `bash`, `shellcheck`, `markdownlint-cli2`, `actionlint`, `pre-commit`.
+- `make check` includes a strict drift check that fails if `dist/rules/` artifacts are missing. Run `./scripts/build-rule-artifacts.sh` first (or use `make governance-run` which builds then checks).
 - Some pre-existing pre-commit failures exist in the repo (trailing whitespace in `ideas/`, duplicate YAML key in `.github/rulesets/code-review.yml`, git executable bits on two scripts). These are not caused by agent changes.
