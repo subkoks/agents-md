@@ -47,7 +47,7 @@ Optional markdown skills under `skills/` with registry `skills/registry.tsv`. In
 ## License and maintainer
 
 - License: MIT
-- Repository: https://github.com/subkoks/agents-md
+- Repository: [github.com/subkoks/agents-md](https://github.com/subkoks/agents-md)
 - Latest release: see GitHub Releases / `CHANGELOG.md`
 
 ## Suggested citation (one line)
