@@ -1,11 +1,11 @@
 #!/bin/bash
-# Check drift between canonical rules and local artifacts.
+# Check drift between repository rule sources and local artifacts.
 
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
-CANONICAL="$PROJECT_ROOT/src/gotcha.md"
+SOURCE="$PROJECT_ROOT/src/gotcha.md"
 
 STRICT=0
 VERBOSE=0
@@ -50,13 +50,13 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-if [[ ! -f "$CANONICAL" ]]; then
-  printf '%s\n' "[ERR ] Canonical file missing: $CANONICAL" >&2
+if [[ ! -f "$SOURCE" ]]; then
+  printf '%s\n' "[ERR ] Rule source missing: $SOURCE" >&2
   exit 1
 fi
 
 warnings=0
-printf '%s\n' "[INFO] Canonical: $CANONICAL"
+printf '%s\n' "[INFO] Rule source: $SOURCE"
 
 if [[ "$VERBOSE" -eq 1 ]]; then
   printf '%s\n' "[INFO] Strict mode: $STRICT"
@@ -74,7 +74,7 @@ for target in "${TARGETS[@]}"; do
     continue
   fi
 
-  if cmp -s "$CANONICAL" "$target"; then
+  if cmp -s "$SOURCE" "$target"; then
     printf '%s\n' "[ OK ] In sync: $target"
   else
     printf '%s\n' "[WARN] Drift detected: $target"

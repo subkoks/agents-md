@@ -1,9 +1,9 @@
 ---
-description: Canonical personal rules (lean). Auto-applied every session.
+description: Reusable agents-md lean rules. Auto-applied only when manually installed.
 alwaysApply: true
 ---
 
-# Global Rules (Lean) — canonical
+# Reusable Rules (Lean) — agents-md
 
 Style: telegraph. Min tokens, max signal.
 

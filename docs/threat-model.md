@@ -1,6 +1,6 @@
 # Threat model (lightweight)
 
-Scope: **agents-md** repository and its install/sync scripts — not your application code or production infrastructure.
+Scope: **agents-md** repository and its artifact/install scripts — not your application code or production infrastructure.
 
 ## Assets
 
@@ -8,14 +8,14 @@ Scope: **agents-md** repository and its install/sync scripts — not your applic
 | --- | --- |
 | `src/gotcha.md` / `src/gotcha-lean.md` | Malicious rules steer all synced editors |
 | `scripts/*.sh` | Arbitrary code execution when users run them |
-| Generated `dist/rules/*` | Same as canonical if drift checks are skipped |
+| Generated `dist/rules/*` | Same as source artifacts if drift checks are skipped |
 | `skills/*.md` | Misleading domain guidance (lower severity than rules) |
 | User `~/.cursor/rules/*.mdc` | Local agent behavior override |
 
 ## Trust boundaries
 
 1. **Upstream repo** — treat `main` and signed releases as trusted; verify PRs and CI before merge.
-2. **Local clone** — contributors can modify canonical sources; run `make check` before sharing artifacts.
+2. **Local clone** — contributors can modify repository sources; run `make check` before sharing artifacts.
 3. **Install target** — `install.sh` writes only under `~/.cursor/rules/` by default; backs up before overwrite.
 
 ## Threats and mitigations

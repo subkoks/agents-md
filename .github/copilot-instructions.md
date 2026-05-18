@@ -2,7 +2,7 @@
 
 ## Repository Context
 
-This repository is the canonical source for GOTCHA framework rules with local artifact packaging under `dist/rules`.
+This repository maintains reusable GOTCHA framework rule sources with local artifact packaging under `dist/rules`.
 
 ## Code Review Focus Areas
 

@@ -10,11 +10,11 @@ description: Use when structuring Cursor agent sessions, rules, subagents, hooks
 - Setting up or tuning Cursor rules (lean vs full)
 - Multi-step agent tasks with drift risk
 - Subagent delegation (`/verifier`, `/test-runner`, etc.)
-- Syncing canonical rules from agents-md
+- Building or manually installing reusable agents-md rule artifacts
 
 ## Implementation Workflow
 
-1. Identify canonical source: project `AGENTS.md` vs personal overlay vs `agents-md` sync.
+1. Identify authority layer: project `AGENTS.md`, `~/AGENTS.md`, or reusable `agents-md` artifact source.
 2. Prefer lean always-on rules; attach full rules manually when needed.
 3. Scope tasks: one concern per agent phase; bounded context.
 4. Run `make check` / governance pipeline after rule changes.
@@ -29,7 +29,7 @@ description: Use when structuring Cursor agent sessions, rules, subagents, hooks
 
 ## Done Criteria
 
-- Rules validate; artifacts in sync with canonical.
+- Rules validate; artifacts match the repository source.
 - Task has clear done criteria; verifier or tests run when code changed.
 
 ## Related Skills

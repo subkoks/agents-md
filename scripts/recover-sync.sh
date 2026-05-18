@@ -1,5 +1,5 @@
 #!/bin/bash
-# Recovery script for rule sync issues and rollback procedures.
+# Recovery script for rule artifact issues and rollback procedures.
 
 set -euo pipefail
 
@@ -41,14 +41,14 @@ show_help() {
     cat << 'EOF'
 Usage: $0 [OPTIONS] [ACTION]
 
-Recovery and rollback procedures for rule sync issues.
+Recovery and rollback procedures for rule artifact issues.
 
 ACTIONS:
-    status          Show current sync status
+    status          Show current artifact status
     backup          Create manual backups
     restore         Restore from backups
-    reset           Force reset to canonical
-    diagnose        Diagnose sync issues
+    reset           Force reset to repository source
+    diagnose        Diagnose artifact issues
     cleanup         Clean old backups
 
 OPTIONS:
@@ -69,7 +69,7 @@ EOF
 }
 
 show_status() {
-    log_info "Current sync status"
+    log_info "Current artifact status"
     echo ""
 
     for target_entry in "${TARGETS[@]}"; do
@@ -77,9 +77,9 @@ show_status() {
 
         if [[ -f "$target" ]]; then
             if cmp -s "$SOURCE" "$target"; then
-                echo -e "  ${GREEN}✅${NC} $name: In sync"
+                echo -e "  ${GREEN}✅${NC} $name: Matches source"
             else
-                echo -e "  ${YELLOW}⚠️${NC} $name: Out of sync"
+                echo -e "  ${YELLOW}⚠️${NC} $name: Differs from source"
             fi
         else
             echo -e "  ${RED}❌${NC} $name: Missing"
@@ -88,15 +88,15 @@ show_status() {
 }
 
 diagnose_issues() {
-    log_info "Diagnosing sync issues"
+    log_info "Diagnosing artifact issues"
     echo ""
 
     # Check source file
     if [[ ! -f "$SOURCE" ]]; then
-        log_error "Canonical source missing: $SOURCE"
+        log_error "Rule source missing: $SOURCE"
         return 1
     fi
-    log_success "Canonical source exists"
+    log_success "Rule source exists"
 
     # Check each target
     local issues=0
@@ -127,7 +127,7 @@ diagnose_issues() {
             fi
 
             if cmp -s "$SOURCE" "$target"; then
-                log_success "Content matches canonical"
+                log_success "Content matches source"
             else
                 log_warning "Content differs from canonical"
                 issues=$((issues + 1))

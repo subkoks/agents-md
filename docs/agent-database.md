@@ -5,11 +5,11 @@ Curated reference database of the highest-value rules, hooks, skills, workflows,
 ## Purpose
 
 This file is the working inventory for improving agent quality inside `agents-md`.
-It records what exists, why it matters, what should be promoted, and where the source of truth currently lives.
+It records what exists, why it matters, what should be promoted, and where each repository source currently lives.
 
 ## Source Map
 
-- `src/gotcha.md` — active rule — primary — canonical operating behavior
+- `src/gotcha.md` — active rule — primary — reusable operating behavior
 - `docs/agent-patterns.md` — pattern reference — high value — normalized execution and design patterns
 - `docs/hook-reference.md` — hook reference — high value — routing/quality/recovery hook patterns
 - `docs/hook-portability-spec.md` — portability contract — high value — editor-agnostic hook interface

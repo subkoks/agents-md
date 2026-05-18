@@ -1,5 +1,5 @@
 #!/bin/bash
-# Build local rule artifacts from canonical source.
+# Build local rule artifacts from repository sources.
 
 set -euo pipefail
 
@@ -13,7 +13,7 @@ DRY_RUN=0
 VERBOSE=0
 FORCE=0
 
-CURSOR_FRONTMATTER=$'---\ndescription: Canonical personal rules (full). Apply manually with @gotcha-full.\nalwaysApply: false\n---\n\n'
+CURSOR_FRONTMATTER=$'---\ndescription: Reusable agents-md rules (full). Apply manually with @gotcha-full.\nalwaysApply: false\n---\n\n'
 
 TARGETS=(
   "windsurf:$DIST_DIR/windsurf.md:raw"
@@ -45,7 +45,7 @@ show_help() {
   cat <<'EOF'
 Usage: scripts/build-rule-artifacts.sh [OPTIONS] [TARGETS...]
 
-Build local rule artifacts from src/gotcha.md into dist/rules.
+Build local reusable rule artifacts from src/gotcha.md into dist/rules.
 
 Options:
   -h, --help      Show help
@@ -66,7 +66,7 @@ EOF
 
 validate_source() {
   if [[ ! -f "$SOURCE" ]]; then
-    printf '%s\n' "[ERR ] Missing canonical source: $SOURCE" >&2
+    printf '%s\n' "[ERR ] Missing rule source: $SOURCE" >&2
     exit 1
   fi
 }

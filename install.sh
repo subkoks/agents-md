@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Install agents-md Cursor lean rules (and optional full rules) with backups.
+# Manually install agents-md Cursor lean rules (and optional full rules) with backups.
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -15,7 +15,7 @@ usage() {
   cat <<'EOF'
 Usage: ./install.sh [OPTIONS]
 
-Install generated Cursor rule artifacts from this repository.
+Manually install generated Cursor rule artifacts from this repository.
 
 Options:
   --full       Also install full rules to gotcha-full.mdc (manual @mention)
@@ -23,9 +23,10 @@ Options:
   -h, --help   Show this help
 
 Defaults:
-  - Installs lean rules to ~/.cursor/rules/gotcha.mdc (alwaysApply)
+  - Manually installs lean rules to ~/.cursor/rules/gotcha.mdc (alwaysApply)
   - Backs up existing targets with a timestamp suffix before overwrite
   - Runs artifact build if dist/rules/cursor.lean.md is missing
+  - Does not read, write, or control ~/AGENTS.md
 
 Supported: macOS and Linux (bash 4+).
 EOF
@@ -99,5 +100,5 @@ if [[ "$INSTALL_FULL" -eq 1 ]]; then
   install_file "$DIST_FULL" "$FULL_DEST"
 fi
 
-log "[DONE] Lean Cursor rules installed. Optional full: ./install.sh --full"
-log "       Repo sync alternative: make sync-cursor (from a dev checkout)"
+log "[DONE] Lean Cursor rules installed manually. Optional full: ./install.sh --full"
+log "       Dev checkout alternative: make install-cursor-local"

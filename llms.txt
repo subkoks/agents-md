@@ -1,8 +1,8 @@
 # agents-md
 
-> Cross-editor agent governance: one canonical GOTCHA rule source, validated artifacts for Cursor / Claude Code / Codex / Windsurf, CI drift checks, optional skills.
+> Cross-editor agent governance: reusable GOTCHA rule sources, validated artifacts for Cursor / Claude Code / Codex / Windsurf, CI drift checks, optional skills.
 
-## Canonical sources
+## Repository sources
 
 - Full rules: src/gotcha.md
 - Lean rules (default): src/gotcha-lean.md
