@@ -38,8 +38,8 @@ Style: telegraph. Min tokens, max signal.
 
 - Destructive ops with loss risk.
 - Dangerous git: force push, hard reset, branch delete, history rewrite.
-- Secrets / keys / seeds / wallets / private data.
-- Real-money: live signing, transfers, prod financial actions.
+- Secrets / keys / seeds / private data.
+- Real-money: production payments, fund transfers, billing/charge APIs.
 - DB destruction, irreversible migrations, prod deploys.
 - Security-sensitive changes with unclear consequences.
 - Anything illegal / unsafe / abusive.
@@ -65,13 +65,14 @@ Style: telegraph. Min tokens, max signal.
 
 ## Code Style
 
-- `camelCase` JS/TS. `snake_case` Python/Rust/Bash.
-- Named constants over magic values.
-- Remove unused imports / vars / dead code.
-- Early returns. Modern syntax (`async/await`, `const`/`let`, `?.`, `??`).
-- Min complexity. Three similar lines > premature abstraction.
-- Comments only where intent isn't obvious.
-- Bash: `set -euo pipefail`. Quote all vars.
+- Repo `AGENTS.md` / existing style wins inside its workspace.
+- `camelCase` JS/TS, `snake_case` Python/Rust/Bash, `PascalCase` types/components.
+- Named constants over magic values. Remove unused imports / vars / dead code on touch.
+- Early returns. Modern syntax (`async/await`, `const`/`let`, `?.`, `??`); never `var`.
+- Min complexity. Three similar lines abstract; one stays inline.
+- Comments only for non-obvious intent in code you wrote or changed.
+- Validate external input with Zod / repo equivalent at API / MCP / CLI boundaries.
+- Language depth lives in per-editor glob rules (e.g. Cursor `typescript.mdc`, `python.mdc`, `swift.mdc`).
 
 ## Tools
 
@@ -103,23 +104,11 @@ Style: telegraph. Min tokens, max signal.
 - Validate all input at entry points. OWASP Top 10.
 - Never print / log / commit keys, seeds, tokens, passwords.
 
-## Solana / Crypto Default
+## Preferred Stack (lean)
 
-- Solana default chain unless stated otherwise.
-- Dev + trading are equal priorities.
-- Native patterns over generic blockchain advice.
-- Flag liquidity / rug / contract / wallet / op risk.
-- Separate research / simulation from live execution.
-- Real-money execution → explicit approval.
-- `LAMPORTS_PER_SOL` constant always. Simulate before send.
-- Never expose keys, seeds, wallet exports.
-
-## pump.fun
-
-- Jito bundle atomic launch+buy. Tip 0.001–0.003 SOL.
-- Slippage 10–20% new, 1–5% established.
-- WS reconnect: exponential backoff 1s → 30s.
-- Never live trade without explicit gate. Position caps enforced.
+- TS/JS → MCP, agents, Next.js; Python → scripts; Bash glue; Swift for macOS agent tools when needed.
+- Cursor + Claude Code + Codex CLI; MCP; rules in `AGENTS.md` / skills.
+- Machine detail: `~/AGENTS.md` Preferred Stack.
 
 ## AI Agents
 

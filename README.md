@@ -8,6 +8,8 @@
 
 Cross-editor **agent governance**: cursor rules, `AGENTS.md`-compatible project instructions, drift-checked builds, and a growing skill pack. Compatible with the community **AGENTS.md** convention — this repo is not the standard itself and does not control `~/AGENTS.md`.
 
+**Machine canonical:** `~/AGENTS.md` v2.2 (2026-05-18) removed crypto/Solana as a default domain; shared `src/gotcha*.md` artifacts mirror that policy.
+
 ## 60-second quickstart
 
 ```bash
