@@ -56,7 +56,7 @@ ls "$PNPM_HOME" 2>/dev/null    # exists
 
 **Do NOT preinstall globals.** Re-install per-project as workflows surface them. Track recurring ones below for documentation only.
 
-### Currently in active rotation (per inventory):
+### Currently in active rotation (per inventory)
 
 - `@anthropic-ai/claude-code` — install via `npm i -g @anthropic-ai/claude-code` during Milestone 11 (AI tooling)
 - `@continuedev/cli` — KEEP_LATER, install on demand

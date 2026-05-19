@@ -29,12 +29,14 @@ Decisions are recorded in `DECISIONS.md` + resolution table in `OPEN_QUESTIONS.m
 **Goal:** clean macOS shell with Apple ID signed in, FileVault enabled (if Q4 = on), no iCloud Documents-and-Desktop sync to avoid mixing repo work into iCloud.
 
 **Steps:**
+
 1. Complete Setup Assistant (region, Apple ID, Touch ID).
 2. **System Settings → Privacy & Security → FileVault** → turn on if Q4 = on. Save recovery key in 1Password.
 3. **System Settings → Apple ID → iCloud → iCloud Drive → Options** → uncheck "Desktop & Documents Folders" (prevents `~/Projects` syncing).
 4. **System Settings → General → Software Update** → install all pending updates, reboot.
 
 **Verify:**
+
 ```bash
 sw_vers                                                # ProductVersion ≥ snapshot at planning
 fdesetup status                                        # "FileVault is On." (if Q4 = on)
@@ -49,12 +51,14 @@ ls ~/Library/Mobile\ Documents/com~apple~CloudDocs/ 2>/dev/null \
 **Goal:** `xcode-select -p` returns a valid path; `git`, `clang`, `make` available.
 
 **Steps:**
+
 ```bash
 xcode-select --install        # GUI prompt; click Install
 # Wait for completion
 ```
 
 **Verify:**
+
 ```bash
 xcode-select -p               # /Library/Developer/CommandLineTools (or .../Xcode.app/...)
 git --version                 # git version 2.x
@@ -71,11 +75,13 @@ Skip if Q1 = Intel.
 **Goal:** Intel binaries can run if a tool requires it.
 
 **Steps:**
+
 ```bash
 softwareupdate --install-rosetta --agree-to-license
 ```
 
 **Verify:**
+
 ```bash
 arch -x86_64 uname -m         # x86_64
 ```
@@ -87,6 +93,7 @@ arch -x86_64 uname -m         # x86_64
 **Goal:** `brew` on PATH at the right prefix; `brew doctor` clean.
 
 **Steps:**
+
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
@@ -99,6 +106,7 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 ```
 
 **Verify:**
+
 ```bash
 brew --version                # Homebrew >= 4.x
 brew --prefix                 # /opt/homebrew (ARM) or /usr/local (Intel)
@@ -112,6 +120,7 @@ brew doctor                   # "Your system is ready to brew."  (or only warnin
 **Goal:** every formula and cask in `bootstrap/Brewfile` is installed; services started.
 
 **Steps:**
+
 ```bash
 cd ~/Projects/macos-bootstrap-2026
 brew bundle --file=bootstrap/Brewfile
@@ -119,6 +128,7 @@ brew bundle --file=bootstrap/Brewfile
 ```
 
 **Verify:**
+
 ```bash
 brew bundle check --file=bootstrap/Brewfile        # "The Brewfile's dependencies are satisfied."
 brew services list | grep -E 'postgresql@16|redis' # both: started
@@ -139,6 +149,7 @@ redis-cli ping                # ✅ PONG
 ```
 
 If pentest tier is needed:
+
 ```bash
 brew bundle --file=bootstrap/Brewfile.pentest
 ```
@@ -150,6 +161,7 @@ brew bundle --file=bootstrap/Brewfile.pentest
 **Goal:** Zsh + oh-my-zsh + Powerlevel10k + Nerd Font visible in Terminal.app.
 
 **Steps:**
+
 ```bash
 # oh-my-zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
@@ -171,6 +183,7 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting \
 **Set Terminal.app font:** Terminal → Settings → Pro (or your profile) → Text → Font → "MesloLGS NF" (installed by Brewfile).
 
 **Verify:**
+
 ```bash
 echo $SHELL                   # /bin/zsh
 ls ~/.oh-my-zsh                # exists
@@ -188,6 +201,7 @@ See `bootstrap/node_toolchain.md` and `bootstrap/python_toolchain.md` for full d
 **Goal:** Node 22 LTS via nvm; Python 3.13 via pyenv; both default for new shells.
 
 **Steps (summary):**
+
 ```bash
 # nvm (Brewfile installed it; ensure shell init)
 mkdir -p ~/.nvm
@@ -202,6 +216,7 @@ pyenv global 3.13
 ```
 
 **Verify:**
+
 ```bash
 node --version                # v22.x
 which node                    # ~/.nvm/versions/node/v22.x/bin/node
@@ -221,6 +236,7 @@ pipx --version
 **Steps:** already done by Brewfile (`google-chrome-dev`, `brave-browser` casks). Open each once to complete first-run setup.
 
 **Verify:**
+
 ```bash
 ls /Applications/ | grep -E 'Brave|Chrome Dev'
 ls "/Applications/Google Chrome Dev.app/Contents/MacOS/Google Chrome Dev"
@@ -237,6 +253,7 @@ See `bootstrap/editors.md` for extension restore.
 **Steps:** already done by Brewfile (`cursor`, `windsurf` casks). Open each, sign in, run extension install loop from `bootstrap/editors.md`.
 
 **Verify:**
+
 ```bash
 code --version | head -1      # Cursor's `code` rebrand
 windsurf --version | head -1
@@ -259,6 +276,7 @@ chezmoi init --apply git@github.com:subkoks/dotfiles.git
 ```
 
 **Verify:**
+
 ```bash
 ls -la ~/.zshrc ~/.zshenv ~/.zprofile ~/AGENTS.md
 diff -q ~/AGENTS.md ~/.local/share/chezmoi/dot_AGENTS.md.tmpl 2>/dev/null \
@@ -274,6 +292,7 @@ Clone only repos that have a GitHub remote and were touched in the last 60 days 
 **Goal:** `~/Projects/Current/Active/*` populated with cloneable repos and built where needed.
 
 **Steps:**
+
 ```bash
 gh auth login           # HTTPS, follow prompts; select existing SSH keys NO if not migrated
 mkdir -p ~/Projects/Current/{Active,Backlog} ~/Projects/{Experiments,Learning,Templates,Archives}
@@ -293,6 +312,7 @@ ls dist/server.js                    # verify produced
 ```
 
 **Verify:**
+
 ```bash
 gh auth status                       # logged in, token valid
 ls ~/Projects/Current/Active/        # expected repos present
@@ -308,6 +328,7 @@ See `bootstrap/ai_tooling.md` for per-root migrate/regen detail.
 **Goal:** Claude Code CLI, Codex CLI, MCP servers all wired up. Rules + skills restored from canonical `~/.cursor/skills/` tree (synced into other editor roots).
 
 **Steps:**
+
 ```bash
 # Claude Code CLI (per Q6 default — npm global)
 npm i -g @anthropic-ai/claude-code
@@ -336,6 +357,7 @@ codex --version
 ```
 
 **Verify:**
+
 ```bash
 claude --version
 codex --version

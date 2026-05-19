@@ -99,6 +99,7 @@ Columns:
 Same pattern for `agents/`, `rules/` (via per-editor wrappers), and `hooks/`.
 
 **Restore order on new machine:**
+
 1. Clone `~/Projects/Current/Active/agents-md/` (canonical body source).
 2. Clone any `awesome-claude-skills` mirror you maintain.
 3. Restore `~/.cursor/skills/` from dotfiles snapshot.
@@ -115,7 +116,7 @@ for editor in claude codex agents codeium/windsurf; do
 done
 ```
 
-5. Re-run `cd ~/Projects/Current/Active/agents-md && make sync-cursor` to regenerate the per-editor wrappers.
+1. Re-run `cd ~/Projects/Current/Active/agents-md && make sync-cursor` to regenerate the per-editor wrappers.
 
 ---
 
@@ -146,6 +147,7 @@ Snapshot from `claude mcp list` (current machine, 17 servers). Categorized by wh
 | `bsela` | `~/Projects/Current/Active/BEST-Self-Enhancement-Learning-AI/mcp/dist/server.js` | **Depends on Milestone 10** (clone repo + `pnpm build`). `claude mcp` can only register once `dist/server.js` exists. |
 
 **Action:**
+
 1. After Milestone 10 finishes, build BSELA: `cd ~/Projects/Current/Active/BEST-Self-Enhancement-Learning-AI/mcp && pnpm install && pnpm build`.
 2. Install GitHub MCP server binary (release tarball or `go install github.com/github/github-mcp-server/cmd/github-mcp-server@latest`).
 3. Re-register both:

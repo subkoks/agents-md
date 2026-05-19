@@ -96,6 +96,7 @@ What the new macOS install will run. Default values are derived from the current
 ## 11. Crypto / Solana
 
 Per `~/AGENTS.md` Solana-first stance:
+
 - **Default chain:** Solana.
 - **SDK:** `@solana/kit` for new code; legacy `@solana/web3.js` only via `@solana/web3-compat`.
 - **Wallets:** Phantom embedded for app dev; never store seed phrases in repos or `.env`.

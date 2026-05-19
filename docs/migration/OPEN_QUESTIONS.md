@@ -75,6 +75,7 @@ All Q1–Q13 were closed with **defaults aligned to `~/AGENTS.md` + inventory** 
 ## Q6 — Claude Code desktop / CLI install path **[blocks AI tooling milestone]**
 
 **Block reason:** Claude Code can be installed multiple ways:
+
 - npm global (`npm i -g @anthropic-ai/claude-code`)
 - Native installer (downloaded from anthropic.com)
 - Cask (`brew install --cask claude` for the desktop app)

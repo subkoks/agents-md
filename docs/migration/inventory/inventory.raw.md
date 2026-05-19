@@ -6,7 +6,6 @@
 - **Home:** /Users/black.terminal
 - **Mode:** read-only
 
-
 ## 1. System
 
 #### macOS version
@@ -14,9 +13,9 @@
 `sw_vers`
 
 ```
-ProductName:		macOS
-ProductVersion:		26.4.1
-BuildVersion:		25E253
+ProductName:  macOS
+ProductVersion:  26.4.1
+BuildVersion:  25E253
 ```
 
 #### Architecture
@@ -116,9 +115,7 @@ System Integrity Protection status: enabled.
 FileVault is Off.
 ```
 
-
 ## 2. Applications
-
 
 ### /Applications (top-level GUI apps with bundle versions)
 
@@ -169,7 +166,6 @@ Warp                                         0.2026.04.27.15.32.03
 Windsurf                                     2.1.32
 ```
 
-
 ### ~/Applications
 
 ```
@@ -177,7 +173,6 @@ Claude Code URL Handler                      ?
 Gambler.Bot                                  5.0.50.0
 Greptile Fix                                 ?
 ```
-
 
 ## 3. Developer CLIs and Package Managers
 
@@ -912,7 +907,6 @@ xmlrpc (0.3.0)
 zlib (default: 1.0.0)
 ```
 
-
 ## 4. Runtimes
 
 #### node
@@ -1004,7 +998,6 @@ version=pyenv 2.6.28
 * 3.13.12 (set by /Users/black.terminal/.pyenv/version)
 ```
 
-
 ### nvm (~/.nvm)
 
 #### nvm node versions
@@ -1014,7 +1007,6 @@ version=pyenv 2.6.28
 ```
 v22.22.0
 ```
-
 
 ## 5. Services / Infra
 
@@ -1053,7 +1045,6 @@ PONG
 2.95.4
 ```
 
-
 ## 6. Shell and Terminal
 
 #### Default shell
@@ -1073,7 +1064,6 @@ zsh 5.9 (x86_64-apple-darwin25.0)
 Apple_Terminal
 ```
 
-
 ### Shell config files
 
 - `~/.zshrc` (583 lines)
@@ -1082,28 +1072,23 @@ Apple_Terminal
 - `~/.bashrc` (35 lines)
 - `~/.bash_profile` (38 lines)
 
-
 ### Prompt frameworks / shell tooling
 
 - oh-my-zsh: present
 - powerlevel10k config: present
 - starship: present
 
-
 ### Terminal apps installed
 
 - Terminal: installed
 - Warp: installed
 
-
 ## 7. Coding Tools
-
 
 ### Editors / IDEs (presence in /Applications)
 
 - Cursor: 3.3.4
 - Windsurf: 2.1.32
-
 
 ### Editor CLI launchers + extensions
 
@@ -1173,7 +1158,6 @@ yoavbls.pretty-ts-errors@0.8.7
 zhuangtongfa.material-theme@3.19.0
 ```
 
-
 ### Common CLI tools
 
 - git                  /usr/local/bin/git — git version 2.54.0
@@ -1208,9 +1192,7 @@ zhuangtongfa.material-theme@3.19.0
 - lsof                 /usr/sbin/lsof — COMMAND     PID           USER   FD      TYPE             DEVICE  SIZE/OFF                NODE NAME
 - fswatch              /usr/local/bin/fswatch — fswatch 1.20.1
 
-
 ## 8. AI Ecosystem Footprint
-
 
 ### Claude Code — `/Users/black.terminal/.claude`
 
@@ -1250,6 +1232,7 @@ drwxr-xr-x    3 black.terminal  staff     96 May  2 19:05 vendor
 ```
 
 **Notable subpaths:**
+
 - `/Users/black.terminal/.claude/CLAUDE.md` (746 bytes)
 - `/Users/black.terminal/.claude/settings.json` (3406 bytes)
 - `/Users/black.terminal/.claude/settings.local.json` (2335 bytes)
@@ -1260,7 +1243,6 @@ drwxr-xr-x    3 black.terminal  staff     96 May  2 19:05 vendor
 - `/Users/black.terminal/.claude/plugins/` (1 entries)
 - `/Users/black.terminal/.claude/projects/` (10 entries)
 - `/Users/black.terminal/.claude/sessions/` (1 entries)
-
 
 ### Cursor — `/Users/black.terminal/.cursor`
 
@@ -1292,6 +1274,7 @@ drwxr-xr-x   16 black.terminal  staff   512 May  5 21:45 skills-cursor
 ```
 
 **Notable subpaths:**
+
 - `/Users/black.terminal/.cursor/mcp.json` (1123 bytes)
 - `/Users/black.terminal/.cursor/rules/` (12 entries)
 - `/Users/black.terminal/.cursor/skills/` (7 entries)
@@ -1300,7 +1283,6 @@ drwxr-xr-x   16 black.terminal  staff   512 May  5 21:45 skills-cursor
 - `/Users/black.terminal/.cursor/plugins/` (2 entries)
 - `/Users/black.terminal/.cursor/extensions/` (23 entries)
 - `/Users/black.terminal/.cursor/projects/` (40 entries)
-
 
 ### Codex CLI — `/Users/black.terminal/.codex`
 
@@ -1347,13 +1329,13 @@ drwxr-xr-x    3 black.terminal  staff        96 Apr 26 14:23 worktrees
 ```
 
 **Notable subpaths:**
+
 - `/Users/black.terminal/.codex/AGENTS.md` (12698 bytes)
 - `/Users/black.terminal/.codex/rules/` (1 entries)
 - `/Users/black.terminal/.codex/skills/` (71 entries)
 - `/Users/black.terminal/.codex/hooks/` (5 entries)
 - `/Users/black.terminal/.codex/plugins/` (1 entries)
 - `/Users/black.terminal/.codex/sessions/` (2 entries)
-
 
 ### Shared agents — `/Users/black.terminal/.agents`
 
@@ -1366,8 +1348,8 @@ drwxr-xr-x   91 black.terminal  staff  2912 May  3 11:19 skills
 ```
 
 **Notable subpaths:**
-- `/Users/black.terminal/.agents/skills/` (88 entries)
 
+- `/Users/black.terminal/.agents/skills/` (88 entries)
 
 ### Windsurf — `/Users/black.terminal/.windsurf`
 
@@ -1395,11 +1377,11 @@ drwxr-xr-x    4 black.terminal  staff   128 May  4 22:10 worktrees
 ```
 
 **Notable subpaths:**
+
 - `/Users/black.terminal/.windsurf/settings.json` (98 bytes)
 - `/Users/black.terminal/.windsurf/rules/` (9 entries)
 - `/Users/black.terminal/.windsurf/skills/` (9 entries)
 - `/Users/black.terminal/.windsurf/extensions/` (30 entries)
-
 
 ### Codeium / Windsurf legacy — `/Users/black.terminal/.codeium`
 
@@ -1413,7 +1395,6 @@ drwxr-xr-x@   3 black.terminal  staff    96 Feb  7 00:29 language_server_v1.48.2
 drwxr-xr-x@   4 black.terminal  staff   128 Feb  7 00:29 language-server
 drwxr-xr-x@  21 black.terminal  staff   672 May  4 22:10 windsurf
 ```
-
 
 ### Continue.dev — `/Users/black.terminal/.continue`
 
@@ -1448,12 +1429,12 @@ drwxr-xr-x@   3 black.terminal  staff    96 Feb 12 00:08 types
 ```
 
 **Notable subpaths:**
+
 - `/Users/black.terminal/.continue/config.json` (3163 bytes)
 - `/Users/black.terminal/.continue/skills/` (1 entries)
 - `/Users/black.terminal/.continue/agents/` (2 entries)
 - `/Users/black.terminal/.continue/logs/` (1 entries)
 - `/Users/black.terminal/.continue/sessions/` (4 entries)
-
 
 ### Aider — `/Users/black.terminal/.aider`
 
@@ -1466,7 +1447,6 @@ drwxr-xr-x    4 black.terminal  staff   128 Feb 17 19:36 caches
 -rw-r--r--    1 black.terminal  staff    91 Feb 17 19:36 installs.json
 ```
 
-
 ### Top-level agent rule files
 
 - `/Users/black.terminal/AGENTS.md` (385 lines)
@@ -1476,7 +1456,6 @@ drwxr-xr-x    4 black.terminal  staff   128 Feb 17 19:36 caches
 - `/Users/black.terminal/.cursor/rules/gotcha-full.mdc` (272 lines)
 - `/Users/black.terminal/.windsurf/rules/gotcha.md` (267 lines)
 - `/Users/black.terminal/.codeium/windsurf/memories/global_rules.md` (158 lines)
-
 
 ### Skill counts per editor root
 
@@ -1528,9 +1507,7 @@ chrome-devtools: npx -y chrome-devtools-mcp@latest --executablePath=/Application
 codex-cli 0.128.0
 ```
 
-
 ## Appendix: Missing commands or permission-limited checks
-
 
 ### Missing commands
 
@@ -1554,7 +1531,6 @@ codex-cli 0.128.0
 - `psql` not found on PATH
 - `pg_isready` not found on PATH
 
-
 ### Permission-limited or environment-dependent
 
 - `sudo`-gated checks (system-level brew services, fdesetup detail, etc.) were not attempted — read-only mode.
@@ -1563,11 +1539,9 @@ codex-cli 0.128.0
 - Mac App Store list requires `mas` and an active App Store session.
 - `claude mcp list` and similar agent CLIs depend on the host context (project vs. global).
 
-
 ### Notes
 
 - AI section is a *list-only* footprint of paths and config locations; no judgments.
-
 
 ---
 *Generated by macos-machine-inventory skill — read-only.*

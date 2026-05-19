@@ -3,6 +3,7 @@
 Source: `/Users/black.terminal/Projects/inventory-2026-05-05.md`
 
 Scope:
+
 - Read-only normalization and classification package.
 - Deduplicated cross-section duplicates (apps, CLIs, runtimes, services, configs, state paths).
 - Converted visible encoding artifacts to ASCII in this output (for example tree glyphs and checkmark symbols from raw command output).
@@ -24,6 +25,7 @@ Scope:
 ## Deduplicated inventory index (high-signal)
 
 ### Apps (selected)
+
 - Cursor
 - Windsurf
 - Claude
@@ -49,6 +51,7 @@ Scope:
 - Claude Code URL Handler
 
 ### CLIs and package managers (selected)
+
 - brew
 - git
 - gh
@@ -63,6 +66,7 @@ Scope:
 - codex / claude / dev-browser / firecrawl-cli / pre-commit / supabase
 
 ### Runtimes
+
 - Node.js 22 via nvm
 - Python 3.13 via pyenv
 - Ruby system runtime
@@ -71,10 +75,12 @@ Scope:
 - Lua runtime
 
 ### Services
+
 - postgresql@16 (started)
 - redis (started)
 
 ### Config and state roots (migration-relevant)
+
 - `~/.zshrc`, `~/.zprofile`, `~/.zshenv`, `~/.bashrc`, `~/.bash_profile`
 - `~/AGENTS.md`
 - `~/.claude/*`
