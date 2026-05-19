@@ -1,0 +1,222 @@
+item,type,source_path_or_command,classification,priority,confidence,note
+macOS 26.4.1,state,sw_vers,KEEP_NOW,critical,high,Base OS version for compatibility checks.
+x86_64 architecture,state,uname -m,KEEP_NOW,critical,high,Hardware architecture affects binary/runtime selection.
+Homebrew,cli,brew --version,KEEP_NOW,critical,high,Primary package manager.
+git,cli,/usr/local/bin/git,KEEP_NOW,critical,high,Core VCS tooling.
+gh,cli,/usr/local/bin/gh,KEEP_NOW,important,high,GitHub workflow tooling.
+node,cli,/Users/black.terminal/.nvm/versions/node/v22.22.0/bin/node,KEEP_NOW,critical,high,Primary JS runtime command.
+npm,cli,npm --version,KEEP_NOW,critical,high,Node package manager.
+pnpm,cli,command pnpm --version,KEEP_NOW,important,high,Preferred Node package manager in user rules.
+yarn,cli,yarn --version,KEEP_LATER,optional,high,Present but not primary manager.
+python,runtime,/Users/black.terminal/.pyenv/shims/python,KEEP_NOW,critical,high,Primary Python runtime entrypoint.
+python3,runtime,/Users/black.terminal/.pyenv/shims/python3,KEEP_NOW,critical,high,Common Python entrypoint.
+pip,cli,pip --version,KEEP_NOW,important,high,Python package installer.
+pip3,cli,pip3 --version,KEEP_NOW,important,high,Duplicate entrypoint of pip in this setup.
+uv,cli,uv --version,KEEP_NOW,important,high,Fast Python tooling manager.
+pipx,cli,pipx --version,KEEP_NOW,important,high,Isolated Python app installs.
+pyenv,runtime,pyenv --version,KEEP_NOW,critical,high,Python version management.
+pyenv-virtualenv,cli,brew leaves,KEEP_NOW,important,high,Virtualenv integration for pyenv.
+nvm,runtime,~/.nvm and brew leaves,KEEP_NOW,important,medium,Function-based tool plus formula listing; shell init required.
+mise,runtime,/usr/local/bin/mise,KEEP_NOW,important,high,Runtime manager present in toolchain.
+ruby,runtime,/usr/bin/ruby,KEEP_LATER,optional,high,System Ruby available; not primary stack.
+java,runtime,/usr/bin/java,KEEP_LATER,optional,high,Java runtime present for occasional tooling.
+deno,runtime,/usr/local/bin/deno,KEEP_LATER,optional,high,Installed but not primary workflow.
+lua,runtime,/usr/local/bin/lua,KEEP_LATER,optional,high,Installed dependency/runtime.
+postgresql@16,service,brew services list,KEEP_NOW,critical,high,Database service running.
+redis,service,brew services list,KEEP_NOW,critical,high,Cache/message broker service running.
+redis-cli,cli,redis-cli --version,KEEP_NOW,important,high,Service verification and local ops.
+sqlite3,cli,sqlite3 --version,KEEP_NOW,important,high,Local DB tooling.
+supabase,cli,supabase --version,KEEP_NOW,important,high,Supabase workflow dependency.
+actionlint,cli,brew leaves,KEEP_LATER,optional,high,CI lint helper.
+bat,cli,/usr/local/bin/bat,KEEP_NOW,important,high,Common terminal workflow utility.
+cmake,cli,/usr/local/bin/cmake,KEEP_LATER,optional,high,Build tool; needed for some native deps.
+duti,cli,brew leaves,KEEP_LATER,optional,high,macOS default app association helper.
+eza,cli,/usr/local/bin/eza,KEEP_NOW,important,high,Preferred ls replacement.
+fd,cli,/usr/local/bin/fd,KEEP_NOW,important,high,Fast file finder.
+ffmpeg,cli,/usr/local/bin/ffmpeg,KEEP_LATER,optional,medium,Version capture uncertain in source.
+fswatch,cli,/usr/local/bin/fswatch,KEEP_NOW,important,high,File watch utility in active use.
+fzf,cli,/usr/local/bin/fzf,KEEP_NOW,important,high,Fuzzy finder utility.
+gnu-sed,cli,brew leaves,KEEP_LATER,optional,high,GNU sed compatibility.
+jq,cli,/usr/local/bin/jq,KEEP_NOW,important,high,JSON processing utility.
+ripgrep,cli,/usr/local/bin/rg,KEEP_NOW,critical,high,Primary code search utility.
+tmux,cli,/usr/local/bin/tmux,KEEP_NOW,important,high,Terminal multiplexing.
+watchman,service,brew list --formula --versions,KEEP_LATER,optional,medium,Installed as formula; service state not listed.
+wget,cli,/usr/local/bin/wget,KEEP_NOW,important,high,Download utility.
+yt-dlp,cli,/usr/local/bin/yt-dlp,KEEP_LATER,optional,high,Media workflow utility.
+zoxide,cli,/usr/local/bin/zoxide,KEEP_NOW,important,high,Directory jump utility.
+gh extensions,state,gh plus extension ecosystem,KEEP_LATER,optional,low,No extension inventory captured in source.
+claude,cli,/Users/black.terminal/.local/bin/claude,KEEP_NOW,critical,high,Primary agent CLI.
+codex,cli,/Users/black.terminal/.nvm/versions/node/v22.22.0/bin/codex,KEEP_NOW,critical,high,Primary codex CLI.
+dev-browser,cli,npm globals,KEEP_NOW,important,high,Preferred browser automation helper in user rules.
+firecrawl-cli,cli,npm globals,KEEP_LATER,optional,high,Research/scraping utility.
+iterm-mcp,cli,npm globals,KEEP_LATER,optional,high,MCP helper CLI.
+@continuedev/cli,cli,npm globals,KEEP_LATER,optional,high,Continue ecosystem CLI.
+@withone/cli,cli,npm globals,KEEP_LATER,optional,high,Installed global utility.
+opencode-ai,cli,npm globals,KEEP_LATER,optional,high,Installed global utility.
+repomix,cli,npm globals,KEEP_LATER,optional,high,Code packaging utility.
+greptile,cli,npm globals,KEEP_LATER,optional,high,Greptile CLI installed.
+pre-commit,cli,pipx list,KEEP_NOW,important,high,Hook tooling for repos.
+bsela tool,cli,uv tool list,KEEP_LATER,optional,medium,Local project tool exposure from uv.
+Cursor,app,/Applications/Cursor.app,KEEP_NOW,critical,high,Primary editor.
+Windsurf,app,/Applications/Windsurf.app,KEEP_NOW,important,high,Secondary editor.
+Claude (desktop),app,/Applications/Claude.app,KEEP_NOW,important,high,Desktop AI client.
+Codex (desktop),app,/Applications/Codex.app,KEEP_NOW,important,high,Desktop codex client.
+Warp,app,/Applications/Warp.app,KEEP_NOW,important,high,Alternative terminal.
+Terminal,app,/Applications/Utilities/Terminal.app,KEEP_NOW,critical,high,Current TERM_PROGRAM.
+iTerm2,app,brew cask list,KEEP_LATER,optional,high,Installed terminal alternative.
+Docker Desktop,app,brew cask docker-desktop,KEEP_LATER,important,medium,Installed but docker CLI missing from PATH.
+GitHub Desktop,app,/Applications/GitHub Desktop.app,KEEP_LATER,optional,high,GUI Git helper.
+Brave Browser,app,/Applications/Brave Browser.app,KEEP_LATER,optional,high,Installed browser.
+Google Chrome Dev,app,/Applications/Google Chrome Dev.app,KEEP_NOW,important,high,Used by chrome-devtools MCP config.
+Discord,app,/Applications/Discord.app,DROP,optional,medium,Not required for migration-critical dev baseline.
+Telegram,app,/Applications/Telegram.app,KEEP_LATER,optional,high,Communication app.
+Spotify,app,/Applications/Spotify.app,DROP,optional,medium,Non-dev app for migration scope.
+NordVPN,app,/Applications/NordVPN.app,KEEP_LATER,important,medium,Potential security/network dependency.
+VMware Fusion,app,/Applications/VMware Fusion.app,KEEP_LATER,optional,high,VM tooling optional.
+VLC,app,/Applications/VLC.app,DROP,optional,medium,Non-dev media app.
+Tor Browser,app,/Applications/Tor Browser.app,KEEP_LATER,optional,medium,Specialized browsing/security use.
+The Unarchiver,app,/Applications/The Unarchiver.app,KEEP_LATER,optional,high,Archive utility.
+qBittorrent,app,/Applications/qbittorrent.app,DROP,optional,medium,Not migration-critical for dev baseline.
+Perplexity,app,/Applications/Perplexity.app,KEEP_LATER,optional,medium,Optional research app.
+GPG Keychain,app,/Applications/GPG Keychain.app,KEEP_LATER,important,high,Companion for gpg workflows.
+Gambler.Bot,app,~/Applications/Gambler.Bot.app,KEEP_LATER,optional,medium,Custom app; intent unknown.
+Greptile Fix,app,~/Applications/Greptile Fix.app,KEEP_LATER,optional,low,Version unknown and role unclear.
+Claude Code URL Handler,app,~/Applications/Claude Code URL Handler.app,KEEP_NOW,important,medium,Likely integration helper for claude deep links.
+codexbar-intel,app,brew cask list,KEEP_LATER,optional,medium,Also appears as CodexBar app with version mismatch.
+repobar cask,app,brew cask list,KEEP_LATER,optional,high,Matches RepoBar app family.
+dotnet-sdk,runtime,brew cask list,KEEP_LATER,optional,high,Installed SDK not referenced elsewhere.
+metasploit,cli,brew cask list,KEEP_LATER,optional,high,Security toolkit optional.
+font-hack-nerd-font,config,brew cask list,KEEP_LATER,optional,high,Terminal/editor font dependency.
+font-meslo-lg-nerd-font,config,brew cask list,KEEP_LATER,optional,high,Powerlevel10k font dependency.
+zsh shell,config,$SHELL output,KEEP_NOW,critical,high,Default interactive shell.
+oh-my-zsh,config,shell tooling section,KEEP_NOW,important,high,Shell framework present.
+powerlevel10k,config,shell tooling section,KEEP_NOW,important,high,Prompt configuration present.
+starship,cli,brew leaves,KEEP_LATER,optional,high,Alternate prompt tooling.
+~/.zshrc,config,Shell config files section,KEEP_NOW,critical,high,Primary shell config.
+~/.zprofile,config,Shell config files section,KEEP_NOW,important,high,Login shell init.
+~/.zshenv,config,Shell config files section,KEEP_NOW,important,high,Global zsh env.
+~/.bashrc,config,Shell config files section,KEEP_LATER,optional,high,Bash fallback config.
+~/.bash_profile,config,Shell config files section,KEEP_LATER,optional,high,Bash login fallback config.
+/usr/local/bin/code launcher,cli,Editor launcher section,KEEP_NOW,critical,high,Key editor command currently mapped.
+/usr/local/bin/windsurf launcher,cli,Editor launcher section,KEEP_NOW,important,high,Secondary editor command.
+code extensions list,state,code --list-extensions,REGENERATE,important,high,Reinstall from list after editor setup.
+windsurf extensions list,state,windsurf --list-extensions,REGENERATE,important,high,Reinstall from list after editor setup.
+~/AGENTS.md,config,Top-level agent rule files,KEEP_NOW,critical,high,Primary personal rules overlay.
+~/.claude/CLAUDE.md,config,Top-level agent rule files,KEEP_NOW,important,high,Claude overlay config.
+~/.codex/AGENTS.md,config,Top-level agent rule files,KEEP_NOW,important,high,Codex overlay config.
+~/.cursor/rules/gotcha.mdc,config,Top-level agent rule files,KEEP_NOW,important,high,Cursor lean rule file.
+~/.cursor/rules/gotcha-full.mdc,config,Top-level agent rule files,KEEP_NOW,important,high,Cursor full rule file.
+~/.windsurf/rules/gotcha.md,config,Top-level agent rule files,KEEP_NOW,important,high,Windsurf rule file.
+~/.codeium/windsurf/memories/global_rules.md,config,Top-level agent rule files,KEEP_NOW,important,high,Legacy Codeium rules mirror.
+~/.claude/settings.json,config,AI footprint notable subpaths,KEEP_NOW,important,high,Claude settings file.
+~/.claude/settings.local.json,config,AI footprint notable subpaths,KEEP_NOW,important,high,Machine-local Claude settings.
+~/.claude/rules/,config,AI footprint notable subpaths,KEEP_NOW,important,high,Rule set directory.
+~/.claude/skills/,config,AI footprint notable subpaths,KEEP_NOW,important,high,Skill library.
+~/.claude/agents/,config,AI footprint notable subpaths,KEEP_NOW,important,high,Custom agents directory.
+~/.claude/plugins/,config,AI footprint notable subpaths,KEEP_NOW,important,high,Plugin definitions.
+~/.claude/projects/,state,AI footprint notable subpaths,REGENERATE,important,high,Project-local runtime metadata is host-generated.
+~/.claude/sessions/,state,AI footprint notable subpaths,REGENERATE,optional,high,Session transcripts are runtime history.
+~/.claude/history.jsonl,state,AI footprint listing,REGENERATE,optional,high,Runtime interaction history.
+~/.claude/session-env/,state,AI footprint listing,REGENERATE,optional,high,Session environment snapshots.
+~/.claude/file-history/,state,AI footprint listing,REGENERATE,optional,high,Generated file history cache.
+~/.claude/paste-cache/,state,AI footprint listing,REGENERATE,optional,high,Temporary paste artifacts.
+~/.claude/cache/,state,AI footprint listing,REGENERATE,optional,high,Cache directory.
+~/.claude/shell-snapshots/,state,AI footprint listing,REGENERATE,optional,high,Ephemeral shell snapshots.
+~/.claude/backups/,state,AI footprint listing,REGENERATE,optional,medium,Potentially regenerable copies; verify if hand-curated.
+~/.claude/tasks/,state,AI footprint listing,REGENERATE,optional,high,Task runtime artifacts.
+~/.claude/telemetry/,state,AI footprint listing,REGENERATE,optional,high,Telemetry cache/state.
+~/.claude/mcp-needs-auth-cache.json,state,AI footprint listing,REGENERATE,optional,high,Auth cache can be regenerated.
+~/.cursor/mcp.json,config,Cursor notable subpaths,KEEP_NOW,critical,high,MCP server configuration.
+~/.cursor/hooks.json,config,Cursor listing,KEEP_NOW,important,high,Hook orchestration config.
+~/.cursor/cli-config.json,config,Cursor listing,KEEP_NOW,important,high,CLI behavior configuration.
+~/.cursor/statusline.sh,config,Cursor listing,KEEP_NOW,important,high,Custom status line script.
+~/.cursor/rules/,config,Cursor notable subpaths,KEEP_NOW,important,high,Rule directory.
+~/.cursor/skills/,config,Cursor notable subpaths,KEEP_NOW,important,high,Skill set directory.
+~/.cursor/skills-cursor/,config,Cursor listing,KEEP_NOW,important,high,Cursor-specific skills.
+~/.cursor/agents/,config,Cursor notable subpaths,KEEP_NOW,important,high,Agent definitions.
+~/.cursor/hooks/,config,Cursor notable subpaths,KEEP_NOW,important,high,Hook scripts.
+~/.cursor/extensions/,config,Cursor notable subpaths,KEEP_NOW,important,high,Extension storage baseline.
+~/.cursor/projects/,state,Cursor notable subpaths,REGENERATE,important,high,Workspace runtime metadata and terminals.
+~/.cursor/plans/,state,Cursor listing,REGENERATE,optional,high,Generated planning artifacts.
+~/.cursor/ai-tracking/,state,Cursor listing,REGENERATE,optional,high,Tracking logs.
+~/.cursor/debug-logs/,state,Cursor listing,REGENERATE,optional,high,Debug logs.
+~/.cursor/.ruff_cache,state,Cursor listing,REGENERATE,optional,high,Tool cache directory.
+~/.cursor/README.md,config,Cursor listing,KEEP_LATER,optional,high,Informational file can be copied later.
+~/.codex/config.toml,config,Codex listing,KEEP_NOW,critical,high,Codex core configuration.
+~/.codex/rules/,config,Codex notable subpaths,KEEP_NOW,important,high,Codex rules.
+~/.codex/skills/,config,Codex notable subpaths,KEEP_NOW,important,high,Codex skills library.
+~/.codex/hooks/,config,Codex notable subpaths,KEEP_NOW,important,high,Codex hook scripts.
+~/.codex/plugins/,config,Codex notable subpaths,KEEP_NOW,important,high,Codex plugin config.
+~/.codex/memories/,config,Codex listing,KEEP_NOW,important,medium,May contain curated memory; verify before pruning.
+~/.codex/auth.json,config,Codex listing,DROP,critical,high,NEVER MIGRATE: OAuth/API keys; run codex login on new machine.
+~/.codex/models_cache.json,state,Codex listing,REGENERATE,optional,high,Model metadata cache.
+~/.codex/cache/,state,Codex listing,REGENERATE,optional,high,General cache directory.
+~/.codex/.tmp,state,Codex listing,REGENERATE,optional,high,Temporary files.
+~/.codex/tmp,state,Codex listing,REGENERATE,optional,high,Temporary files.
+~/.codex/log/,state,Codex listing,REGENERATE,optional,high,Log directory.
+~/.codex/logs_2.sqlite,state,Codex listing,REGENERATE,optional,high,Large runtime database.
+~/.codex/logs_2.sqlite-shm,state,Codex listing,REGENERATE,optional,high,SQLite transient file.
+~/.codex/logs_2.sqlite-wal,state,Codex listing,REGENERATE,optional,high,SQLite WAL file.
+~/.codex/state_5.sqlite,state,Codex listing,REGENERATE,optional,high,Runtime state DB.
+~/.codex/state_5.sqlite-shm,state,Codex listing,REGENERATE,optional,high,SQLite transient file.
+~/.codex/state_5.sqlite-wal,state,Codex listing,REGENERATE,optional,high,SQLite WAL file.
+~/.codex/history.jsonl,state,Codex listing,REGENERATE,optional,high,CLI interaction history.
+~/.codex/session_index.jsonl,state,Codex listing,REGENERATE,optional,high,Session index state.
+~/.codex/sessions/,state,Codex notable subpaths,REGENERATE,optional,high,Session artifacts.
+~/.codex/archived_sessions/,state,Codex listing,REGENERATE,optional,high,Archived runtime sessions.
+~/.codex/backups/,state,Codex listing,REGENERATE,optional,medium,Backups may include useful data; verify before excluding.
+~/.codex/vendor/,state,Codex listing,REGENERATE,optional,high,Vendor runtime assets can be regenerated.
+~/.codex/vendor_imports/,state,Codex listing,REGENERATE,optional,high,Generated imports cache.
+~/.codex/worktrees/,state,Codex listing,REGENERATE,optional,medium,May hold active worktree references; validate manually.
+~/.windsurf/settings.json,config,Windsurf notable subpaths,KEEP_NOW,important,high,Windsurf settings.
+~/.windsurf/rules/,config,Windsurf notable subpaths,KEEP_NOW,important,high,Windsurf rules.
+~/.windsurf/skills/,config,Windsurf notable subpaths,KEEP_NOW,important,high,Windsurf skills.
+~/.windsurf/extensions/,config,Windsurf notable subpaths,KEEP_NOW,important,high,Windsurf extension set.
+~/.windsurf/plans/,state,Windsurf listing,REGENERATE,optional,high,Generated planning artifacts.
+~/.windsurf/worktrees/,state,Windsurf listing,REGENERATE,optional,high,Runtime worktree metadata.
+~/.windsurf/data/,state,Windsurf listing,REGENERATE,optional,high,Application runtime data.
+~/.windsurf/context/,state,Windsurf listing,REGENERATE,optional,high,Context cache.
+~/.windsurf/args/,state,Windsurf listing,REGENERATE,optional,high,Ephemeral args store.
+~/.windsurf/workflows/,config,Windsurf listing,KEEP_LATER,optional,medium,Potentially curated workflows; verify.
+~/.codeium/windsurf/skills/,config,Skill counts section,KEEP_NOW,important,high,Legacy skill mirror.
+~/.codeium/windsurf/memories/,config,Top-level rules section,KEEP_NOW,important,high,Legacy memory/rule mirror.
+~/.codeium/language-server,state,Codeium listing,REGENERATE,optional,high,Legacy language server runtime.
+~/.codeium/language_server_v1.48.2,state,Codeium listing,REGENERATE,optional,high,Versioned runtime artifact.
+~/.agents/skills/,config,Shared agents section,KEEP_NOW,important,high,Shared cross-editor skills library.
+~/.continue/config.json,config,Continue notable subpaths,KEEP_LATER,optional,high,Continue config.
+~/.continue/config.yaml,config,Continue listing,KEEP_LATER,optional,high,Continue config with potential secrets.
+~/.continue/.env,config,Continue listing,KEEP_LATER,important,low,Sensitive file exists; migrate manually and securely.
+~/.continue/agents/,config,Continue notable subpaths,KEEP_LATER,optional,high,Continue agents.
+~/.continue/skills/,config,Continue notable subpaths,KEEP_LATER,optional,high,Continue skills.
+~/.continue/mcpServers/,config,Continue listing,KEEP_LATER,optional,high,MCP server config for Continue.
+~/.continue/sessions/,state,Continue notable subpaths,REGENERATE,optional,high,Runtime session history.
+~/.continue/logs/,state,Continue notable subpaths,REGENERATE,optional,high,Runtime logs.
+~/.continue/index/,state,Continue listing,REGENERATE,optional,high,Generated indexes/cache.
+~/.continue/dev_data/,state,Continue listing,REGENERATE,optional,high,Runtime data.
+~/.continue/.migrations/,state,Continue listing,REGENERATE,optional,high,Migration state directory.
+~/.aider/analytics.json,state,Aider section,REGENERATE,optional,high,Telemetry file.
+~/.aider/caches/,state,Aider section,REGENERATE,optional,high,Cache directory.
+~/.aider/installs.json,state,Aider section,REGENERATE,optional,high,Install metadata can regenerate.
+docker CLI missing,state,Appendix missing commands,DROP,important,high,Desktop app installed but docker command absent from PATH.
+psql missing,state,Appendix missing commands,KEEP_NOW,important,high,Mismatch with running PostgreSQL service; requires manual PATH or install check.
+pg_isready missing,state,Appendix missing commands,KEEP_LATER,optional,high,Related PostgreSQL client tooling missing on PATH.
+cargo missing,state,Appendix missing commands,KEEP_LATER,optional,high,Rust toolchain command absent.
+rustup missing,state,Appendix missing commands,KEEP_LATER,optional,high,Rust manager absent.
+rustc missing,state,Appendix missing commands,KEEP_LATER,optional,high,Rust compiler absent.
+go missing,state,Appendix missing commands,KEEP_LATER,optional,high,Go toolchain absent.
+bun missing,state,Appendix missing commands,KEEP_LATER,optional,high,Alternative JS runtime absent.
+poetry missing,state,Appendix missing commands,KEEP_LATER,optional,high,Python package manager absent.
+conda missing,state,Appendix missing commands,DROP,optional,high,Not needed in pyenv-centric setup.
+docker-desktop PATH mismatch,state,brew cask plus missing docker command,KEEP_LATER,important,medium,Validate symlink or app install integrity before migration.
+postgres client PATH mismatch,state,postgres service started plus missing psql,KEEP_NOW,important,medium,Likely PATH issue or partial install; confirm client binaries location.
+codexbar version mismatch,state,/Applications plus brew cask,KEEP_LATER,optional,medium,App shows 0.22 while cask shows 0.19.0.
+warp version mismatch,state,/Applications plus brew cask,KEEP_LATER,optional,medium,App and cask version strings differ in format/time.
+code launcher identity uncertainty,state,code -> /usr/local/bin/code,KEEP_NOW,important,medium,Binary named code maps to Cursor context, verify expected launcher target.
+nano captured interactive bytes,state,Common CLI tools section,KEEP_LATER,optional,low,Source captured terminal control output instead of clean version string.
+ssh-keygen version unknown,state,Common CLI tools section,KEEP_LATER,optional,low,Version capture unresolved in source.
+mas missing,state,Appendix missing commands,KEEP_LATER,optional,high,Needed only for Mac App Store inventory automation.
+orbstack missing,state,Appendix missing commands,DROP,optional,high,Alternative container stack not currently installed.
+podman missing,state,Appendix missing commands,DROP,optional,high,Alternative container stack not currently installed.
+colima missing,state,Appendix missing commands,DROP,optional,high,Alternative container stack not currently installed.
+SIP enabled,state,csrutil status,KEEP_NOW,important,high,Security baseline state.
+FileVault Off,state,fdesetup status,KEEP_NOW,important,high,Manual security decision point for migration hardening.

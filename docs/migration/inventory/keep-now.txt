@@ -1,0 +1,50 @@
+macOS 26.4.1
+x86_64 architecture
+Homebrew
+git
+gh
+node
+npm
+pnpm
+python
+python3
+pip
+uv
+pipx
+pyenv
+nvm
+mise
+postgresql@16
+redis
+redis-cli
+sqlite3
+supabase
+ripgrep
+fd
+fzf
+bat
+eza
+zoxide
+tmux
+jq
+wget
+fswatch
+claude
+codex
+dev-browser
+pre-commit
+Cursor
+Windsurf
+Claude (desktop)
+Codex (desktop)
+Warp
+Terminal
+Google Chrome Dev
+zsh shell
+oh-my-zsh
+powerlevel10k
+~/.zshrc
+~/.zprofile
+~/.zshenv
+/usr/local/bin/code launcher
+~/AGENTS.md

@@ -88,8 +88,8 @@ When truly blocked (missing credential, destructive ambiguity, safety boundary):
 
 - Destructive file operations with meaningful data loss risk.
 - Dangerous git actions: force push, hard reset, branch deletion, history rewrite.
-- Secrets, credentials, API keys, private keys, seed phrases, wallet exports, sensitive personal data.
-- Real-money execution, live wallet signing, fund transfers, production financial actions.
+- Secrets, credentials, API keys, private keys, seed phrases, sensitive personal data.
+- Production payments, fund transfers, billing or charge APIs, and other real-money financial actions.
 - Database destruction, irreversible migrations, mass deletion, production deploys with real impact.
 - Security-sensitive changes with unclear consequences.
 - Anything clearly illegal, unsafe, or ethically abusive.
@@ -140,7 +140,7 @@ If not in Hard Stop territory → keep going.
 
 - Adhere strictly to the agreed-upon plan.
 - Unexpected issue mid-task → resolve autonomously in Auto Mode; otherwise pause and surface it.
-- Implement completely. All functions and logic fully defined. No stubs, no TODOs, no placeholders.
+- Implement completely. All functions and logic fully defined. No stubs, no placeholder markers, no half-done code.
 - Verify changes compile/run before marking done.
 - If one approach fails twice → switch strategy, form a fresh plan, do not loop.
 
@@ -157,57 +157,21 @@ If not in Hard Stop territory → keep going.
 
 ## Code Quality
 
-### Universal
+### Universal Rules
 
-- Consistent naming: `camelCase` JS/TS, `snake_case` Python/Rust/Bash.
-- Named constants instead of magic numbers or magic strings.
-- Remove unused imports, variables, dead code.
-- Apply early returns to minimize nesting depth.
-- Only add comments to code you wrote or changed in this session.
-- Modern syntax: `async/await`, `const`/`let`, optional chaining `?.`, nullish coalescing `??`.
-- No over-engineering. Minimum complexity for the current task.
-- Three similar lines → abstract. One → leave inline.
-- Simple beats clever. Explicit beats hidden magic.
-- Do not silently introduce breaking changes.
+- Repo `AGENTS.md` / existing style wins inside its workspace.
+- Naming: `camelCase` JS/TS, `snake_case` Python/Rust/Bash, `PascalCase` types/components.
+- Named constants over magic values. Remove unused imports / vars / dead code on touch.
+- Early returns; minimize nesting. Three similar lines abstract; one stays inline.
+- Comments only for non-obvious intent in code you wrote or changed.
+- Modern syntax: `async/await`, `const`/`let`, `?.`, `??`; never `var` in JS.
+- Validate external input with Zod (or repo equivalent) at API / MCP / CLI boundaries.
+- Typed error narrowing at boundaries; see Error Handling.
+- No silent breaking changes; no stubs or placeholder markers in shipped code.
 
-### TypeScript / JavaScript
+### Language depth
 
-- TypeScript by default for all new files.
-- Strict mode (`"strict": true`). `unknown` + type guards over `any`.
-- ESM imports only (`import/export`).
-- Prefer `Array<T>` over `T[]` for readability.
-- Explicit return types on all exported functions.
-- Named exports exclusively. Avoid default exports.
-- Formatter: Prettier. Linter: ESLint + `@typescript-eslint`.
-- Validate all external data at boundaries with Zod.
-
-### Python
-
-- Target Python 3.13+ via `pyenv`.
-- Type hints required on all function signatures.
-- `pyproject.toml` for all project config. No `setup.py`.
-- `.venv` virtual environments. Global pip stays clean.
-- `ruff format` + `ruff check`; fall back to `black` in pre-existing projects.
-- `pathlib.Path` instead of `os.path` for all filesystem ops.
-- `uv` for fast dependency management when available.
-
-### React / Next.js
-
-- Functional components exclusively.
-- Custom hooks for all shared logic.
-- Next.js App Router: default Server Components; `"use client"` only for interactivity or browser APIs.
-- Server Actions for all data mutations.
-- Tailwind classes over inline styles or CSS Modules.
-- `shadcn/ui` for UI primitives.
-- Zod validation at all server boundaries.
-
-### Bash / Scripts
-
-- `#!/usr/bin/env bash` shebang. `set -euo pipefail` on all scripts.
-- Quote all variables: `"$var"`, `"${array[@]}"`.
-- Use `local` for function-scoped variables.
-- Prefer `[[ ]]` over `[ ]` for conditionals.
-- Handle errors explicitly; never silently swallow exit codes.
+Per-language rules live alongside the project. For Cursor users this means glob-attached rule files (`typescript.mdc`, `react.mdc`, `python.mdc`, `bash.mdc`, `swift.mdc`, `electron.mdc`); for other editors keep equivalent rule snippets in repo `AGENTS.md` / per-editor config.
 
 ---
 
@@ -244,7 +208,7 @@ If not in Hard Stop territory → keep going.
 - UUIDs for public-facing resource IDs. Never auto-incrementing integers.
 - Never print, log, or commit API keys, tokens, passwords, private keys, seed phrases.
 - Scan `.env` and secret files with `detect-secrets` before committing.
-- Treat wallets, exchanges, RPC credentials, webhooks, and cloud access as maximally sensitive.
+- Treat payment providers, financial APIs, webhooks, and cloud credentials as maximally sensitive.
 
 ---
 
@@ -287,7 +251,7 @@ If not in Hard Stop territory → keep going.
 ## Tool and Command Policy
 
 - Auto-approve safe read-only: search, read, inspect, diff, grep, find, list.
-- Caution on commands modifying files, git state, environments, wallets, databases, remote systems.
+- Caution on commands modifying files, git state, environments, databases, remote systems.
 - Use dry-run / preview / simulation mode first for risky operations.
 - Never auto-approve destructive or irreversible actions.
 - Use `shell` for system commands, builds, test runs, git.
@@ -322,72 +286,39 @@ If not in Hard Stop territory → keep going.
 
 ---
 
-## Crypto / Solana — First-Class Domain
+## Preferred Stack (agent-builder baseline)
 
-- **Solana is the default chain** for all crypto-related work unless another chain is explicitly specified.
-- Solana development and Solana trading are equal first-class priorities.
-- Umbrella scope: web3, tokens, memecoins, NFTs, wallets, automation, analytics, launch tools, trading.
-- Prefer Solana-native tools, patterns, implementation details over generic blockchain advice.
+Portable defaults for repos using these artifacts. Machine-specific stack lives in `~/AGENTS.md`.
 
-### Solana Development
+### Languages (default order)
 
-- Support: bots, scripts, dapps, dashboards, backend services, wallet integrations, tx flows, token/NFT tooling, onchain automation.
-- Comfortable with: RPC, account logic, tx building, signing flows, minting, transfers, metadata, monitoring, analytics.
-- Prioritize reusable modules, observability, production-leaning safety checks.
-- Use `@solana/kit` for new client/RPC/tx code. Isolate legacy `@solana/web3.js` behind `@solana/web3-compat`.
-- Wallet-standard-first connection flows.
-- Codama for IDL-driven client generation. Do not hand-write account decoders.
-- Anchor v0.30+ workspaces. Pinocchio for perf-critical programs.
-- Test rigs: LiteSVM (in-process), Mollusk (Rust), Surfpool (mainnet fork).
-- Priority fees via `getRecentPrioritizationFees`. Never hardcode.
-- Simulate before send for all user-facing transactions.
+| Priority | Stack | Use for |
+| --- | --- | --- |
+| 1 | **TypeScript / JavaScript** (Node) | MCP servers, agent harnesses, CLIs, Next.js apps |
+| 2 | **Python** | Scrapers, data glue, agent scripts, automation |
+| 3 | **Bash** | CI, local ops, glue scripts |
+| 4 | **Swift / SwiftUI** | macOS-native agent utilities (menu bar, GUI automation) when needed |
 
-### Solana Trading
+### Agent & AI tooling
 
-- Memecoin trading, launch trading, scanners, alerts, bots, execution tooling are first-class use cases.
-- Optimize for: speed, liquidity awareness, slippage control, volatility, wallet safety, failed-tx recovery.
-- Support monitoring, data pipelines, strategy scripts, dashboards, automation.
-- Never frame speculative logic as guaranteed profit.
+- **Editors / CLIs:** Cursor, Claude Code, Codex CLI — rules in `AGENTS.md` + skills, not chat memory.
+- **Integration:** MCP for external tools; shared agent scripts across repos; read-only MCP first.
+- **Patterns:** Small composable CLIs; bounded context; browser automation via Playwright or project-standard tooling.
+- **Exemplars:** [steipete/agent-scripts](https://github.com/steipete/agent-scripts), [oracle](https://github.com/steipete/oracle), [claude-code-mcp](https://github.com/steipete/claude-code-mcp) — ship working utilities quickly.
 
-### Trading Safety
+### App surfaces
 
-- Flag: low liquidity, rug risk, contract risk, wallet risk, operational risk — when relevant.
-- Prefer safeguards: position caps, slippage limits, cooldowns, allowlists, circuit breakers.
-- Keep research / simulation / signal generation / live execution separated.
-- Require explicit approval for any real-money execution.
-- Separate simulation from live execution whenever possible.
+- **Web:** Next.js App Router, React, Tailwind, shadcn/ui, Zod at boundaries.
+- **Desktop:** Electron when cross-platform; Swift/SwiftUI when macOS integration wins.
 
-### Wallet / Transaction Safety
+---
 
-- Use `LAMPORTS_PER_SOL` constant. Never hardcode `1000000000`.
-- Priority fees via `ComputeBudgetProgram.setComputeUnitPrice()`.
-- Verify tx via `getSignatureStatus` / `confirmTransaction`. Signature ≠ success.
-- Devnet: `api.devnet.solana.com`. Mainnet: `api.mainnet-beta.solana.com`.
-- Never test against mainnet with real funds.
-- Never expose, print, log, or commit keys, seeds, or wallet exports.
-- Never prompt users for seed phrase or private key.
+## Primary domains (current)
 
-### pump.fun
-
-- SDKs: `@pump-fun/pump-sdk`, `@pump-fun/pump-swap-sdk`.
-- Data: PumpDev.io WS, PumpPortal, `pump-segments-sdk`.
-- Atomic launch+buy via Jito bundle. Tip 0.001–0.003 SOL.
-- Slippage: 10–20% new launches, 1–5% established.
-- Graduation to Raydium at ~69 SOL. Watch `bondingCurveProgress`.
-- WS reconnect: exponential backoff (1s → 30s max).
-- Never live trade without explicit user gate. Position caps enforced.
-
-### Phantom SDK
-
-- Always `signAndSendTransaction`. Never `signTransaction` (not supported on embedded wallets).
-- React: wrap in `PhantomProvider` with valid `{ appId, providers, addressTypes }`.
-- Vanilla: single `BrowserSDK` singleton.
-- Wrap `connect / signAndSendTransaction / signMessage` in try/catch.
-- Check `isConnected` before signing.
-- Import `AddressType` from `@phantom/browser-sdk` only.
-- Register real `appId` at Phantom Portal for social login + embedded wallets.
-- Embedded wallets: $1k/day limit, 7-day session.
-- React Native: `react-native-get-random-values` must be first import.
+- TypeScript/Python automation, CLI tools, scrapers, internal dashboards
+- Next.js / React when building web UI
+- Agent governance (agents-md), GitHub/CI workflows
+- Crypto/Solana: not in active use — follow repo-local rules only if a project explicitly requires it
 
 ---
 
