@@ -1,9 +1,9 @@
 #!/bin/bash
-# Reject commits that modify local artifacts without canonical source update.
+# Reject commits that modify local artifacts without repository source update.
 
 set -euo pipefail
 
-CANONICAL_REL="src/gotcha.md"
+SOURCE_REL="src/gotcha.md"
 ARTIFACT_PREFIX="dist/rules/"
 
 repo_root="$(git rev-parse --show-toplevel 2>/dev/null || true)"
@@ -19,12 +19,12 @@ if [[ "${#staged[@]}" -eq 0 ]]; then
   exit 0
 fi
 
-canonical_staged=0
+source_staged=0
 artifact_hits=()
 
 for rel in "${staged[@]}"; do
-  if [[ "$rel" == "$CANONICAL_REL" ]]; then
-    canonical_staged=1
+  if [[ "$rel" == "$SOURCE_REL" ]]; then
+    source_staged=1
   fi
 
   if [[ "$rel" == "$ARTIFACT_PREFIX"* ]]; then
@@ -36,14 +36,14 @@ if [[ "${#artifact_hits[@]}" -eq 0 ]]; then
   exit 0
 fi
 
-if [[ "$canonical_staged" -ne 1 ]]; then
-  echo "❌ Rule guard: generated artifact edits detected without canonical update."
+if [[ "$source_staged" -ne 1 ]]; then
+  echo "❌ Rule guard: generated artifact edits detected without source update."
   printf "Artifact files staged:\n"
   printf "  - %s\n" "${artifact_hits[@]}"
-  echo "Canonical required:"
-  echo "  - $CANONICAL_REL"
+  echo "Source required:"
+  echo "  - $SOURCE_REL"
   echo "Use: ./scripts/run-governance.sh"
   exit 1
 fi
 
-echo "✅ Rule guard: canonical + artifact edit detected."
+echo "✅ Rule guard: source + artifact edit detected."

@@ -1,10 +1,10 @@
 # Editor Alignment Strategy
 
-Canonical body is maintained in this repository and packaged into local, editor-labeled artifacts with minimal, explicit divergence.
+Reusable rule sources are maintained in this repository and packaged into local, editor-labeled artifacts with minimal, explicit divergence.
 
-## Canonical Source
+## Repository Source
 
-- `src/gotcha.md` is the only canonical rule body.
+- `src/gotcha.md` is the full reusable rule source for generated artifacts.
 - Artifact files are package targets, not authoring targets.
 
 ## Local Artifact Targets
@@ -37,7 +37,7 @@ Everything else should remain semantically aligned with canonical behavior.
 Rule precedence is strict:
 
 1. Project-local override files (additive constraints only).
-2. Local packaged artifacts generated from canonical source.
+2. Local packaged artifacts generated from repository source.
 3. Tool default behavior.
 
 Project overrides should never copy full global rule bodies.
@@ -47,4 +47,4 @@ Project overrides should never copy full global rule bodies.
 - Drift in behavior sections is a defect and should be corrected quickly.
 - Drift in artifact-only formatting sections is acceptable when documented.
 - Any intentional divergence must be captured in `CHANGELOG.md`.
-- Artifact-only edits without canonical update should be rejected by pre-commit guard.
+- Artifact-only edits without repository source update should be rejected by pre-commit guard.

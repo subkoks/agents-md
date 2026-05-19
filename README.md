@@ -1,12 +1,12 @@
 # agents-md
 
-**One canonical GOTCHA rule source → validated artifacts for Cursor, Claude Code, Codex, and Windsurf.**
+**Reusable GOTCHA rule source → validated artifacts for Cursor, Claude Code, Codex, and Windsurf.**
 
 [![CI](https://github.com/subkoks/agents-md/actions/workflows/ci.yml/badge.svg)](https://github.com/subkoks/agents-md/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Release](https://img.shields.io/github/v/release/subkoks/agents-md)](https://github.com/subkoks/agents-md/releases)
 
-Cross-editor **agent governance**: cursor rules, `AGENTS.md`-compatible project instructions, drift-checked builds, and a growing skill pack. Compatible with the community **AGENTS.md** convention — this repo is not the standard itself.
+Cross-editor **agent governance**: cursor rules, `AGENTS.md`-compatible project instructions, drift-checked builds, and a growing skill pack. Compatible with the community **AGENTS.md** convention — this repo is not the standard itself and does not control `~/AGENTS.md`.
 
 ## 60-second quickstart
 
@@ -20,11 +20,11 @@ make check
 # Build all editor artifacts from src/gotcha.md
 ./scripts/build-rule-artifacts.sh windsurf claude codex cursor cursor-lean
 
-# Optional: deploy lean Cursor rules to your local Cursor config
-make sync-cursor
+# Optional manual install: deploy Cursor artifacts to local Cursor config
+make install-cursor-local
 ```
 
-Canonical body lives in `src/gotcha.md` (full) and `src/gotcha-lean.md` (default lean install). **Never edit `dist/rules/*` by hand** — rebuild with `scripts/build-rule-artifacts.sh`.
+Project rule bodies live in `src/gotcha.md` (full) and `src/gotcha-lean.md` (default lean install). **Never edit `dist/rules/*` by hand** — rebuild with `scripts/build-rule-artifacts.sh`. For machine-wide behavior, keep `~/AGENTS.md` upstream.
 
 ## Who this is for
 
@@ -41,19 +41,19 @@ Canonical body lives in `src/gotcha.md` (full) and `src/gotcha-lean.md` (default
 | --- | --- | --- |
 | **Cursor** (lean, always-on) | `dist/rules/cursor.lean.md` | `.cursor/rules/gotcha.mdc` |
 | **Cursor** (full, manual) | `dist/rules/cursor.md` | `.cursor/rules/gotcha-full.mdc` |
-| **Claude Code** | `dist/rules/claude.md` | Project `CLAUDE.md` or global overlay |
-| **Codex CLI** | `dist/rules/codex.md` | `AGENTS.md` in project or global overlay |
+| **Claude Code** | `dist/rules/claude.md` | Project `CLAUDE.md` or optional local copy |
+| **Codex CLI** | `dist/rules/codex.md` | Project `AGENTS.md` or optional local copy |
 | **Windsurf** | `dist/rules/windsurf.md` | Windsurf rules path per their docs |
 
 Repo root **`AGENTS.md`** documents Cursor Cloud / agent dev commands for *this* governance repo. For your app repos, copy or adapt generated artifacts — do not treat `AGENTS.md` here as your product’s agent file unless you fork the pattern.
 
 ## GOTCHA (why this exists)
 
-- **G**oals — task routing and workflow selection  
-- **O**rchestration — agent decision layer  
-- **T**ools — deterministic scripts and MCP  
-- **C**ontext — static reference in `docs/`  
-- **H**ard prompts — focused templates  
+- **G**oals — task routing and workflow selection
+- **O**rchestration — agent decision layer
+- **T**ools — deterministic scripts and MCP
+- **C**ontext — static reference in `docs/`
+- **H**ard prompts — focused templates
 - **A**rgs — runtime behavior (Auto Mode, Hard Stop, token discipline)
 
 Push reliability into **scripts and CI**; keep flexibility in orchestration.
@@ -104,7 +104,7 @@ For LLMs and search: [`llms.txt`](llms.txt) (repo index) and [`docs/llm-citation
 
 ### How is this different from copying rules into `~/.cursor/rules`?
 
-This repo is the **source of truth**. You edit `src/gotcha.md`, run validators, and rebuild artifacts. Copying ad hoc files drifts silently; `make check` fails when artifacts are stale.
+Within this repo, `src/gotcha.md` and `src/gotcha-lean.md` are the source for generated artifacts. They are not upstream of `~/AGENTS.md`; keep machine-wide rules in `~/AGENTS.md`.
 
 ### Does this replace AGENTS.md?
 
@@ -112,8 +112,8 @@ No. Many tools read project **`AGENTS.md`**. This project **generates** editor-s
 
 ### Cursor rules vs gotcha.md?
 
-- **`gotcha-lean`** → small always-applied Cursor rule (`gotcha.mdc`).  
-- **Full `gotcha.md`** → larger reference (`gotcha-full.mdc` or manual @-mention).  
+- **`gotcha-lean`** → small always-applied Cursor rule (`gotcha.mdc`).
+- **Full `gotcha.md`** → larger reference (`gotcha-full.mdc` or manual @-mention).
 Build with `./scripts/build-rule-artifacts.sh cursor cursor-lean`.
 
 ### What must run before a PR?
@@ -130,7 +130,7 @@ cd agents-md
 ./install.sh --dry-run
 ```
 
-Developers with a working tree can use `make sync-cursor` instead (same destinations).
+Developers with a working tree can use `make install-cursor-local` instead (same destinations). This is a manual local install, not a global rules sync.
 
 ### Validate and build
 

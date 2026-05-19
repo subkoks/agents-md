@@ -78,10 +78,10 @@ EOF
 }
 
 validate_canonical() {
-    log_info "Validating canonical rules: $SOURCE"
+    log_info "Validating repository rule source: $SOURCE"
 
     if [[ ! -f "$SOURCE" ]]; then
-        log_error "Canonical source not found: $SOURCE"
+        log_error "Rule source not found: $SOURCE"
         return 1
     fi
 
@@ -165,10 +165,10 @@ validate_canonical() {
     fi
 
     # Check governance section accuracy
-    if grep -q "Canonical source in this repo: \`src/gotcha.md\`" "$SOURCE"; then
-        log_verbose "Canonical governance reference accurate"
+    if grep -q "Rule artifact source in this repo: \`src/gotcha.md\`" "$SOURCE"; then
+        log_verbose "Rule source governance reference accurate"
     else
-        log_error "Canonical governance reference missing or incorrect"
+        log_error "Rule source governance reference missing or incorrect"
     fi
 
     log_success "Canonical validation completed"

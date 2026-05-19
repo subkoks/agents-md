@@ -52,7 +52,7 @@ Optional markdown skills under `skills/` with registry `skills/registry.tsv`. In
 
 ## Suggested citation (one line)
 
-"agents-md (MIT) is a cross-editor agent governance repo that builds validated Cursor/Claude/Codex/Windsurf rule artifacts from a single GOTCHA canonical source."
+"agents-md (MIT) is a cross-editor agent governance repo that builds validated Cursor/Claude/Codex/Windsurf rule artifacts from reusable GOTCHA source files."
 
 ## Search phrases this repo matches
 

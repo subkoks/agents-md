@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-.PHONY: governance-run governance-check check drift-check drift-check-strict build-artifacts artifacts-list sync sync-cursor health skills-drift
+.PHONY: governance-run governance-check check drift-check drift-check-strict build-artifacts artifacts-list sync sync-cursor install-cursor-local health skills-drift
 
 governance-run:
 	./scripts/run-governance.sh
@@ -28,11 +28,16 @@ sync:
 	./scripts/build-rule-artifacts.sh
 
 sync-cursor:
+	@echo "[WARN] sync-cursor is deprecated and does not deploy local rules."
+	@echo "[INFO] Use 'make install-cursor-local' for an explicit manual Cursor install."
+	@exit 1
+
+install-cursor-local:
 	./scripts/build-rule-artifacts.sh cursor cursor-lean
 	@mkdir -p $(HOME)/.cursor/rules
 	@cp dist/rules/cursor.md $(HOME)/.cursor/rules/gotcha-full.mdc
 	@cp dist/rules/cursor.lean.md $(HOME)/.cursor/rules/gotcha.mdc
-	@echo "[ OK ] Deployed: ~/.cursor/rules/gotcha.mdc + gotcha-full.mdc"
+	@echo "[ OK ] Manually installed: ~/.cursor/rules/gotcha.mdc + gotcha-full.mdc"
 
 health:
 	./scripts/health-check.sh
