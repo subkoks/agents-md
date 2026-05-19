@@ -1,0 +1,156 @@
+# Brewfile — macos-bootstrap-2026
+# Source of truth for `brew bundle --file=bootstrap/Brewfile`
+#
+# Driven from inventory/classification.csv (KEEP_NOW + selected KEEP_LATER).
+# Pentest tools live in Brewfile.pentest (opt-in only).
+#
+# Pre-flight: Q1+Q2 resolved 2026-05-07 (Intel + OrbStack) — see OPEN_QUESTIONS.md.
+
+# ===================================================================
+# Taps
+# ===================================================================
+tap "homebrew/bundle"
+tap "supabase/tap"
+# tap "local/codexbar"      # SKIP — non-reproducible local tap (see OPEN_QUESTIONS Q5)
+# tap "dyoburon/greppy"     # OPTIONAL — only if greppy is in active workflow
+
+# ===================================================================
+# Runtime managers (KEEP_NOW)
+# nvm/pyenv own runtimes themselves; we install the *managers* only.
+# ===================================================================
+brew "nvm"
+brew "pyenv"
+brew "pyenv-virtualenv"
+brew "mise"             # secondary fallback per DECISIONS.md §4
+# Intentionally NOT installed (managed by nvm/pyenv per DECISIONS.md):
+#   brew "node"
+#   brew "python@3.13"
+
+# ===================================================================
+# Python ecosystem (KEEP_NOW)
+# ===================================================================
+brew "pipx"
+brew "uv"
+brew "ruff"
+brew "pre-commit"
+
+# ===================================================================
+# Services (KEEP_NOW)
+# `restart_service: :changed` starts the service the first time and
+# restarts on version change. Avoids manual `brew services start`.
+# ===================================================================
+brew "postgresql@16", restart_service: :changed   # keg-only; PATH added in Milestone 6 (install-order.md)
+brew "redis",         restart_service: :changed
+brew "sqlite"
+
+# Supabase CLI (tap)
+brew "supabase/tap/supabase"
+
+# ===================================================================
+# Core CLIs (KEEP_NOW)
+# ===================================================================
+brew "git"
+brew "gh"
+brew "bat"
+brew "eza"
+brew "fd"
+brew "fswatch"
+brew "fzf"
+brew "jq"
+brew "ripgrep"
+brew "tmux"
+brew "wget"
+brew "zoxide"
+
+# ===================================================================
+# Dev utilities (KEEP_NOW + KEEP_LATER blended)
+# ===================================================================
+brew "shellcheck"
+brew "actionlint"      # KEEP_LATER (CI lint)
+brew "cmake"           # KEEP_LATER (native build deps)
+brew "gnu-sed"         # KEEP_LATER (GNU sed compat)
+brew "duti"            # KEEP_LATER (default app association)
+brew "watchman"        # KEEP_LATER (file watcher)
+brew "ffmpeg"          # KEEP_LATER
+brew "yt-dlp"          # KEEP_LATER
+brew "tesseract"       # KEEP_LATER (OCR)
+brew "iperf3"          # KEEP_LATER (net bench)
+brew "nmap"            # KEEP_LATER (also useful generally)
+brew "sevenzip"        # archive
+brew "tree"
+brew "openssl@3"
+
+# ===================================================================
+# Prompt / shell tooling
+# ===================================================================
+brew "starship"        # optional alt prompt; primary is p10k installed via oh-my-zsh
+
+# ===================================================================
+# Casks: Fonts (Nerd Fonts for p10k + editor rendering)
+# ===================================================================
+cask "font-meslo-lg-nerd-font"
+cask "font-hack-nerd-font"
+
+# ===================================================================
+# Casks: Editors / IDEs (KEEP_NOW)
+# ===================================================================
+cask "cursor"
+cask "windsurf"
+
+# ===================================================================
+# Casks: AI desktops (KEEP_NOW)
+# Verify exact cask names against `brew search` on first run; some are
+# distributed as installers rather than casks.
+# ===================================================================
+cask "claude"          # Claude desktop. Verify on Apple Silicon.
+# cask "codex"         # Codex desktop — install via official installer instead (see OPEN_QUESTIONS Q7)
+
+# ===================================================================
+# Casks: Browsers (KEEP_NOW + KEEP_LATER)
+# ===================================================================
+cask "google-chrome@dev"   # KEEP_NOW — dev-browser workflow (note: @dev suffix is correct cask name)
+cask "brave-browser"       # KEEP_LATER — primary daily browser per DECISIONS §10
+# cask "tor-browser"       # KEEP_LATER — uncomment if needed
+
+# ===================================================================
+# Casks: Terminals (KEEP_NOW + KEEP_LATER)
+# ===================================================================
+cask "iterm2"          # KEEP_LATER — secondary terminal
+cask "warp"            # KEEP_NOW — installed but optional
+
+# ===================================================================
+# Casks: Git tools / utilities (KEEP_LATER)
+# ===================================================================
+cask "github"          # GitHub Desktop
+cask "gpg-suite"       # GPG Keychain — verify cask name on Apple Silicon
+cask "1password-cli"   # Q3 — `op` on PATH (sign in after install)
+cask "the-unarchiver"
+
+# ===================================================================
+# Casks: Container runtime — exactly one active (Q2 = OrbStack)
+# ===================================================================
+cask "orbstack"
+# cask "docker"        # Docker Desktop — heavier (alternative)
+# brew "colima"        # CLI-only — Lima VM (alternative)
+
+# ===================================================================
+# Casks: Privacy / VPN (KEEP_LATER)
+# ===================================================================
+# cask "nordvpn"       # uncomment if continuing NordVPN subscription
+
+# ===================================================================
+# Casks: Communication / media (KEEP_LATER)
+# Default omitted; uncomment per profile (full vs minimal).
+# ===================================================================
+# cask "telegram"
+# (Perplexity has no Homebrew cask; install via direct download from perplexity.ai if desired)
+# cask "vmware-fusion"
+
+# ===================================================================
+# DROPPED from previous setup (per classification.csv → DROP)
+# Listed for transparency; do NOT re-install on Day 1.
+# ===================================================================
+# cask "discord"
+# cask "spotify"
+# cask "vlc"
+# cask "qbittorrent"
