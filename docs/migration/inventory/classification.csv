@@ -148,7 +148,7 @@ windsurf extensions list,state,windsurf --list-extensions,REGENERATE,important,h
 ~/.codex/hooks/,config,Codex notable subpaths,KEEP_NOW,important,high,Codex hook scripts.
 ~/.codex/plugins/,config,Codex notable subpaths,KEEP_NOW,important,high,Codex plugin config.
 ~/.codex/memories/,config,Codex listing,KEEP_NOW,important,medium,May contain curated memory; verify before pruning.
-~/.codex/auth.json,config,Codex listing,KEEP_NOW,critical,medium,Sensitive auth state; migrate securely.
+~/.codex/auth.json,config,Codex listing,DROP,critical,high,NEVER MIGRATE: OAuth/API keys; run codex login on new machine.
 ~/.codex/models_cache.json,state,Codex listing,REGENERATE,optional,high,Model metadata cache.
 ~/.codex/cache/,state,Codex listing,REGENERATE,optional,high,General cache directory.
 ~/.codex/.tmp,state,Codex listing,REGENERATE,optional,high,Temporary files.

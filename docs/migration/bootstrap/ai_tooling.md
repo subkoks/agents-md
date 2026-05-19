@@ -108,7 +108,7 @@ Same pattern for `agents/`, `rules/` (via per-editor wrappers), and `hooks/`.
 for editor in claude codex agents codeium/windsurf; do
   for skill in ~/.cursor/skills/*; do
     name=$(basename "$skill")
-    target="$HOME/.${editor%/*}/${editor##*/}skills/$name"
+    target="$HOME/.${editor}/skills/$name"
     mkdir -p "$(dirname "$target")"
     [ -e "$target" ] || ln -s "$skill" "$target"
   done
