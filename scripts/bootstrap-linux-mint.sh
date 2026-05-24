@@ -11,7 +11,7 @@ SRC_CURSOR_FULL="$PROJECT_ROOT/dist/rules/cursor.md"
 
 HOME_AGENTS="$HOME/AGENTS.md"
 CODEX_AGENTS="$HOME/.codex/AGENTS.md"
-CLAUDE_FILE="$HOME/CLAUDE.md"
+CLAUDE_FILE="$HOME/.claude/CLAUDE.md"
 CURSOR_RULES_DIR="$HOME/.cursor/rules"
 PROJECT_TEMPLATE_DEST="$HOME/Templates/AGENTS.project-template.md"
 NON_CRYPTO_REGISTRY="$PROJECT_ROOT/dist/skills/registry.non-crypto.tsv"
