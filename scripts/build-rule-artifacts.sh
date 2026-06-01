@@ -18,7 +18,6 @@ CURSOR_FRONTMATTER=$'---\ndescription: Reusable agents-md rules (full). Apply ma
 TARGETS=(
   "windsurf:$DIST_DIR/windsurf.md:raw"
   "claude:$DIST_DIR/claude.md:raw"
-  "codex:$DIST_DIR/codex.md:raw"
   "cursor:$DIST_DIR/cursor.md:cursor-full"
   "cursor-lean:$DIST_DIR/cursor.lean.md:cursor-lean"
 )
@@ -57,7 +56,6 @@ Options:
 Targets:
   windsurf        Build dist/rules/windsurf.md
   claude          Build dist/rules/claude.md
-  codex           Build dist/rules/codex.md
   cursor          Build dist/rules/cursor.md (full with Cursor frontmatter)
   cursor-lean     Build dist/rules/cursor.lean.md (lean always-apply)
   all             Build all targets (default)
@@ -172,7 +170,7 @@ main() {
         list_targets
         exit 0
         ;;
-      windsurf|claude|codex|cursor|cursor-lean|all)
+      windsurf|claude|cursor|cursor-lean|all)
         requested_targets+=("$1")
         shift
         ;;

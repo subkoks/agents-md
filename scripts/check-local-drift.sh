@@ -13,7 +13,6 @@ VERBOSE=0
 TARGETS=(
   "$PROJECT_ROOT/dist/rules/windsurf.md"
   "$PROJECT_ROOT/dist/rules/claude.md"
-  "$PROJECT_ROOT/dist/rules/codex.md"
 )
 
 show_help() {

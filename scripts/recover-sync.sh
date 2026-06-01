@@ -11,7 +11,6 @@ SOURCE="$PROJECT_ROOT/src/gotcha.md"
 TARGETS=(
     "windsurf:$PROJECT_ROOT/dist/rules/windsurf.md"
     "claude:$PROJECT_ROOT/dist/rules/claude.md"
-    "codex:$PROJECT_ROOT/dist/rules/codex.md"
 )
 
 # Colors
@@ -53,7 +52,7 @@ ACTIONS:
 
 OPTIONS:
     -h, --help      Show this help message
-    -t, --target    Target specific editor (windsurf|claude|codex)
+    -t, --target    Target specific editor (windsurf|claude)
     -b, --backup    Specify backup file to restore from
     -f, --force     Force action without confirmation
 

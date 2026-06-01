@@ -301,7 +301,7 @@ Portable defaults for repos using these artifacts. Machine-specific stack lives 
 
 ### Agent & AI tooling
 
-- **Editors / CLIs:** Cursor, Claude Code, Codex CLI — rules in `AGENTS.md` + skills, not chat memory.
+- **Editors / CLIs:** Cursor, Claude Code, Windsurf — rules in `AGENTS.md` + skills, not chat memory.
 - **Integration:** MCP for external tools; shared agent scripts across repos; read-only MCP first.
 - **Patterns:** Small composable CLIs; bounded context; browser automation via Playwright or project-standard tooling.
 - **Exemplars:** [steipete/agent-scripts](https://github.com/steipete/agent-scripts), [oracle](https://github.com/steipete/oracle), [claude-code-mcp](https://github.com/steipete/claude-code-mcp) — ship working utilities quickly.
@@ -358,7 +358,6 @@ Portable defaults for repos using these artifacts. Machine-specific stack lives 
 - Generated artifacts:
   - `dist/rules/windsurf.md`
   - `dist/rules/claude.md`
-  - `dist/rules/codex.md`
   - `dist/rules/cursor.md`
   - `dist/rules/cursor.lean.md`
 - Differences across packaging targets should remain minimal and documented.
