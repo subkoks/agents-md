@@ -14,7 +14,6 @@ STRICT="${STRICT:-0}"
 TARGETS=(
     "windsurf:$PROJECT_ROOT/dist/rules/windsurf.md"
     "claude:$PROJECT_ROOT/dist/rules/claude.md"
-    "codex:$PROJECT_ROOT/dist/rules/codex.md"
 )
 
 # Colors

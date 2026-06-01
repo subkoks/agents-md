@@ -4,13 +4,11 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 
-SRC_CODEX="$PROJECT_ROOT/dist/rules/codex.md"
 SRC_CLAUDE="$PROJECT_ROOT/dist/rules/claude.md"
 SRC_CURSOR_LEAN="$PROJECT_ROOT/dist/rules/cursor.lean.md"
 SRC_CURSOR_FULL="$PROJECT_ROOT/dist/rules/cursor.md"
 
 HOME_AGENTS="$HOME/AGENTS.md"
-CODEX_AGENTS="$HOME/.codex/AGENTS.md"
 CLAUDE_FILE="$HOME/.claude/CLAUDE.md"
 CURSOR_RULES_DIR="$HOME/.cursor/rules"
 PROJECT_TEMPLATE_DEST="$HOME/Templates/AGENTS.project-template.md"
@@ -69,20 +67,15 @@ main() {
   log "[INFO] Building rule artifacts..."
   "$PROJECT_ROOT/scripts/build-rule-artifacts.sh" all
 
-  if [[ ! -f "$SRC_CODEX" || ! -f "$SRC_CLAUDE" || ! -f "$SRC_CURSOR_LEAN" || ! -f "$SRC_CURSOR_FULL" ]]; then
+  if [[ ! -f "$SRC_CLAUDE" || ! -f "$SRC_CURSOR_LEAN" || ! -f "$SRC_CURSOR_FULL" ]]; then
     log "[ERR ] Missing built artifacts in dist/rules/"
     exit 1
   fi
 
-  log "[INFO] Installing Codex and Claude rule files..."
-  install_with_backup "$SRC_CODEX" "$HOME_AGENTS"
+  log "[INFO] Installing global AGENTS.md and Claude rule files..."
+  # All :raw artifacts are byte-identical; claude.md is the canonical raw source.
+  install_with_backup "$SRC_CLAUDE" "$HOME_AGENTS"
   install_with_backup "$SRC_CLAUDE" "$CLAUDE_FILE"
-
-  if install_with_backup "$SRC_CODEX" "$CODEX_AGENTS" 2>/dev/null; then
-    :
-  else
-    log "[WARN] Could not write $CODEX_AGENTS (permission restricted in this environment)."
-  fi
 
   log "[INFO] Installing Cursor rules..."
   install_with_backup "$SRC_CURSOR_LEAN" "$CURSOR_RULES_DIR/gotcha.mdc"

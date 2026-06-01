@@ -91,7 +91,6 @@ jobs:
         run: |
           test -f dist/rules/windsurf.md
           test -f dist/rules/claude.md
-          test -f dist/rules/codex.md
           test -f dist/rules/cursor.md
           test -f dist/rules/cursor.lean.md
 
