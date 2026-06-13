@@ -4,6 +4,14 @@ All notable changes to the GOTCHA framework agent rules.
 
 ## [Unreleased]
 
+### Added
+
+- Auto-merge workflow (`.github/workflows/auto-merge.yml`) — enables GitHub auto-merge on same-repo, non-draft PRs from owner/member/collaborator authors once all required status checks pass
+
+### Changed
+
+- Auto-merge workflow now also enables auto-merge on same-repo Dependabot PRs (`dependabot[bot]`), in addition to owner/member/collaborator authors
+
 ## [2.3.0] - 2026-05-15
 
 ### Added
