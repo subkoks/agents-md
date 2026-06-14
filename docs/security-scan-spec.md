@@ -79,7 +79,12 @@ Never auto-fix destructive command permissions or ambiguous behavior changes.
 
 ## Rollout Plan
 
-1. Add scanner skeleton and schema validation.
-2. Implement `critical/high` detectors first.
-3. Add CI integration in report-only mode.
-4. Enable fail thresholds after baseline cleanup.
+1. [x] Add scanner skeleton and schema validation. (`scripts/security-scan.sh`)
+2. [x] Implement `critical/high` detectors first. (SEC-PERM-001, SEC-SECRET-001, SEC-CI-001)
+3. [x] Add CI integration in report-only mode. (`ci.yml` → `security-scan` job step)
+4. [ ] Implement `medium/low` detectors and safe `--fix` auto-remediation.
+5. [ ] Enable fail thresholds in CI after baseline cleanup.
+
+> v1 status: critical/high detectors ship with `terminal`/`json`/`markdown` output,
+> `--min-severity`/`--fail-on` thresholds, and bats coverage (`tests/security-scan.bats`).
+> `--fix` is specified but not yet implemented (findings report `autoFixable: false`).
