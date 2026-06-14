@@ -1,38 +1,34 @@
-# Agent upgrade roadmap (status)
+# Agent upgrade roadmap (shipped history)
 
-Historical planning doc. **Completed items** are archived here; active backlog lives in [ROADMAP.md](../ROADMAP.md) and GitHub issues.
+Historical archive of completed upgrade work. **Active backlog lives in
+[ROADMAP.md](../ROADMAP.md)** (Now / Next / Later); release detail is in
+[CHANGELOG.md](../CHANGELOG.md). When this file conflicts with those, trust them first.
 
-## Completed (v2.x)
+## Shipped
 
-- Unified reusable artifact stack: `src/gotcha.md` + `src/gotcha-lean.md` with generated `dist/rules/*`
-- Comprehensive validation and strict drift checks (`make check`, governance pipeline)
-- Cursor lean + full artifacts (`cursor.lean.md`, `cursor.md`) and explicit manual install flow
-- Skills pack with registry (`skills/registry.tsv`)
-- v2.2.0 release: `AGENTS.md`, `CHANGELOG.md`, tag `v2.2.0`
-- World-class upgrade pillars (in flight): GitHub landing, `llms.txt`, general skills, `install.sh`, trust/CI hygiene
+- **v2.3.0** — world-class upgrade pillars B–F: GitHub landing README, `llms.txt`,
+  `docs/llm-citation.md`, nine general-purpose skills, `install.sh`,
+  `docs/threat-model.md`; prompt-interpretation rules in canonical gotcha; CI verifies
+  `cursor.md` + `cursor.lean.md`.
+- **v2.2.0** — root `AGENTS.md` (Cursor Cloud dev notes); canonical `src/gotcha-lean.md`
+  with generated `dist/rules/cursor.lean.md`; GOTCHA v2.0 rule bodies; validators accept
+  v2 headings.
+- **v2.1.0** — consolidated `ci.yml` (`lint`/`validate`/`build`/`security-scan`); pinned
+  lint gates and third-party actions to commit SHAs; `dependabot.yml`; MIT `LICENSE`;
+  pre-commit hooks.
+- **v2.0.0 / v1.0.0** — unified reusable artifact stack (`src/gotcha.md` +
+  `src/gotcha-lean.md` → `dist/rules/*`); comprehensive validation + strict drift checks;
+  Cursor lean/full artifacts; skills pack with `skills/registry.tsv`.
 
-## In progress / tracked elsewhere
+## Engineering hardening (post-v2.3.0)
 
-| Initiative | Tracking |
-| --- | --- |
-| GitHub README conversion (Pillar B) | PR #17 |
-| AI discoverability `llms.txt` (Pillar C) | PR #18 |
-| General skills expansion (Pillar D) | PR #19 |
-| `install.sh` onboarding (Pillar E) | PR #20 |
-| CONTRIBUTING, threat model, CI cursor verify (Pillar F) | open PR |
-
-## Future themes (not scheduled)
-
-- v2.3+ tool integration patterns in canonical rules
-- v2.4 debugging workflows (partially covered by `skills/debugging-protocol.md` after Pillar D)
-- v2.5 harness reliability controls
-- v2.6 security/risk scanning hooks
-- v3.0 multi-agent orchestration spec
+- Cloud-readiness for Claude Code on the web (`SessionStart` hook, `scripts/cloud-setup.sh`).
+- CI auto-review + auto-merge workflows, gated by author association and Dependabot-aware.
+- bats-core test suite (`tests/`) and `make lint`/`make test`/`make ci` aggregators.
 
 ## Reference docs (current)
 
 - [hook-reference.md](hook-reference.md)
 - [agent-patterns.md](agent-patterns.md)
 - [threat-model.md](threat-model.md)
-
-When this file conflicts with `README.md` or `CHANGELOG.md`, trust those sources first.
+- [releasing.md](releasing.md)

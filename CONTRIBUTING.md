@@ -55,8 +55,10 @@ make check
 
 - Use `.github/pull_request_template.md`.
 - One logical change per PR; link pillar or issue when relevant.
-- Include **test plan** (commands run, e.g. `make check`).
+- Include **test plan** (commands run, e.g. `make ci`).
+- Run `make ci` (lint + check + skills-drift + test) before pushing.
 - User-visible changes: add a `CHANGELOG.md` entry under `[Unreleased]` or the target version section.
+- Cutting a release: follow [docs/releasing.md](docs/releasing.md).
 
 ## Security
 
