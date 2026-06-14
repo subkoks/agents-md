@@ -77,6 +77,7 @@ make check              # strict validation + drift
 make ci                 # local mirror: lint + check + skills-drift + test
 make test               # bats suite (requires bats-core)
 make lint               # shellcheck + markdownlint + actionlint
+make security-scan      # scan agent config for high-risk patterns
 make governance-run     # full pipeline
 make health             # timestamped report in logs/health/
 make skills-drift       # skills/registry.tsv vs skills/*.md

@@ -132,3 +132,8 @@ jobs:
           base: ${{ github.event.pull_request.base.sha }}
           head: ${{ github.event.pull_request.head.sha }}
           extra_args: --results=verified,unknown
+
+      - name: Config security scan (report-only)
+        run: |
+          chmod +x scripts/security-scan.sh
+          ./scripts/security-scan.sh --format markdown --fail-on never >> "$GITHUB_STEP_SUMMARY"
