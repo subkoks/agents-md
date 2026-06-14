@@ -6,11 +6,28 @@ All notable changes to the GOTCHA framework agent rules.
 
 ### Added
 
+- bats-core test suite (`tests/`) covering build, drift, validation, skills-registry, install, and health scripts — including the previously-unasserted "drift fails under `--strict`" behavior
+- `make lint`, `make test`, and `make ci` targets mirroring the GitHub pipeline locally
+- CI `test` job (`.github/workflows/ci.yml`) running the bats suite on every PR
+- `docs/releasing.md` — SemVer policy and release checklist for this repo
+
+### Changed
+
+- Rewrote `ROADMAP.md` to a Now / Next / Later format with acceptance criteria (dropped stale quarter dates)
+- Refreshed `docs/agent-upgrade-roadmap.md` into an accurate shipped-history archive
+- Documented `make test` / `make lint` / `make ci` in `README.md` and `AGENTS.md`
+
+## [2.3.1] - 2026-06-14
+
+### Added
+
 - Auto-merge workflow (`.github/workflows/auto-merge.yml`) — enables GitHub auto-merge on same-repo, non-draft PRs from owner/member/collaborator authors once all required status checks pass
+- Cloud-readiness for Claude Code on the web (`SessionStart` hook, `scripts/cloud-setup.sh`)
 
 ### Changed
 
 - Auto-merge workflow now also enables auto-merge on same-repo Dependabot PRs (`dependabot[bot]`), in addition to owner/member/collaborator authors
+- Hardened Claude CI: gated auto-merge on author association, added concurrency group, OIDC token handling, and skip auto-review on Dependabot PRs
 
 ## [2.3.0] - 2026-05-15
 

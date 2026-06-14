@@ -74,6 +74,9 @@ Push reliability into **scripts and CI**; keep flexibility in orchestration.
 
 ```bash
 make check              # strict validation + drift
+make ci                 # local mirror: lint + check + skills-drift + test
+make test               # bats suite (requires bats-core)
+make lint               # shellcheck + markdownlint + actionlint
 make governance-run     # full pipeline
 make health             # timestamped report in logs/health/
 make skills-drift       # skills/registry.tsv vs skills/*.md

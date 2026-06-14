@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-.PHONY: governance-run governance-check check drift-check drift-check-strict build-artifacts artifacts-list sync sync-cursor install-cursor-local health skills-drift
+.PHONY: governance-run governance-check check drift-check drift-check-strict build-artifacts artifacts-list sync sync-cursor install-cursor-local health skills-drift lint test ci
 
 governance-run:
 	./scripts/run-governance.sh
@@ -44,3 +44,15 @@ health:
 
 skills-drift:
 	./scripts/check-skill-registry-drift.sh
+
+lint:
+	shellcheck -e SC1091 -e SC2155 scripts/*.sh install.sh
+	markdownlint-cli2 "**/*.md" "#dist" "#node_modules" "#CHANGELOG.md"
+	actionlint
+
+test:
+	@command -v bats >/dev/null 2>&1 || { echo "[ERR ] bats not found. Install bats-core (brew install bats-core / apt-get install bats)."; exit 1; }
+	bats tests/
+
+ci: lint check skills-drift test
+	@echo "[ OK ] Local CI mirror passed (lint + check + skills-drift + test)"
