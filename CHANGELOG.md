@@ -4,26 +4,22 @@ All notable changes to the GOTCHA framework agent rules.
 
 ## [Unreleased]
 
+## [2.4.0] - 2026-06-15
+
 ### Added
 
-- Config security scanner (`scripts/security-scan.sh`) implementing `docs/security-scan-spec.md` v1: detectors for permission overreach (SEC-PERM-001), hardcoded secrets (SEC-SECRET-001), and CI script-injection in `run:` blocks (SEC-CI-001), with `terminal`/`json`/`markdown` output and `--min-severity`/`--fail-on` thresholds. Wired into `make security-scan`, `make ci`, and a report-only CI step
-- Security scanner v2: medium/low detectors (SEC-MCP-001 insecure MCP transport, SEC-HOOK-001 unsafe hook shell, SEC-PROMPT-001 prompt-override directives, SEC-PROMPT-002 hidden/zero-width unicode), an `autoFixable` finding flag, and a safe `--fix` mode that strips hidden unicode with per-file `.bak` backups
+- bats-core test suite (`tests/`) covering the build, drift, validation, skills-registry, install, and health scripts — including the previously-unasserted "drift fails under `--strict`" behavior
+- `make lint`, `make test`, and `make ci` targets mirroring the GitHub pipeline locally; CI `test` job running the suite on every PR
+- `docs/releasing.md` — SemVer policy and release checklist for this repo
+- Config security scanner (`scripts/security-scan.sh`, `docs/security-scan-spec.md`): seven detectors across critical→low — permission overreach (SEC-PERM-001), hardcoded secrets (SEC-SECRET-001), CI `run:`-block script-injection (SEC-CI-001), insecure MCP transport (SEC-MCP-001), unsafe hook shell (SEC-HOOK-001), prompt-override directives (SEC-PROMPT-001), hidden/zero-width unicode (SEC-PROMPT-002) — with `terminal`/`json`/`markdown` output, `--min-severity`/`--fail-on` thresholds, an `autoFixable` flag, and a safe `--fix` (hidden-unicode stripping with `.bak` backups). Exposed via `make security-scan`
 - Harness reliability controls: cumulative hook runtime profiles (`minimal|standard|strict`) via `hooks/manifest.tsv` + `scripts/hook-profile.sh`, a `DISABLED_HOOKS` env override for traceable temporary suppression, and stop-phase session telemetry (`scripts/session-telemetry.sh` → `logs/telemetry/telemetry.jsonl`). Docs in `docs/hook-runtime-profiles.md`; `make hooks` target
 - Tool-integration patterns: `docs/tool-integration-patterns.md` (capability discovery, sequential/parallel/fallback/conditional composition, error handling, anti-patterns) plus a self-contained "Tool integration" block in the canonical rule body (`src/gotcha.md`)
 
 ### Changed
 
 - CI `security-scan` job now runs the config scanner **blocking on high+** (was report-only)
-- bats-core test suite (`tests/`) covering build, drift, validation, skills-registry, install, and health scripts — including the previously-unasserted "drift fails under `--strict`" behavior
-- `make lint`, `make test`, and `make ci` targets mirroring the GitHub pipeline locally
-- CI `test` job (`.github/workflows/ci.yml`) running the bats suite on every PR
-- `docs/releasing.md` — SemVer policy and release checklist for this repo
-
-### Changed
-
-- Rewrote `ROADMAP.md` to a Now / Next / Later format with acceptance criteria (dropped stale quarter dates)
-- Refreshed `docs/agent-upgrade-roadmap.md` into an accurate shipped-history archive
-- Documented `make test` / `make lint` / `make ci` in `README.md` and `AGENTS.md`
+- Rewrote `ROADMAP.md` to a Now / Next / Later format with acceptance criteria (dropped stale quarter dates); refreshed `docs/agent-upgrade-roadmap.md` into an accurate shipped-history archive
+- Documented `make test` / `make lint` / `make ci` / `make security-scan` / `make hooks` in `README.md` and `AGENTS.md`
 
 ## [2.3.1] - 2026-06-14
 
