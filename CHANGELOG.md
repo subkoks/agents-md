@@ -8,6 +8,7 @@ All notable changes to the GOTCHA framework agent rules.
 
 - Config security scanner (`scripts/security-scan.sh`) implementing `docs/security-scan-spec.md` v1: detectors for permission overreach (SEC-PERM-001), hardcoded secrets (SEC-SECRET-001), and CI script-injection in `run:` blocks (SEC-CI-001), with `terminal`/`json`/`markdown` output and `--min-severity`/`--fail-on` thresholds. Wired into `make security-scan`, `make ci`, and a report-only CI step
 - Security scanner v2: medium/low detectors (SEC-MCP-001 insecure MCP transport, SEC-HOOK-001 unsafe hook shell, SEC-PROMPT-001 prompt-override directives, SEC-PROMPT-002 hidden/zero-width unicode), an `autoFixable` finding flag, and a safe `--fix` mode that strips hidden unicode with per-file `.bak` backups
+- Harness reliability controls: cumulative hook runtime profiles (`minimal|standard|strict`) via `hooks/manifest.tsv` + `scripts/hook-profile.sh`, a `DISABLED_HOOKS` env override for traceable temporary suppression, and stop-phase session telemetry (`scripts/session-telemetry.sh` → `logs/telemetry/telemetry.jsonl`). Docs in `docs/hook-runtime-profiles.md`; `make hooks` target
 
 ### Changed
 
