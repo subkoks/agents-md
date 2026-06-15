@@ -39,9 +39,10 @@ Specced in `docs/`, ready to pull into a cycle.
       session telemetry ship as editor-agnostic scripts with bats coverage.
       *Remaining (Later):* pre-compact state capture.
       (docs: [docs/hook-runtime-profiles.md](docs/hook-runtime-profiles.md))
-- [ ] **Tool-integration patterns** — canonical guidance for tool chaining, fallback
-      on primary-tool failure, and MCP capability discovery.
-      *Done when:* patterns are captured in `docs/` and referenced from the rule body.
+- [x] **Tool-integration patterns** — chaining, fallback on primary-tool failure,
+      and capability-based resolution captured in
+      [docs/tool-integration-patterns.md](docs/tool-integration-patterns.md) and
+      referenced from the canonical rule body.
 
 ## Later — directional
 
