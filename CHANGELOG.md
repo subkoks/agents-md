@@ -4,9 +4,15 @@ All notable changes to the GOTCHA framework agent rules.
 
 ## [Unreleased]
 
+## [2.6.0] - 2026-06-15
+
 ### Added
 
-- Expanded skills pack: 25 role-oriented engineering skills imported and rebuilt from the local setup into the repo's single-`.md` format (languages/stacks, workflow/tooling, security, crypto engineering). All sanitized of personal paths/identifiers, registered in `skills/registry.tsv`, and listed in `skills/README.md`
+- Expanded skills pack (21 → 46): 25 role-oriented engineering skills rebuilt from the local setup into the repo's single-`.md` format (languages/stacks, workflow/tooling, security, crypto engineering). All sanitized of personal paths/identifiers, registered in `skills/registry.tsv`, and listed in `skills/README.md`
+
+### Changed
+
+- Disabled markdownlint `MD060` (table-column-style) repo-wide — cosmetic alignment, consistent with `MD013` already off
 
 ## [2.5.0] - 2026-06-15
 
