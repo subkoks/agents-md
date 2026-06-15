@@ -101,10 +101,33 @@ orchestration:
   lockPolicy: pessimistic
 ```
 
+## Wave scheduler (reference implementation)
+
+`scripts/dag-schedule.sh` implements the deterministic core — DAG parsing, cycle
+checks, and wave computation — independent of any live runtime:
+
+```bash
+scripts/dag-schedule.sh --manifest orchestration/tasks.example.tsv
+# wave 0: schema-audit ui-theme
+# wave 1: auth-routes
+# wave 2: ui-login docs
+# wave 3: e2e-tests
+```
+
+- Manifest is tab-separated `taskId<TAB>deps` (deps comma-separated or `-`); see
+  [`orchestration/tasks.example.tsv`](../orchestration/tasks.example.tsv).
+- Each wave lists tasks whose dependencies are all satisfied by earlier waves — an
+  orchestrator runs a wave's tasks concurrently, then recomputes.
+- `--format json` emits `{"waves": [[...], ...]}` for machine consumption.
+- Exit codes: `3` dangling/missing dependency, `4` cycle detected.
+
+Run it via `make dag`. Locking, budget/time guardrails, the quality-gate phase, and
+event replay remain runtime concerns for the orchestrator that consumes these waves.
+
 ## Rollout Plan
 
-1. Implement DAG parser + cycle checks.
-2. Implement wave scheduler + locking.
-3. Add budget/time guardrails.
-4. Add quality-gate phase.
-5. Add event replay and metrics summary.
+1. [x] Implement DAG parser + cycle checks. (`scripts/dag-schedule.sh`)
+2. [x] Implement wave scheduler. (locking remains a runtime concern)
+3. [ ] Add budget/time guardrails.
+4. [ ] Add quality-gate phase.
+5. [ ] Add event replay and metrics summary.

@@ -1,0 +1,8 @@
+# Example task DAG for scripts/dag-schedule.sh
+# Columns (tab-separated): taskId	dependencies(comma-separated, or - for none)	ownerAgent
+schema-audit	-	backend
+auth-routes	schema-audit	backend
+ui-login	auth-routes	frontend
+ui-theme	-	frontend
+e2e-tests	ui-login,ui-theme	testing
+docs	auth-routes	docs
