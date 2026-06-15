@@ -4,6 +4,10 @@ All notable changes to the GOTCHA framework agent rules.
 
 ## [Unreleased]
 
+### Added
+
+- Expanded skills pack: 25 role-oriented engineering skills imported and rebuilt from the local setup into the repo's single-`.md` format (languages/stacks, workflow/tooling, security, crypto engineering). All sanitized of personal paths/identifiers, registered in `skills/registry.tsv`, and listed in `skills/README.md`
+
 ## [2.5.0] - 2026-06-15
 
 ### Added
