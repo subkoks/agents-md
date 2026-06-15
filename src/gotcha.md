@@ -261,6 +261,13 @@ Per-language rules live alongside the project. For Cursor users this means glob-
 - Check repo `AGENTS.md` or `README` in working directory for project-specific overrides.
 - Same tool call or error repeated twice → abort, switch strategy, re-plan.
 
+### Tool integration
+
+- When chaining tools, verify each output's shape before feeding the next; never blind-chain.
+- Define fallbacks explicitly (primary → simpler/cheaper secondary) and log which path ran.
+- Resolve tools by capability, not hardcoded name, when more than one can satisfy the need.
+- Run only genuinely independent operations in parallel; set per-tool timeouts and join results.
+
 ---
 
 ## File Change Rules
