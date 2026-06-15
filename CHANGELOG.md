@@ -7,6 +7,11 @@ All notable changes to the GOTCHA framework agent rules.
 ### Added
 
 - Config security scanner (`scripts/security-scan.sh`) implementing `docs/security-scan-spec.md` v1: detectors for permission overreach (SEC-PERM-001), hardcoded secrets (SEC-SECRET-001), and CI script-injection in `run:` blocks (SEC-CI-001), with `terminal`/`json`/`markdown` output and `--min-severity`/`--fail-on` thresholds. Wired into `make security-scan`, `make ci`, and a report-only CI step
+- Security scanner v2: medium/low detectors (SEC-MCP-001 insecure MCP transport, SEC-HOOK-001 unsafe hook shell, SEC-PROMPT-001 prompt-override directives, SEC-PROMPT-002 hidden/zero-width unicode), an `autoFixable` finding flag, and a safe `--fix` mode that strips hidden unicode with per-file `.bak` backups
+
+### Changed
+
+- CI `security-scan` job now runs the config scanner **blocking on high+** (was report-only)
 - bats-core test suite (`tests/`) covering build, drift, validation, skills-registry, install, and health scripts — including the previously-unasserted "drift fails under `--strict`" behavior
 - `make lint`, `make test`, and `make ci` targets mirroring the GitHub pipeline locally
 - CI `test` job (`.github/workflows/ci.yml`) running the bats suite on every PR

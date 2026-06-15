@@ -25,11 +25,9 @@ Work that is committed and actively landing.
 - [ ] **Planning-doc truth-up** — roadmap and history reflect reality (no merged
       PRs listed as "in progress"). *Done when:* this file + the archive cite only
       current state.
-- [~] **Config self-scan (v1)** — `scripts/security-scan.sh` ships critical/high
-      detectors (permission overreach, hardcoded secrets, CI script-injection) with
-      JSON/markdown output and a report-only CI step.
-      *Remaining:* medium/low detectors, `--fix` auto-remediation, and enabling fail
-      thresholds in CI after baseline cleanup.
+- [x] **Config self-scan** — `scripts/security-scan.sh` ships seven detectors
+      (critical→low), `terminal`/`json`/`markdown` output, safe `--fix` for
+      auto-fixable findings, and a CI step blocking on `high+`.
       (spec: [docs/security-scan-spec.md](docs/security-scan-spec.md))
 
 ## Next — committed, not yet started
@@ -40,11 +38,6 @@ Specced in `docs/`, ready to pull into a cycle.
       env-driven hook disable list, pre-compact state capture, stop-phase telemetry.
       *Done when:* profiles toggle hooks without editing files and a session summary
       is persisted at end-of-turn. (spec: [docs/hook-reference.md](docs/hook-reference.md))
-- [ ] **Config self-scan (v2)** — extend the v1 scanner with medium/low detectors
-      (MCP transport/command risk, hidden-directive prompt abuse), safe `--fix`
-      auto-remediation, and a blocking CI gate once the baseline is clean.
-      (spec: [docs/security-scan-spec.md](docs/security-scan-spec.md),
-      [docs/threat-model.md](docs/threat-model.md))
 - [ ] **Tool-integration patterns** — canonical guidance for tool chaining, fallback
       on primary-tool failure, and MCP capability discovery.
       *Done when:* patterns are captured in `docs/` and referenced from the rule body.
