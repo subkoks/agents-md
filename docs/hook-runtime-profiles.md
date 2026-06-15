@@ -52,6 +52,23 @@ scripts/session-telemetry.sh --session "$SID" --turns 12 --tools 34 --status ok 
 Records are deliberately small: timestamp, session id, turn/tool counts, outcome, and a
 note capped at 200 chars (control chars stripped, JSON-escaped). `logs/` is gitignored.
 
+## Pre-compact state capture
+
+`scripts/precompact-capture.sh` persists resumable working state across a context
+compaction boundary, reducing context-loss regressions:
+
+```bash
+scripts/precompact-capture.sh capture --session "$SID" --note "mid-refactor on auth"
+scripts/precompact-capture.sh restore   # prints the latest snapshot as JSON (exit 3 if none)
+```
+
+A snapshot is a small JSON record — timestamp, session, git branch + HEAD, the
+changed/untracked file list (bounded), and a capped note — written to
+`logs/state/precompact-<stamp>.json` with `logs/state/latest.json` pointing at the
+most recent. A `PreCompact` hook calls `capture`; after compaction the agent reads
+`restore` to recover where it was. Degrades safely outside a git work tree
+(branch/head become `unknown`).
+
 ## Wiring into a runtime
 
 These scripts are editor-agnostic building blocks, not a live hook runtime. To adopt:
@@ -62,6 +79,6 @@ These scripts are editor-agnostic building blocks, not a live hook runtime. To a
 
 ## Status & follow-ups
 
-Shipped: cumulative profiles, `DISABLED_HOOKS` override, and stop-phase telemetry, all
-with bats coverage (`tests/hook-profile.bats`, `tests/session-telemetry.bats`).
-Deferred: pre-compact state capture (persist working state before context compaction).
+Shipped: cumulative profiles, `DISABLED_HOOKS` override, stop-phase telemetry, and
+pre-compact state capture, all with bats coverage (`tests/hook-profile.bats`,
+`tests/session-telemetry.bats`, `tests/precompact-capture.bats`).

@@ -8,5 +8,6 @@ secret-guard	quality	minimal	block	git
 dispatcher	routing	minimal	route	jq
 test-gate	quality	standard	block	jq,git
 checkpoint	recovery	standard	annotate	git
+precompact-capture	recovery	standard	annotate	git
 audit-log	audit	strict	annotate	jq
 session-telemetry	audit	strict	annotate	-

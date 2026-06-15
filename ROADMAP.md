@@ -35,9 +35,9 @@ Work that is committed and actively landing.
 Specced in `docs/`, ready to pull into a cycle.
 
 - [x] **Harness reliability controls** — cumulative hook runtime profiles
-      (`minimal|standard|strict`), `DISABLED_HOOKS` env override, and stop-phase
-      session telemetry ship as editor-agnostic scripts with bats coverage.
-      *Remaining (Later):* pre-compact state capture.
+      (`minimal|standard|strict`), `DISABLED_HOOKS` env override, stop-phase
+      session telemetry, and pre-compact state capture ship as editor-agnostic
+      scripts with bats coverage.
       (docs: [docs/hook-runtime-profiles.md](docs/hook-runtime-profiles.md))
 - [x] **Tool-integration patterns** — chaining, fallback on primary-tool failure,
       and capability-based resolution captured in
