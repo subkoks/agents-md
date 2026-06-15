@@ -34,10 +34,11 @@ Work that is committed and actively landing.
 
 Specced in `docs/`, ready to pull into a cycle.
 
-- [ ] **Harness reliability controls** — hook runtime profiles (`minimal|standard|strict`),
-      env-driven hook disable list, pre-compact state capture, stop-phase telemetry.
-      *Done when:* profiles toggle hooks without editing files and a session summary
-      is persisted at end-of-turn. (spec: [docs/hook-reference.md](docs/hook-reference.md))
+- [x] **Harness reliability controls** — cumulative hook runtime profiles
+      (`minimal|standard|strict`), `DISABLED_HOOKS` env override, and stop-phase
+      session telemetry ship as editor-agnostic scripts with bats coverage.
+      *Remaining (Later):* pre-compact state capture.
+      (docs: [docs/hook-runtime-profiles.md](docs/hook-runtime-profiles.md))
 - [ ] **Tool-integration patterns** — canonical guidance for tool chaining, fallback
       on primary-tool failure, and MCP capability discovery.
       *Done when:* patterns are captured in `docs/` and referenced from the rule body.

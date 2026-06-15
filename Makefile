@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-.PHONY: governance-run governance-check check drift-check drift-check-strict build-artifacts artifacts-list sync sync-cursor install-cursor-local health skills-drift lint test security-scan ci
+.PHONY: governance-run governance-check check drift-check drift-check-strict build-artifacts artifacts-list sync sync-cursor install-cursor-local health skills-drift lint test security-scan hooks ci
 
 governance-run:
 	./scripts/run-governance.sh
@@ -56,6 +56,9 @@ test:
 
 security-scan:
 	./scripts/security-scan.sh --fail-on high
+
+hooks:
+	./scripts/hook-profile.sh --profile standard --list-all
 
 ci: lint check skills-drift test security-scan
 	@echo "[ OK ] Local CI mirror passed (lint + check + skills-drift + test + security-scan)"
