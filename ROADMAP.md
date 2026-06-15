@@ -51,9 +51,10 @@ Worth doing; sequencing not yet decided.
 - [ ] **Multi-agent orchestration** — agent roles, handoff protocol, conflict
       resolution, DAG/wave scheduler, budget guardrails, final quality gate, session
       replay. (spec: [docs/orchestration-dag-spec.md](docs/orchestration-dag-spec.md))
-- [ ] **Debugging workflows** — hypothesis tracking, auto-isolation/min-repro,
-      root-cause templates, regression-test generation (partly in
-      `skills/debugging-protocol.md`).
+- [x] **Debugging workflows** — hypothesis-tracking journal
+      (`scripts/debug-journal.sh`), root-cause templates, minimal-repro and
+      regression-test-first guidance in
+      [docs/debugging-workflows.md](docs/debugging-workflows.md).
 
 ---
 
