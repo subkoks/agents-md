@@ -82,9 +82,13 @@ Never auto-fix destructive command permissions or ambiguous behavior changes.
 1. [x] Add scanner skeleton and schema validation. (`scripts/security-scan.sh`)
 2. [x] Implement `critical/high` detectors first. (SEC-PERM-001, SEC-SECRET-001, SEC-CI-001)
 3. [x] Add CI integration in report-only mode. (`ci.yml` → `security-scan` job step)
-4. [ ] Implement `medium/low` detectors and safe `--fix` auto-remediation.
-5. [ ] Enable fail thresholds in CI after baseline cleanup.
+4. [x] Implement `medium/low` detectors and safe `--fix` auto-remediation.
+       (SEC-MCP-001, SEC-HOOK-001, SEC-PROMPT-001, SEC-PROMPT-002; `--fix` strips hidden unicode)
+5. [x] Enable fail thresholds in CI after baseline cleanup. (CI step now `--fail-on high`)
 
-> v1 status: critical/high detectors ship with `terminal`/`json`/`markdown` output,
-> `--min-severity`/`--fail-on` thresholds, and bats coverage (`tests/security-scan.bats`).
-> `--fix` is specified but not yet implemented (findings report `autoFixable: false`).
+> v2 status: seven detectors across critical→low ship with `terminal`/`json`/`markdown`
+> output, `--min-severity`/`--fail-on` thresholds, and bats coverage
+> (`tests/security-scan.bats`, 16 tests). `--fix` applies only `autoFixable` findings
+> (currently SEC-PROMPT-002 hidden-unicode stripping) and backs up each file to `.bak`;
+> destructive/ambiguous fixes are never auto-applied (per Auto-Fix Policy above).
+> CI runs the scanner blocking on `high+` in the `security-scan` job.
