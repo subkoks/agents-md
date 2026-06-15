@@ -48,9 +48,11 @@ Specced in `docs/`, ready to pull into a cycle.
 
 Worth doing; sequencing not yet decided.
 
-- [ ] **Multi-agent orchestration** — agent roles, handoff protocol, conflict
-      resolution, DAG/wave scheduler, budget guardrails, final quality gate, session
-      replay. (spec: [docs/orchestration-dag-spec.md](docs/orchestration-dag-spec.md))
+- [~] **Multi-agent orchestration** — the DAG parser + wave scheduler ship as
+      `scripts/dag-schedule.sh` (cycle/dangling detection, `make dag`).
+      *Remaining:* file locking, budget/time guardrails, quality-gate phase, and
+      event replay — runtime concerns for an orchestrator that consumes the waves.
+      (spec: [docs/orchestration-dag-spec.md](docs/orchestration-dag-spec.md))
 - [x] **Debugging workflows** — hypothesis-tracking journal
       (`scripts/debug-journal.sh`), root-cause templates, minimal-repro and
       regression-test-first guidance in

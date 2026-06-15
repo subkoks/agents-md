@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-.PHONY: governance-run governance-check check drift-check drift-check-strict build-artifacts artifacts-list sync sync-cursor install-cursor-local health skills-drift lint test security-scan hooks ci
+.PHONY: governance-run governance-check check drift-check drift-check-strict build-artifacts artifacts-list sync sync-cursor install-cursor-local health skills-drift lint test security-scan hooks dag ci
 
 governance-run:
 	./scripts/run-governance.sh
@@ -59,6 +59,9 @@ security-scan:
 
 hooks:
 	./scripts/hook-profile.sh --profile standard --list-all
+
+dag:
+	./scripts/dag-schedule.sh --manifest orchestration/tasks.example.tsv
 
 ci: lint check skills-drift test security-scan
 	@echo "[ OK ] Local CI mirror passed (lint + check + skills-drift + test + security-scan)"
