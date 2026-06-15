@@ -7,6 +7,7 @@ All notable changes to the GOTCHA framework agent rules.
 ### Added
 
 - Pre-compact state capture (`scripts/precompact-capture.sh`): `capture` snapshots resumable working state (git branch/HEAD, bounded changed-file list, session, note) to `logs/state/` with a `latest.json` pointer; `restore` prints the latest snapshot (exit 3 if none). Registered as the `precompact-capture` recovery hook; docs in `docs/hook-runtime-profiles.md`
+- Debugging workflows: `scripts/debug-journal.sh` for hypothesis tracking (`add`/`resolve`/`report` to `logs/debug/<session>.tsv`, markdown or JSON), plus `docs/debugging-workflows.md` (root-cause templates, minimal-repro, regression-test-first guidance)
 
 ## [2.4.0] - 2026-06-15
 
