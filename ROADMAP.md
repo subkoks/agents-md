@@ -1,190 +1,108 @@
 # Roadmap
 
-Planned improvements and experiments for the GOTCHA framework.
+Direction for the GOTCHA governance framework. Organized **Now / Next / Later** —
+themes, not calendar dates. Each item names an acceptance criterion so "done" is
+unambiguous. Released history lives in [CHANGELOG.md](CHANGELOG.md); shipped
+milestones are archived in [docs/agent-upgrade-roadmap.md](docs/agent-upgrade-roadmap.md).
+
+> Status as of 2026-06-14: latest release **v2.3.0**. CI gates are green
+> (`lint → validate → build → test → security-scan`).
 
 ---
 
-## v2.2 — Auto Mode Enhancements
+## Now — in this cycle
 
-**Target:** Q3 2026
+Work that is committed and actively landing.
 
-### Ideas (v2.2)
+- [ ] **Script test suite** — bats-core tests under `tests/` exercise the build,
+      drift, validation, skills-drift, install, and health scripts.
+      *Done when:* `make test` is green and CI runs a `test` job on every PR.
+- [ ] **Local CI mirror** — `make lint` / `make test` / `make ci` reproduce the
+      GitHub pipeline locally. *Done when:* `make ci` runs lint + check + skills-drift + test in one command.
+- [ ] **Release discipline** — documented SemVer policy and release checklist.
+      *Done when:* [docs/releasing.md](docs/releasing.md) exists and `CHANGELOG.md`
+      has no stale `[Unreleased]` backlog at release time.
+- [ ] **Planning-doc truth-up** — roadmap and history reflect reality (no merged
+      PRs listed as "in progress"). *Done when:* this file + the archive cite only
+      current state.
+- [x] **Config self-scan** — `scripts/security-scan.sh` ships seven detectors
+      (critical→low), `terminal`/`json`/`markdown` output, safe `--fix` for
+      auto-fixable findings, and a CI step blocking on `high+`.
+      (spec: [docs/security-scan-spec.md](docs/security-scan-spec.md))
 
-- [ ] **Progress logging** — Auto Mode writes progress to `logs/auto-mode/` every 5 minutes
-- [ ] **Checkpoint system** — Save state before risky operations, auto-rollback on failure
-- [ ] **Notification hooks** — Telegram/Discord webhook when Auto Mode completes or hits hard stop
-- [ ] **Time limits** — Auto Mode timeout with summary of what was done
-- [ ] **Task queue** — Queue multiple tasks for overnight execution
+## Next — committed, not yet started
 
-### Questions (v2.2)
+Specced in `docs/`, ready to pull into a cycle.
 
-- How to handle long-running tasks that span multiple sessions?
-- What's the right granularity for progress logging?
+- [ ] **Harness reliability controls** — hook runtime profiles (`minimal|standard|strict`),
+      env-driven hook disable list, pre-compact state capture, stop-phase telemetry.
+      *Done when:* profiles toggle hooks without editing files and a session summary
+      is persisted at end-of-turn. (spec: [docs/hook-reference.md](docs/hook-reference.md))
+- [ ] **Config self-scan** — audit this repo's own `.claude/`, hooks, and MCP/tool
+      permissions for dangerous defaults, graded `critical/high/medium/low/info`.
+      *Done when:* a scan script emits JSON + markdown and an optional CI gate fails
+      above a threshold. (spec: [docs/security-scan-spec.md](docs/security-scan-spec.md),
+      [docs/threat-model.md](docs/threat-model.md))
+- [ ] **Tool-integration patterns** — canonical guidance for tool chaining, fallback
+      on primary-tool failure, and MCP capability discovery.
+      *Done when:* patterns are captured in `docs/` and referenced from the rule body.
+- [x] **Harness reliability controls** — cumulative hook runtime profiles
+      (`minimal|standard|strict`), `DISABLED_HOOKS` env override, stop-phase
+      session telemetry, and pre-compact state capture ship as editor-agnostic
+      scripts with bats coverage.
+      (docs: [docs/hook-runtime-profiles.md](docs/hook-runtime-profiles.md))
+- [x] **Tool-integration patterns** — chaining, fallback on primary-tool failure,
+      and capability-based resolution captured in
+      [docs/tool-integration-patterns.md](docs/tool-integration-patterns.md) and
+      referenced from the canonical rule body.
 
----
+## Later — directional
 
-## v2.3 — Tool Integration Patterns
+Worth doing; sequencing not yet decided.
 
-**Target:** Q3 2026
-
-### Ideas (v2.3)
-
-- [ ] **MCP server registry** — Standardized way to register and discover MCP capabilities
-- [ ] **Tool chaining rules** — Best practices for piping output between tools
-- [ ] **Fallback patterns** — What to do when primary tool fails
-- [ ] **Tool versioning** — Handle breaking changes in MCP servers gracefully
-
-### Questions (v2.3)
-
-- Should tools have explicit capability declarations?
-- How to handle tool conflicts (multiple servers offering same feature)?
-
----
-
-## v2.4 — Debugging Workflows
-
-**Target:** Q4 2026
-
-### Ideas (v2.4)
-
-- [ ] **Hypothesis tracking** — Structured format for debugging hypotheses and results
-- [ ] **Auto-isolation** — Automatically create minimal reproduction when bug found
-- [ ] **Root cause templates** — Common root cause patterns to check first
-- [ ] **Regression test generation** — Auto-generate test from bug fix
-
----
-
-## v2.5 — Harness Reliability Controls
-
-**Target:** Q4 2026
-
-### Ideas (v2.5)
-
-- [ ] **Hook runtime profiles** — Add `minimal|standard|strict` profiles to enable/disable expensive hooks without editing files
-- [ ] **Hook disable list** — Add env-driven selective hook disable (`DISABLED_HOOKS=...`) for temporary suppression with traceability
-- [ ] **Pre-compact state capture** — Persist state before compaction to reduce context-loss regressions
-- [ ] **Stop-phase telemetry** — Persist session summary, extracted patterns, and cost metrics at end-of-turn/session
-- [ ] **Quality-gate command** — Add explicit command/workflow that runs all local checks in one deterministic sequence
-
-### Questions (v2.5)
-
-- Which hooks should be strict-only vs always-on?
-- What is acceptable overhead budget per hook phase?
-
----
-
-## v2.6 — Security and Risk Scanning
-
-**Target:** Q1 2027
-
-### Ideas (v2.6)
-
-- [ ] **Agent config scanner** — Audit rules/hooks/MCP/tool permissions for dangerous defaults
-- [ ] **Severity model** — Grade findings with `critical/high/medium/low/info` and an overall score
-- [ ] **Auto-fix class** — Auto-fix only safe classes (hardcoded secret references, wildcard permissions narrowing suggestions)
-- [ ] **CI security gate** — Optional GitHub workflow that fails PRs above a configurable severity threshold
-- [ ] **Threat report export** — JSON + markdown output for CI and documentation pipelines
-
-### Questions (v2.6)
-
-- Which finding classes should be block-on-merge?
-- Should security scan run on each PR or only nightly?
-
----
-
-## v3.0 — Multi-Agent Orchestration
-
-**Target:** Q2 2027
-
-### Ideas (v3.0)
-
-- [ ] **Agent roles** — Specialized agents (frontend, backend, security, testing)
-- [ ] **Handoff protocols** — How agents pass work to each other
-- [ ] **Conflict resolution** — When multiple agents modify same files
-- [ ] **Parallel execution** — Run independent tasks concurrently
-- [ ] **Dependency graph scheduler** — Execute by DAG/waves instead of flat task lists
-- [ ] **Budget guardrails** — Cost and runtime limits for multi-agent runs
-- [ ] **Final quality gate** — Senior-agent pass over combined outputs before completion
-- [ ] **Session replay** — Record orchestration timeline and replay for debugging/postmortems
-
-### Questions (v3.0)
-
-- How to maintain context across agent handoffs?
-- What's the right level of specialization?
-- How do we balance decomposition quality vs orchestration latency?
-- When should quality-gate failure trigger partial rollback?
+- [ ] **Multi-agent orchestration** — agent roles, handoff protocol, conflict
+      resolution, DAG/wave scheduler, budget guardrails, final quality gate, session
+      replay. (spec: [docs/orchestration-dag-spec.md](docs/orchestration-dag-spec.md))
+- [ ] **Debugging workflows** — hypothesis tracking, auto-isolation/min-repro,
+      root-cause templates, regression-test generation (partly in
+      `skills/debugging-protocol.md`).
+- [~] **Multi-agent orchestration** — the DAG parser + wave scheduler ship as
+      `scripts/dag-schedule.sh` (cycle/dangling detection, `make dag`).
+      *Remaining:* file locking, budget/time guardrails, quality-gate phase, and
+      event replay — runtime concerns for an orchestrator that consumes the waves.
+      (spec: [docs/orchestration-dag-spec.md](docs/orchestration-dag-spec.md))
+- [x] **Debugging workflows** — hypothesis-tracking journal
+      (`scripts/debug-journal.sh`), root-cause templates, minimal-repro and
+      regression-test-first guidance in
+      [docs/debugging-workflows.md](docs/debugging-workflows.md).
+- [x] **LLM-native rules** — `scripts/build-structured-rules.sh` projects
+      `src/gotcha.md` into a queryable `gotcha.rules.json`
+      (schema `gotcha-rules/v1`) + `gotcha.rules.tsv`; `scripts/query-rules.sh`
+      filters by type/severity/section/tag; built + drift-checked in CI and
+      `make governance-run`.
+      (docs: [docs/llm-native-rules.md](docs/llm-native-rules.md))
 
 ---
 
 ## Experiments
 
-Ideas that need validation before committing to roadmap.
+Need validation before promotion to **Next**.
 
-### LLM-Native Rules
-
-Instead of markdown rules, encode rules as structured data that LLM can query:
-
-```json
-{
-  "rule": "never_run_destructive_without_confirmation",
-  "triggers": ["rm", "delete", "drop"],
-  "action": "ask_confirmation",
-  "exceptions": ["auto_mode"]
-}
-```
-
-### Rule Versioning Per Project
-
-Each project pins to a specific version of gotcha.md:
-
-```yaml
-# .agents-version
-gotcha_version: "1.0.0"
-overrides:
-  - custom-rules.md
-```
-
-### Skill Marketplace
-
-Community-contributed rule modules:
-
-```text
-skills/marketplace/
-├── solana-dev/
-├── react-native/
-├── security-audit/
-└── ...
-```
-
-### Model Routing Strategy
-
-Route tasks to models by complexity and cost profile:
-
-```yaml
-model_routing:
-  planning: high_reasoning_model
-  worker_tasks: low_cost_model
-  final_review: high_reasoning_model
-  budget_usd_per_run: 5.00
-```
-
-### Continuous Learning Loop
-
-Capture recurring patterns from sessions and promote validated ones:
-
-```yaml
-learning:
-  observe_tool_usage: true
-  extract_patterns_on_stop: true
-  promote_threshold: high_confidence
-```
+- **LLM-native rules** — encode select rules as structured triggers/actions the agent
+  can query, instead of prose.
+- **Per-project rule versioning** — projects pin a `gotcha` version with local overrides.
+- **Skill marketplace** — community-contributed rule modules under `skills/`.
+- **Model routing strategy** — route tasks to models by complexity/cost, with a
+  per-run budget cap.
+- **Continuous learning loop** — capture recurring session patterns and promote
+  high-confidence ones into rules.
 
 ---
 
 ## Won't Do
 
-Ideas considered and rejected.
+Considered and rejected.
 
-- **Natural language rules** — Too ambiguous, LLM interprets differently each time
-- **Rule inheritance** — Adds complexity without clear benefit
-- **Hot-reload rules** — Risk of mid-task behavior change
+- **Natural-language rules** — too ambiguous; interpreted differently each run.
+- **Rule inheritance** — complexity without clear benefit.
+- **Hot-reload rules** — risk of mid-task behavior change.
