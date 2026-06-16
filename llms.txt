@@ -21,6 +21,8 @@
 
 - AGENTS.md — dev/agent instructions for this governance repo
 - docs/llm-citation.md — structured Q&A for AI citations
+- docs/tool-integration-patterns.md — composing tools/MCP servers reliably
+- docs/hook-runtime-profiles.md — hook profiles + stop-phase telemetry
 - CONTRIBUTING.md — how to contribute
 - CHANGELOG.md — releases
 

@@ -6,11 +6,54 @@ All notable changes to the GOTCHA framework agent rules.
 
 ### Added
 
+- LLM-native structured rules: `scripts/build-structured-rules.sh` parses `src/gotcha.md` into a machine-queryable `dist/rules/gotcha.rules.json` (schema `gotcha-rules/v1`, pinned by `schema/gotcha-rules.schema.json`) plus a dependency-free `gotcha.rules.tsv`. Each top-level bullet becomes an addressable record (`id`, `section`, `subsection`, `type`, `severity`, `tags`, `text`) with type/severity derived from the nearest heading. `scripts/query-rules.sh` filters by `--type`/`--severity`/`--section`/`--tag`/`--grep` (`table`/`tsv`/`ids`/`count` output). Built and drift-checked in the `build` CI job, `make governance-run`, and `make check`; `make structured-rules` / `make query` targets; bats coverage in `tests/structured-rules.bats`; docs in `docs/llm-native-rules.md`
+
+## [2.6.0] - 2026-06-15
+
+### Added
+
+- Expanded skills pack (21 → 46): 25 role-oriented engineering skills rebuilt from the local setup into the repo's single-`.md` format (languages/stacks, workflow/tooling, security, crypto engineering). All sanitized of personal paths/identifiers, registered in `skills/registry.tsv`, and listed in `skills/README.md`
+
+### Changed
+
+- Disabled markdownlint `MD060` (table-column-style) repo-wide — cosmetic alignment, consistent with `MD013` already off
+
+## [2.5.0] - 2026-06-15
+
+### Added
+
+- Pre-compact state capture (`scripts/precompact-capture.sh`): `capture` snapshots resumable working state (git branch/HEAD, bounded changed-file list, session, note) to `logs/state/` with a `latest.json` pointer; `restore` prints the latest snapshot (exit 3 if none). Registered as the `precompact-capture` recovery hook; docs in `docs/hook-runtime-profiles.md`
+- Debugging workflows: `scripts/debug-journal.sh` for hypothesis tracking (`add`/`resolve`/`report` to `logs/debug/<session>.tsv`, markdown or JSON), plus `docs/debugging-workflows.md` (root-cause templates, minimal-repro, regression-test-first guidance)
+- Multi-agent orchestration scheduler: `scripts/dag-schedule.sh` computes deterministic execution waves from a task DAG manifest (`orchestration/tasks.example.tsv`) with cycle (exit 4) and dangling-dependency (exit 3) detection, text/JSON output, and a `make dag` target. Implements the parser + wave-scheduler core of `docs/orchestration-dag-spec.md`
+
+## [2.4.0] - 2026-06-15
+
+### Added
+
+- bats-core test suite (`tests/`) covering the build, drift, validation, skills-registry, install, and health scripts — including the previously-unasserted "drift fails under `--strict`" behavior
+- `make lint`, `make test`, and `make ci` targets mirroring the GitHub pipeline locally; CI `test` job running the suite on every PR
+- `docs/releasing.md` — SemVer policy and release checklist for this repo
+- Config security scanner (`scripts/security-scan.sh`, `docs/security-scan-spec.md`): seven detectors across critical→low — permission overreach (SEC-PERM-001), hardcoded secrets (SEC-SECRET-001), CI `run:`-block script-injection (SEC-CI-001), insecure MCP transport (SEC-MCP-001), unsafe hook shell (SEC-HOOK-001), prompt-override directives (SEC-PROMPT-001), hidden/zero-width unicode (SEC-PROMPT-002) — with `terminal`/`json`/`markdown` output, `--min-severity`/`--fail-on` thresholds, an `autoFixable` flag, and a safe `--fix` (hidden-unicode stripping with `.bak` backups). Exposed via `make security-scan`
+- Harness reliability controls: cumulative hook runtime profiles (`minimal|standard|strict`) via `hooks/manifest.tsv` + `scripts/hook-profile.sh`, a `DISABLED_HOOKS` env override for traceable temporary suppression, and stop-phase session telemetry (`scripts/session-telemetry.sh` → `logs/telemetry/telemetry.jsonl`). Docs in `docs/hook-runtime-profiles.md`; `make hooks` target
+- Tool-integration patterns: `docs/tool-integration-patterns.md` (capability discovery, sequential/parallel/fallback/conditional composition, error handling, anti-patterns) plus a self-contained "Tool integration" block in the canonical rule body (`src/gotcha.md`)
+
+### Changed
+
+- CI `security-scan` job now runs the config scanner **blocking on high+** (was report-only)
+- Rewrote `ROADMAP.md` to a Now / Next / Later format with acceptance criteria (dropped stale quarter dates); refreshed `docs/agent-upgrade-roadmap.md` into an accurate shipped-history archive
+- Documented `make test` / `make lint` / `make ci` / `make security-scan` / `make hooks` in `README.md` and `AGENTS.md`
+
+## [2.3.1] - 2026-06-14
+
+### Added
+
 - Auto-merge workflow (`.github/workflows/auto-merge.yml`) — enables GitHub auto-merge on same-repo, non-draft PRs from owner/member/collaborator authors once all required status checks pass
+- Cloud-readiness for Claude Code on the web (`SessionStart` hook, `scripts/cloud-setup.sh`)
 
 ### Changed
 
 - Auto-merge workflow now also enables auto-merge on same-repo Dependabot PRs (`dependabot[bot]`), in addition to owner/member/collaborator authors
+- Hardened Claude CI: gated auto-merge on author association, added concurrency group, OIDC token handling, and skip auto-review on Dependabot PRs
 
 ## [2.3.0] - 2026-05-15
 

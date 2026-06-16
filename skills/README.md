@@ -29,6 +29,49 @@ Curated markdown skills for agents: **general development** (automation, Cursor,
 - `solana-sniper-bot-scripts-and-ops.md`
 - `solana-security-and-audit.md`
 
+## Engineering skills
+
+Deeper, role-oriented engineering skills. Some overlap the lighter general skills
+above (e.g. `debugger-engineer` vs `debugging-protocol`, `mcp-server-engineer` vs
+`mcp-tools-and-servers`); the engineer variants go further.
+
+### Languages & stacks
+
+- `typescript-stack-engineer.md`
+- `python-stack-engineer.md`
+- `nextjs-react-engineer.md`
+- `frontend-design-engineer.md`
+- `database-engineer.md`
+- `electron-swift-engineer.md`
+- `bash-shell-engineer.md`
+
+### Workflow & tooling
+
+- `code-review-engineer.md`
+- `debugger-engineer.md`
+- `git-workflow-engineer.md`
+- `planner-engineer.md`
+- `cursor-agent-engineer.md`
+- `mcp-server-engineer.md`
+- `github-full-access-engineer.md`
+- `webapp-testing-engineer.md`
+- `web-research-engineer.md`
+- `scraping-data-engineer.md`
+
+### Security
+
+- `blackterminal-security.md`
+- `security-audit-engineer.md`
+- `security-audit.md`
+- `prompt-injection-security.md`
+- `injection-audit.md`
+
+### Crypto engineering
+
+- `solana-development-engineer.md`
+- `solana-trading-engineer.md`
+- `solana-wallet-engineer.md`
+
 ## Trigger phrases (general)
 
 - "automate this with a Python script"

@@ -1,0 +1,13 @@
+# Hook manifest — declares the curated hooks and the runtime profile each belongs to.
+# Resolved by scripts/hook-profile.sh. Profiles are cumulative: minimal ⊂ standard ⊂ strict.
+# A hook is enabled when its min_profile rank <= the selected profile rank, unless it
+# appears in the DISABLED_HOOKS env var (comma-separated names).
+#
+# Columns (tab-separated): name	category	min_profile	mode	dependencies
+secret-guard	quality	minimal	block	git
+dispatcher	routing	minimal	route	jq
+test-gate	quality	standard	block	jq,git
+checkpoint	recovery	standard	annotate	git
+precompact-capture	recovery	standard	annotate	git
+audit-log	audit	strict	annotate	jq
+session-telemetry	audit	strict	annotate	-
