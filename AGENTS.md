@@ -13,7 +13,10 @@ This is a documentation/rules governance repo (no runtime services). The "applic
 | Strict validation + drift | `make check` |
 | Run tests (bats-core) | `make test` |
 | Aggregate lint | `make lint` |
+| Config security scan | `make security-scan` |
 | Build artifacts | `./scripts/build-rule-artifacts.sh` |
+| Build structured rules (json+tsv) | `make structured-rules` |
+| Query structured rules | `make query ARGS="--severity critical"` |
 | Health check (with logs) | `make health` |
 | Lint shell scripts | `shellcheck -e SC1091 -e SC2155 scripts/*.sh` |
 | Lint markdown | `markdownlint-cli2 "**/*.md" "#dist" "#node_modules" "#CHANGELOG.md"` |

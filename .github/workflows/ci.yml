@@ -87,12 +87,39 @@ jobs:
       - name: Strict drift check
         run: ./scripts/check-local-drift.sh --strict
 
+      - name: Build structured rule artifacts
+        run: ./scripts/build-structured-rules.sh --verbose
+
+      - name: Structured rules drift check
+        run: ./scripts/build-structured-rules.sh --check
+
       - name: Verify all artifacts exist
         run: |
           test -f dist/rules/windsurf.md
           test -f dist/rules/claude.md
           test -f dist/rules/cursor.md
           test -f dist/rules/cursor.lean.md
+          test -f dist/rules/gotcha.rules.json
+          test -f dist/rules/gotcha.rules.tsv
+
+  test:
+    name: test
+    needs: validate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - name: Install bats
+        run: sudo apt-get update && sudo apt-get install -y bats
+
+      - name: Make scripts executable
+        run: chmod +x scripts/*.sh install.sh
+
+      - name: Run bats suite
+        run: bats tests/
 
   test:
     name: test
@@ -132,3 +159,8 @@ jobs:
           base: ${{ github.event.pull_request.base.sha }}
           head: ${{ github.event.pull_request.head.sha }}
           extra_args: --results=verified,unknown
+
+      - name: Config security scan (blocking on high+)
+        run: |
+          chmod +x scripts/security-scan.sh
+          ./scripts/security-scan.sh --format markdown --fail-on high | tee -a "$GITHUB_STEP_SUMMARY"

@@ -25,6 +25,10 @@ Work that is committed and actively landing.
 - [ ] **Planning-doc truth-up** — roadmap and history reflect reality (no merged
       PRs listed as "in progress"). *Done when:* this file + the archive cite only
       current state.
+- [x] **Config self-scan** — `scripts/security-scan.sh` ships seven detectors
+      (critical→low), `terminal`/`json`/`markdown` output, safe `--fix` for
+      auto-fixable findings, and a CI step blocking on `high+`.
+      (spec: [docs/security-scan-spec.md](docs/security-scan-spec.md))
 
 ## Next — committed, not yet started
 
@@ -42,6 +46,15 @@ Specced in `docs/`, ready to pull into a cycle.
 - [ ] **Tool-integration patterns** — canonical guidance for tool chaining, fallback
       on primary-tool failure, and MCP capability discovery.
       *Done when:* patterns are captured in `docs/` and referenced from the rule body.
+- [x] **Harness reliability controls** — cumulative hook runtime profiles
+      (`minimal|standard|strict`), `DISABLED_HOOKS` env override, stop-phase
+      session telemetry, and pre-compact state capture ship as editor-agnostic
+      scripts with bats coverage.
+      (docs: [docs/hook-runtime-profiles.md](docs/hook-runtime-profiles.md))
+- [x] **Tool-integration patterns** — chaining, fallback on primary-tool failure,
+      and capability-based resolution captured in
+      [docs/tool-integration-patterns.md](docs/tool-integration-patterns.md) and
+      referenced from the canonical rule body.
 
 ## Later — directional
 
@@ -53,6 +66,21 @@ Worth doing; sequencing not yet decided.
 - [ ] **Debugging workflows** — hypothesis tracking, auto-isolation/min-repro,
       root-cause templates, regression-test generation (partly in
       `skills/debugging-protocol.md`).
+- [~] **Multi-agent orchestration** — the DAG parser + wave scheduler ship as
+      `scripts/dag-schedule.sh` (cycle/dangling detection, `make dag`).
+      *Remaining:* file locking, budget/time guardrails, quality-gate phase, and
+      event replay — runtime concerns for an orchestrator that consumes the waves.
+      (spec: [docs/orchestration-dag-spec.md](docs/orchestration-dag-spec.md))
+- [x] **Debugging workflows** — hypothesis-tracking journal
+      (`scripts/debug-journal.sh`), root-cause templates, minimal-repro and
+      regression-test-first guidance in
+      [docs/debugging-workflows.md](docs/debugging-workflows.md).
+- [x] **LLM-native rules** — `scripts/build-structured-rules.sh` projects
+      `src/gotcha.md` into a queryable `gotcha.rules.json`
+      (schema `gotcha-rules/v1`) + `gotcha.rules.tsv`; `scripts/query-rules.sh`
+      filters by type/severity/section/tag; built + drift-checked in CI and
+      `make governance-run`.
+      (docs: [docs/llm-native-rules.md](docs/llm-native-rules.md))
 
 ---
 
