@@ -4,6 +4,10 @@ All notable changes to the GOTCHA framework agent rules.
 
 ## [Unreleased]
 
+### Added
+
+- LLM-native structured rules: `scripts/build-structured-rules.sh` parses `src/gotcha.md` into a machine-queryable `dist/rules/gotcha.rules.json` (schema `gotcha-rules/v1`, pinned by `schema/gotcha-rules.schema.json`) plus a dependency-free `gotcha.rules.tsv`. Each top-level bullet becomes an addressable record (`id`, `section`, `subsection`, `type`, `severity`, `tags`, `text`) with type/severity derived from the nearest heading. `scripts/query-rules.sh` filters by `--type`/`--severity`/`--section`/`--tag`/`--grep` (`table`/`tsv`/`ids`/`count` output). Built and drift-checked in the `build` CI job, `make governance-run`, and `make check`; `make structured-rules` / `make query` targets; bats coverage in `tests/structured-rules.bats`; docs in `docs/llm-native-rules.md`
+
 ## [2.6.0] - 2026-06-15
 
 ### Added

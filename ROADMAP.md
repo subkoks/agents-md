@@ -57,6 +57,12 @@ Worth doing; sequencing not yet decided.
       (`scripts/debug-journal.sh`), root-cause templates, minimal-repro and
       regression-test-first guidance in
       [docs/debugging-workflows.md](docs/debugging-workflows.md).
+- [x] **LLM-native rules** — `scripts/build-structured-rules.sh` projects
+      `src/gotcha.md` into a queryable `gotcha.rules.json`
+      (schema `gotcha-rules/v1`) + `gotcha.rules.tsv`; `scripts/query-rules.sh`
+      filters by type/severity/section/tag; built + drift-checked in CI and
+      `make governance-run`.
+      (docs: [docs/llm-native-rules.md](docs/llm-native-rules.md))
 
 ---
 
@@ -64,8 +70,6 @@ Worth doing; sequencing not yet decided.
 
 Need validation before promotion to **Next**.
 
-- **LLM-native rules** — encode select rules as structured triggers/actions the agent
-  can query, instead of prose.
 - **Per-project rule versioning** — projects pin a `gotcha` version with local overrides.
 - **Skill marketplace** — community-contributed rule modules under `skills/`.
 - **Model routing strategy** — route tasks to models by complexity/cost, with a
