@@ -6,6 +6,16 @@ All notable changes to the GOTCHA framework agent rules.
 
 ### Added
 
+- bats-core test suite (`tests/`) covering build, drift, validation, skills-registry, install, and health scripts — including the previously-unasserted "drift fails under `--strict`" behavior
+- `make lint`, `make test`, and `make ci` targets mirroring the GitHub pipeline locally
+- CI `test` job (`.github/workflows/ci.yml`) running the bats suite on every PR
+- `docs/releasing.md` — SemVer policy and release checklist for this repo
+
+### Changed
+
+- Rewrote `ROADMAP.md` to a Now / Next / Later format with acceptance criteria (dropped stale quarter dates)
+- Refreshed `docs/agent-upgrade-roadmap.md` into an accurate shipped-history archive
+- Documented `make test` / `make lint` / `make ci` in `README.md` and `AGENTS.md`
 - LLM-native structured rules: `scripts/build-structured-rules.sh` parses `src/gotcha.md` into a machine-queryable `dist/rules/gotcha.rules.json` (schema `gotcha-rules/v1`, pinned by `schema/gotcha-rules.schema.json`) plus a dependency-free `gotcha.rules.tsv`. Each top-level bullet becomes an addressable record (`id`, `section`, `subsection`, `type`, `severity`, `tags`, `text`) with type/severity derived from the nearest heading. `scripts/query-rules.sh` filters by `--type`/`--severity`/`--section`/`--tag`/`--grep` (`table`/`tsv`/`ids`/`count` output). Built and drift-checked in the `build` CI job, `make governance-run`, and `make check`; `make structured-rules` / `make query` targets; bats coverage in `tests/structured-rules.bats`; docs in `docs/llm-native-rules.md`
 
 ## [2.6.0] - 2026-06-15
