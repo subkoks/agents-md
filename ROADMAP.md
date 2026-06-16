@@ -34,6 +34,18 @@ Work that is committed and actively landing.
 
 Specced in `docs/`, ready to pull into a cycle.
 
+- [ ] **Harness reliability controls** — hook runtime profiles (`minimal|standard|strict`),
+      env-driven hook disable list, pre-compact state capture, stop-phase telemetry.
+      *Done when:* profiles toggle hooks without editing files and a session summary
+      is persisted at end-of-turn. (spec: [docs/hook-reference.md](docs/hook-reference.md))
+- [ ] **Config self-scan** — audit this repo's own `.claude/`, hooks, and MCP/tool
+      permissions for dangerous defaults, graded `critical/high/medium/low/info`.
+      *Done when:* a scan script emits JSON + markdown and an optional CI gate fails
+      above a threshold. (spec: [docs/security-scan-spec.md](docs/security-scan-spec.md),
+      [docs/threat-model.md](docs/threat-model.md))
+- [ ] **Tool-integration patterns** — canonical guidance for tool chaining, fallback
+      on primary-tool failure, and MCP capability discovery.
+      *Done when:* patterns are captured in `docs/` and referenced from the rule body.
 - [x] **Harness reliability controls** — cumulative hook runtime profiles
       (`minimal|standard|strict`), `DISABLED_HOOKS` env override, stop-phase
       session telemetry, and pre-compact state capture ship as editor-agnostic
@@ -48,6 +60,12 @@ Specced in `docs/`, ready to pull into a cycle.
 
 Worth doing; sequencing not yet decided.
 
+- [ ] **Multi-agent orchestration** — agent roles, handoff protocol, conflict
+      resolution, DAG/wave scheduler, budget guardrails, final quality gate, session
+      replay. (spec: [docs/orchestration-dag-spec.md](docs/orchestration-dag-spec.md))
+- [ ] **Debugging workflows** — hypothesis tracking, auto-isolation/min-repro,
+      root-cause templates, regression-test generation (partly in
+      `skills/debugging-protocol.md`).
 - [~] **Multi-agent orchestration** — the DAG parser + wave scheduler ship as
       `scripts/dag-schedule.sh` (cycle/dangling detection, `make dag`).
       *Remaining:* file locking, budget/time guardrails, quality-gate phase, and
@@ -70,6 +88,8 @@ Worth doing; sequencing not yet decided.
 
 Need validation before promotion to **Next**.
 
+- **LLM-native rules** — encode select rules as structured triggers/actions the agent
+  can query, instead of prose.
 - **Per-project rule versioning** — projects pin a `gotcha` version with local overrides.
 - **Skill marketplace** — community-contributed rule modules under `skills/`.
 - **Model routing strategy** — route tasks to models by complexity/cost, with a
