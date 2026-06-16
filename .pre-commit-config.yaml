@@ -1,3 +1,7 @@
+# Existing hooks run at commit time only; the make-lint/make-test gate below is
+# scoped to pre-push via its own `stages:` key.
+default_stages: [pre-commit]
+
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
@@ -85,3 +89,14 @@ repos:
         pass_filenames: false
         always_run: true
         files: src/gotcha\.md
+
+      # Pre-push gate: run the hermetic test suite before pushing (not on every
+      # commit). Lint is already enforced at commit-stage by the hooks above.
+      # Activate with: pre-commit install --hook-type pre-push
+      - id: make-test
+        name: make test (pre-push)
+        entry: make test
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-push]
