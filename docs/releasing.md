@@ -23,7 +23,7 @@ but nothing breaks → MINOR. If they'd never notice → PATCH.
 2. **Rebuild artifacts** — `./scripts/build-rule-artifacts.sh windsurf claude codex cursor cursor-lean`
    then `make check` (strict drift must be clean; `dist/rules/*` is gitignored and
    regenerated, never hand-edited).
-3. **Cut the changelog** — move everything under `## [Unreleased]` into a new
+3. **Cut the changelog** — first reconcile `[Unreleased]` against `git diff <last-tag>..HEAD` (drop already-shipped entries, add missing changes; notes must match the diff — see [CONTRIBUTING.md](../CONTRIBUTING.md#changelog)), then move everything under `## [Unreleased]` into a new
    `## [X.Y.Z] - YYYY-MM-DD` section; leave a fresh empty `[Unreleased]`.
 4. **Commit** on a release branch — `chore(release): vX.Y.Z`.
 5. **Tag** — `git tag vX.Y.Z && git push origin vX.Y.Z` (annotated tags preferred).
