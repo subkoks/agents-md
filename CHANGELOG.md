@@ -4,19 +4,20 @@ All notable changes to the GOTCHA framework agent rules.
 
 ## [Unreleased]
 
+## [2.7.0] - 2026-06-25
+
 ### Added
 
-- bats-core test suite (`tests/`) covering build, drift, validation, skills-registry, install, and health scripts — including the previously-unasserted "drift fails under `--strict`" behavior
-- `make lint`, `make test`, and `make ci` targets mirroring the GitHub pipeline locally
-- CI `test` job (`.github/workflows/ci.yml`) running the bats suite on every PR
-- `docs/releasing.md` — SemVer policy and release checklist for this repo
+- LLM-native structured rules: `scripts/build-structured-rules.sh` parses `src/gotcha.md` into a machine-queryable `dist/rules/gotcha.rules.json` (schema `gotcha-rules/v1`, pinned by `schema/gotcha-rules.schema.json`) plus a dependency-free `gotcha.rules.tsv`. Each top-level bullet becomes an addressable record (`id`, `section`, `subsection`, `type`, `severity`, `tags`, `text`) with type/severity derived from the nearest heading. `scripts/query-rules.sh` filters by `--type`/`--severity`/`--section`/`--tag`/`--grep` (`table`/`tsv`/`ids`/`count` output). Built and drift-checked in the `build` CI job, `make governance-run`, and `make check`; `make structured-rules` / `make query` targets; bats coverage in `tests/structured-rules.bats`; docs in `docs/llm-native-rules.md`
+- bats-core test suite (`tests/`) covering build, drift, validation, skills-registry, install, health, and structured-rules scripts — including the previously-unasserted "drift fails under `--strict`" behavior — with `make lint` / `make test` / `make ci` targets mirroring the GitHub pipeline locally and a CI `test` job running the suite on every PR
+- SSH-based git automation helpers (`scripts/git-status.sh`, `scripts/git-sync.sh`) and `LOCAL_SETUP.md` documenting local clone/sync setup
+- Pre-push test gate via `.pre-commit-config.yaml`
 
 ### Changed
 
-- Rewrote `ROADMAP.md` to a Now / Next / Later format with acceptance criteria (dropped stale quarter dates)
-- Refreshed `docs/agent-upgrade-roadmap.md` into an accurate shipped-history archive
-- Documented `make test` / `make lint` / `make ci` in `README.md` and `AGENTS.md`
-- LLM-native structured rules: `scripts/build-structured-rules.sh` parses `src/gotcha.md` into a machine-queryable `dist/rules/gotcha.rules.json` (schema `gotcha-rules/v1`, pinned by `schema/gotcha-rules.schema.json`) plus a dependency-free `gotcha.rules.tsv`. Each top-level bullet becomes an addressable record (`id`, `section`, `subsection`, `type`, `severity`, `tags`, `text`) with type/severity derived from the nearest heading. `scripts/query-rules.sh` filters by `--type`/`--severity`/`--section`/`--tag`/`--grep` (`table`/`tsv`/`ids`/`count` output). Built and drift-checked in the `build` CI job, `make governance-run`, and `make check`; `make structured-rules` / `make query` targets; bats coverage in `tests/structured-rules.bats`; docs in `docs/llm-native-rules.md`
+- `AGENTS.md` documents the new `make structured-rules` / `make query` targets; `ROADMAP.md` gains harness-reliability, config-self-scan, and tool-integration entries under Later
+- Hardened `.claude/` entries in `.gitignore`
+- Dependency bumps: `actions/checkout` 6.0.3 → 7.0.0, `trufflehog` 3.95.5 → 3.95.6, and the actions-minor-patch group
 
 ## [2.6.0] - 2026-06-15
 
