@@ -51,14 +51,26 @@ After rule changes:
 make check
 ```
 
+## Changelog
+
+- **Per PR:** user-visible changes add a `CHANGELOG.md` entry under `## [Unreleased]`, grouped `Added` / `Changed` / `Fixed` / `Removed` (Keep a Changelog style). Internal-only churn (CI tweaks, lint, refactors with no consumer-visible effect) does not need an entry.
+- **Entries describe changes since the last release tag** — not work already shipped. Do not copy entries forward from a prior version's section.
+- **At release time, reconcile before cutting.** `[Unreleased]` is a staging area that drifts: entries get duplicated from earlier sections, describe already-shipped work, or miss changes that landed without an entry. Before moving `[Unreleased]` into a dated `## [X.Y.Z]` section, reconcile it against the actual diff:
+
+  ```bash
+  git diff <last-tag>..HEAD --stat        # what actually changed
+  git log --oneline <last-tag>..HEAD      # the commits behind it
+  ```
+
+  Drop entries whose files are unchanged since `<last-tag>` (already shipped), add genuinely-new changes that have no entry, and verify each kept line matches the diff. The published release notes must faithfully match `git diff <last-tag>..HEAD`.
+- Cutting a release: follow [docs/releasing.md](docs/releasing.md).
+
 ## Pull requests
 
 - Use `.github/pull_request_template.md`.
 - One logical change per PR; link pillar or issue when relevant.
 - Include **test plan** (commands run, e.g. `make ci`).
 - Run `make ci` (lint + check + skills-drift + test) before pushing.
-- User-visible changes: add a `CHANGELOG.md` entry under `[Unreleased]` or the target version section.
-- Cutting a release: follow [docs/releasing.md](docs/releasing.md).
 
 ## Security
 
