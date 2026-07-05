@@ -61,8 +61,8 @@ test:
 	@command -v bats >/dev/null 2>&1 || { echo "[ERR ] bats not found. Install bats-core (brew install bats-core / apt-get install bats)."; exit 1; }
 	bats tests/
 
-ci: lint check skills-drift test
-	@echo "[ OK ] Local CI mirror passed (lint + check + skills-drift + test)"
+ci: lint check skills-drift test security-scan
+	@echo "[ OK ] Local CI mirror passed (lint + check + skills-drift + test + security-scan)"
 security-scan:
 	./scripts/security-scan.sh --fail-on high
 
@@ -71,6 +71,3 @@ hooks:
 
 dag:
 	./scripts/dag-schedule.sh --manifest orchestration/tasks.example.tsv
-
-ci: lint check skills-drift test security-scan
-	@echo "[ OK ] Local CI mirror passed (lint + check + skills-drift + test + security-scan)"
