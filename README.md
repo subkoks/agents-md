@@ -1,9 +1,18 @@
-# agents-md
+<a id="agents-md"></a>
 
-**Reusable GOTCHA rule source → validated artifacts for Cursor, Claude Code, Codex, and Windsurf.**
+<h1>
+  <picture>
+    <source media="(max-width: 600px)" srcset="assets/readme/hero-mobile.svg">
+    <img src="assets/readme/hero.svg" width="100%" alt="agents-md — reusable agent governance">
+  </picture>
+</h1>
+
+**agents-md** — reusable GOTCHA rule source → validated artifacts for Cursor, Claude Code, Codex, and Windsurf.
+
+[Quick start](#60-second-quickstart) · [Outputs](#editor--output-matrix) · [Daily commands](#daily-commands) · [Contributing](#contributing)
 
 [![CI](https://github.com/subkoks/agents-md/actions/workflows/ci.yml/badge.svg)](https://github.com/subkoks/agents-md/actions/workflows/ci.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-FF7F0E.svg)](LICENSE)
 [![Release](https://img.shields.io/github/v/release/subkoks/agents-md)](https://github.com/subkoks/agents-md/releases)
 
 Cross-editor **agent governance**: cursor rules, `AGENTS.md`-compatible project instructions, drift-checked builds, and a growing skill pack. Compatible with the community **AGENTS.md** convention — this repo is not the standard itself and does not control `~/AGENTS.md`.
